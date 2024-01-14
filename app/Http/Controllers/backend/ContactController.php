@@ -13,7 +13,7 @@ class ContactController extends Controller
 {    
         use Functions;
         public function __construct() {
-        $this->ROUTE_PREFIX         = admin.contacts'; 
+        $this->ROUTE_PREFIX         = 'admin.contacts'; 
         $this->TRANS                = 'contacts'; 
         $this->Tbl                  = 'contacts';
         }

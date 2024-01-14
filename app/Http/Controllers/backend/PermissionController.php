@@ -18,7 +18,7 @@ class PermissionController extends Controller
 
     public function __construct()
     {
-        $this->ROUTE_PREFIX  = config('custom.route_prefix') . '.permissions';
+        $this->ROUTE_PREFIX  = 'admin.permissions';
         $this->TRANS         = 'permission';
         $this->Tbl           = 'permissions';
     }

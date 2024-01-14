@@ -7,7 +7,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        dd('dasdsa');
-        // return view('backend.dashboard');
+        return view('backend.dashboard');
     }
 }

@@ -18,7 +18,7 @@ class ProfileController extends Controller
 
     public function __construct()
     {
-      $this->ROUTE_PREFIX         = admin.profile'; 
+      $this->ROUTE_PREFIX         = 'admin.profile'; 
       $this->TRANS                = 'site';
       $this->UPLOADFOLDER         = 'avarats';
     }

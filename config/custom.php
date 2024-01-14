@@ -37,7 +37,7 @@ return [
 
     // The prefix used in all base routes (the 'admin' in admin/dashboard)
     // You can make sure all your URLs use this prefix by using the backpack_url() helper instead of url()
-    'route_prefix' => 'backoffice2024',
+    'route_prefix' => 'surveygame2024',
 
  
  
