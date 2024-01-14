@@ -56,7 +56,7 @@ class UserSeeder extends Seeder
                 'is_admin'         =>'1',
                 'mobile'           =>'01872971230',
                 'status'           =>'1',
-            ])->assignRole(3);
+            ])->assignRole(2);
 
             \App\Models\User::create([    
                 'username'         =>'Kevin',
@@ -67,9 +67,7 @@ class UserSeeder extends Seeder
                 'mobile'           =>'01872971450',
                 'avatar'           =>'uploads/avatars/kevin.jpg',
                 'status'           =>'1',
-            ])->assignRole(4);
-
-       
+            ])->assignRole(3);
             \App\Models\User::create([    
                 'username'         =>'JessieClarcson',
                 'password'         =>Hash::make('12345678'),
@@ -87,30 +85,11 @@ class UserSeeder extends Seeder
                 'name'             =>'ken Trump',
                 'is_admin'         =>'1',
                 'avatar'           =>'uploads/avatars/ken.jpg',
-                'status'          =>'1',
-                
-             
-            ])->assignRole(5);
+                'status'          =>'1',             
+            ])->assignRole(3);
 
-            \App\Models\User::create([    
-                'username'         =>'Adam',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'Adam@domain.com',
-                'name'             =>'Adam Mon',
-                'is_admin'         =>'1',
-                'status'           =>'0',
-            ]);
-            \App\Models\User::create([    
-                'username'         =>'Randy',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'Randy@domain.com',
-                'name'             =>'Randy Mob',
-                'is_admin'         =>'1',
-                'status'          =>'1',
-            ]);
-    
-        ////////////////////
 
+            
         \App\Models\User::create([    
             'username'         =>'Lebron',
             'password'         =>Hash::make('12345678'),
@@ -119,7 +98,7 @@ class UserSeeder extends Seeder
             'is_admin'         =>'1',
             'avatar'           =>'uploads/avatars/lebron.jpg',
             'status'          =>'1',
-        ])->assignRole(3);
+        ])->assignRole(2);
 
 
         \App\Models\User::create([    
@@ -132,7 +111,7 @@ class UserSeeder extends Seeder
             'avatar'           =>'uploads/avatars/alice.jpg',
             'status'           =>'0',
             
-        ])->assignRole(4);
+        ])->assignRole(3);
 
         \App\Models\User::create([    
             'username'         =>'Brad',
