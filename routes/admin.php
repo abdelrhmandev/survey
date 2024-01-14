@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
             ######################### Start Auth Guest Routes #################################
             Route::group(['prefix' => 'login'], function () {
+               /////////////
                  Route::get('/', 'Auth\LoginController@showLoginForm')->name('auth.login');
                  Route::post('/', 'Auth\LoginController@login')->name('auth.login.submit');
             });
