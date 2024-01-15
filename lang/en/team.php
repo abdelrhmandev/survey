@@ -1,0 +1,23 @@
+<?php
+return [
+'title'                     => 'Team Title',
+'edit'                      => 'Edit Team',
+'view'                      => 'View Team',
+'add'                       => 'Add Team',
+'delete'                    => 'Delete Team',
+'select'                    => 'Select Team',
+'select_multi'              =>' Select Teams',
+'parent'                    => 'Parent Team',
+'plural'                    => 'Teams',
+'singular'                  => 'Team',
+'deleteMessageSuccess'      => 'Team has been deleted successfully',
+'MulideleteMessageSuccess'  => 'Teams has been deleted successfully',
+'delete_selected'           => 'Delete Selected Team(s)',
+'not_delete_selected'       => 'Team(s) not deleted',
+'deleteMessageError'        => 'Error in delete Team',
+'MultideleteMessageError'   => 'Error in delete Teams',
+'updateMessageSuccess'      => 'Team has been updated successfully',
+'updateMessageError'        => 'Error in update Team',
+'storeMessageSuccess'       => 'Team has been created successfully',
+'storeMessageError'         => 'Error in Store Team',
+];

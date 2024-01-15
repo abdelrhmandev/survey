@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             CountrySeeder::class,
             UserSeeder::class,
+            TeamSeeder::class,
             
         ]); 
 

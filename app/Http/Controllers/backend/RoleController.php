@@ -17,7 +17,6 @@ class RoleController extends Controller
     public function __construct() {
         $this->ROUTE_PREFIX         = 'admin.roles'; 
         $this->TRANS                = 'role';
-        $this->Tbl                  = 'roles';
     }
     public function store(RoleRequest $request){
  

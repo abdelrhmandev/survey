@@ -28,13 +28,20 @@ Route::group(
         ######################### End Permissions ##########################
 
         ######################### Start Games ##########################
-        Route::resource('games', GameController::class)->except('show');
-        Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
+        // Route::resource('games', GameController::class)->except('show');
+        // Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
         ######################### End Games ##########################
 
+
+        ######################### Start teams ##########################
+        Route::resource('teams', TeamController::class)->except('show');
+        Route::delete('teams/destroy/all', 'TeamController@destroyMultiple')->name('teams.destroyMultiple');
+        ######################### End teams ##########################
+
+                
         ######################### Start Events ##########################
-        Route::resource('events', EventController::class)->except('show');
-        Route::delete('Events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
+        // Route::resource('events', EventController::class)->except('show');
+        // Route::delete('Events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
         ######################### End Events ##########################
 
         ######################### Start Profile ##########################

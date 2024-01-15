@@ -1,14 +1,13 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-class Country extends Model
+class Team extends Model
 {
     protected $fillable = [
-		'name',
-		'code',
+		'title',
 	];
 	
-	public $timestamps = false;
+	public $timestamps = true;
 	
 	
 }
