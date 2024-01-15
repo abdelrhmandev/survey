@@ -17,10 +17,13 @@
         <div class="card mb-5 mb-xl-10">
             <div class="card-header border-0">
                 <div class="card-title m-0">
-                    <h3 class="fw-bold m-0">{{ __('passwords.details') }} </h3>
+                    <h3 class="fw-bold m-0">{{ __('passwords.details') }}                        
+                        | For User <div class="badge py-3 px-4 fs-2 badge-light-primary"><span class="text-primary">{{ $row->name }}</span></div>
+                    </h3>
                 </div>
             </div>
-            <form id="EditProfilePassword" data-route-url="{{ $updatePasswordRoute }}" class="form"
+            
+            <form id="EditUserPassword" data-route-url="{{ $updatePasswordRoute }}" class="form"
                 data-form-submit-error-message="{{ __('site.form_submit_error') }}"
                 data-form-agree-label="{{ __('site.agree') }}" enctype="multipart/form-data">
                 @method('PUT')
@@ -98,10 +101,10 @@
 
     <script>
         KTUtil.onDOMContentLoaded(function() {
-            handleFormSubmitFunc('EditProfilePassword');
+            handleFormSubmitFunc('EditUserPassword');
         });
         function checkidenticalPassword(){
-            var form = document.getElementById('EditProfilePassword');            
+            var form = document.getElementById('EditUserPassword');            
             var new_password = form.querySelector('[name="new_password"]').value;
             var confirm_password_confirmation = form.querySelector('[name="new_password_confirmation"]').value;
             if(new_password === confirm_password_confirmation){

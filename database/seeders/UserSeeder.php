@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'name'             =>'Abdelrahman Magdy',
                 'is_admin'         =>'1',
                 'mobile'           =>'01872971280',
-                'avatar'           =>'uploads/avatars/admin.jpg',
+                'avatar'           =>'uploads/avatars/1.jpg',
                 'country_id'       =>'64',
                 'status'           =>'1',
             ])->assignRole(1);
@@ -47,7 +47,7 @@ class UserSeeder extends Seeder
                 'name'             =>'Emad Bishay',
                 'is_admin'         =>'1',
                 'mobile'           =>'01872971220',
-                'avatar'           =>'uploads/avatars/emad.jpg',
+                'avatar'           =>'uploads/avatars/2.jpg',
                 'status'           =>'1',
                 'country_id'       =>'64',
             ])->assignRole(1);
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
                 'status'           =>'1',
                 'country_id'       =>'10',
                 'mobile'           =>'0187297444',
-                'avatar'           =>'uploads/avatars/danWilson.jpg',
+                'avatar'           =>'uploads/avatars/3.jpg',
             ])->assignRole(2);
 
             \App\Models\User::create([    
@@ -74,7 +74,7 @@ class UserSeeder extends Seeder
                 'status'           =>'1',
                 'country_id'       =>'22',
                 'mobile'           =>'07872971280',
-                'avatar'           =>'uploads/avatars/francismitcham.jpg',
+                'avatar'           =>'uploads/avatars/4.jpg',
             ])->assignRole(3);
 
  

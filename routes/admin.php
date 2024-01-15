@@ -12,8 +12,8 @@ Route::group(
         Route::get('/', 'DashboardController@index')->name('dashboard');
         ######################### End Dashboard ########################
         Route::resource('users', UserController::class)->except('show');
-        Route::get('/{id}/edit/password', 'UserController@editpassword')->name('users.editpassword');
-        Route::put('update/password', 'UserController@updatepassword')->name('users.updatepassword');
+        Route::get('/{id}/EditUserPassword', 'UserController@editpassword')->name('users.editpassword');
+        Route::put('update/UserPassword', 'UserController@updatepassword')->name('users.updatepassword');
         Route::delete('users/destroy/all', 'UserController@destroyMultiple')->name('users.destroyMultiple');
         ######################### End Users   ##########################
 

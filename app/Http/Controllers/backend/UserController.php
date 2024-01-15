@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\backend\UserRequest;
+use App\Http\Requests\backend\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -25,7 +26,7 @@ class UserController extends Controller
         $this->Tbl          = 'users';
         $this->UPLOADFOLDER = 'avatars';
     }
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $arry = [
             'name'       => $request->input('name'),
@@ -112,8 +113,6 @@ class UserController extends Controller
                 ->editColumn('country_id', function (User $row) {
                     return $row->country->name;
                 })
-
-
                 ->editColumn('status', function (User $row) {
                     if ($row->status == 1) {
                         $checked = 'checked';
@@ -162,20 +161,33 @@ class UserController extends Controller
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'editPasswordRoute'      => route($this->ROUTE_PREFIX.'.editpassword',$user->id), 
                 'updatePasswordRoute'    => route($this->ROUTE_PREFIX.'.updatepassword',$user->id), 
-
             ];
             return view('backend.users.edit', $compact);
         }
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
+        $avatar = $user->avatar;
+        if(!empty($request->file('avatar'))) {
+            $avatar && File::exists(public_path($avatar)) ? $this->unlinkFile($avatar): '';
+            $avatar =  $this->uploadFile($request->file('avatar'),$this->UPLOADFOLDER);
+         }  
+        $arry = [
+            'name'       => $request->input('name'),
+            'email'      => $request->input('email'),
+            'mobile'     => $request->input('mobile'),
+            'avatar'     => $avatar,
+            'username'   => $request->input('username'),
+            'status'     => isset($request->status) ? '1' : '0',
+            'is_admin'   =>'1',
+            'country_id' => $request->input('country_id'),       
+        ];      
+
+
+        $update = $user->update($arry);
+        if ($update && $user->assignRole($request->input('roles'))) {
  
-        $row = User::find($user->id);
-        $row->name = $request->input('name');
-    
-        // countries
-        if ($row->save() && $row->syncPermissions($request->input('permissions'))) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
@@ -193,10 +205,12 @@ class UserController extends Controller
     }
 
 
-    public function editpassword(){
+    public function editpassword($userId){
+ 
         if (view()->exists('backend.users.editpassword')) {
             $compact = [
             'trans'                => $this->TRANS,
+            'row'                 =>  User::find($userId),
             'updatePasswordRoute'  => route($this->ROUTE_PREFIX.'.updatepassword'), 
         ];  
             return view('backend.users.editpassword',$compact);
@@ -204,6 +218,7 @@ class UserController extends Controller
     }
 
     public function updatepassword(Request $request){
+        dd($request);
         $this->validate($request, [
             'current_password' => 'required|string',
             'new_password' => 'required|confirmed|min:8|string'
