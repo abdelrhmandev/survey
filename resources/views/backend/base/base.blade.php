@@ -3,7 +3,7 @@
 	<head>
 		<title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<meta name="description" content="The most advanced Bootstrap Admin " />
+		<meta name="description" content="GameTime" />
 		<meta name="keywords" content="Metronic, bootstrap, bootstrap 5, Angular" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta charset="utf-8" />
@@ -21,7 +21,7 @@
 				'csrfToken' => csrf_token(),
 			]) !!};
 		</script>		
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
+		<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
 		<link href="{{ asset('assets/backend/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/backend/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css" />

@@ -13,7 +13,7 @@ return [
     */
 
     // Project name. Shown in the breadcrumbs and a few other places.
-    'project_name' => 'Survey App',
+    'project_name' => 'Survey Game2024',
   
     /*
     |--------------------------------------------------------------------------

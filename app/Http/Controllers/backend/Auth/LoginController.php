@@ -36,8 +36,6 @@ class LoginController extends Controller{
         
         if (Auth::guard('admin')->attempt(['email' => request('email'),'status'=>'1','password' => request('password')],request('rememberme') == 1 ? true:false)) {            
             // return $this->handleUserWasAuthenticated($request, $throttles);
-
-
             $request->session()->regenerate();
             $this->clearLoginAttempts($request);
             return redirect()->intended(route('admin.dashboard')); // get redirect to backend dashboard 

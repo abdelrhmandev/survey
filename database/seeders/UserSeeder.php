@@ -28,101 +28,101 @@ class UserSeeder extends Seeder
             ])->assignRole(1);
 
             
-            \App\Models\User::create([    
-                'username'         =>'emad',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'emad@domain.com',
-                'name'             =>'Emad Bishay',
-                'is_admin'         =>'1',
-                'mobile'           =>'01872971220',
-                'avatar'           =>'uploads/avatars/emad.jpg',
-                'status'           =>'1',
-            ])->assignRole(1);
+            // \App\Models\User::create([    
+            //     'username'         =>'emad',
+            //     'password'         =>Hash::make('12345678'),
+            //     'email'            =>'emad@domain.com',
+            //     'name'             =>'Emad Bishay',
+            //     'is_admin'         =>'1',
+            //     'mobile'           =>'01872971220',
+            //     'avatar'           =>'uploads/avatars/emad.jpg',
+            //     'status'           =>'1',
+            // ])->assignRole(1);
 
-            \App\Models\User::create([    
-                'username'         =>'DanWilson',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'DanWilson@domain.com',
-                'name'             =>'Dan Wilson',
-                'is_admin'         =>'1',
-                'status'           =>'0',
-            ])->assignRole(2);
+        //     \App\Models\User::create([    
+        //         'username'         =>'DanWilson',
+        //         'password'         =>Hash::make('12345678'),
+        //         'email'            =>'DanWilson@domain.com',
+        //         'name'             =>'Dan Wilson',
+        //         'is_admin'         =>'1',
+        //         'status'           =>'0',
+        //     ])->assignRole(2);
 
-            \App\Models\User::create([    
-                'username'         =>'FrancisMitcham',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'FrancisMitcham@domain.com',
-                'name'             =>'Francis Mitcham',
-                'is_admin'         =>'1',
-                'mobile'           =>'01872971230',
-                'status'           =>'1',
-            ])->assignRole(2);
+        //     \App\Models\User::create([    
+        //         'username'         =>'FrancisMitcham',
+        //         'password'         =>Hash::make('12345678'),
+        //         'email'            =>'FrancisMitcham@domain.com',
+        //         'name'             =>'Francis Mitcham',
+        //         'is_admin'         =>'1',
+        //         'mobile'           =>'01872971230',
+        //         'status'           =>'1',
+        //     ])->assignRole(2);
 
-            \App\Models\User::create([    
-                'username'         =>'Kevin',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'Kevin@domain.com',
-                'name'             =>'Kevin Leonard',
-                'is_admin'         =>'1',
-                'mobile'           =>'01872971450',
-                'avatar'           =>'uploads/avatars/kevin.jpg',
-                'status'           =>'1',
-            ])->assignRole(3);
-            \App\Models\User::create([    
-                'username'         =>'JessieClarcson',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'JessieClarcson@domain.com',
-                'name'             =>'Jessie Clarcson',
-                'is_admin'         =>'1',
-                'status'           =>'1',
-           ])->assignRole(3);
+        //     \App\Models\User::create([    
+        //         'username'         =>'Kevin',
+        //         'password'         =>Hash::make('12345678'),
+        //         'email'            =>'Kevin@domain.com',
+        //         'name'             =>'Kevin Leonard',
+        //         'is_admin'         =>'1',
+        //         'mobile'           =>'01872971450',
+        //         'avatar'           =>'uploads/avatars/kevin.jpg',
+        //         'status'           =>'1',
+        //     ])->assignRole(3);
+        //     \App\Models\User::create([    
+        //         'username'         =>'JessieClarcson',
+        //         'password'         =>Hash::make('12345678'),
+        //         'email'            =>'JessieClarcson@domain.com',
+        //         'name'             =>'Jessie Clarcson',
+        //         'is_admin'         =>'1',
+        //         'status'           =>'1',
+        //    ])->assignRole(3);
 
 
-            \App\Models\User::create([    
-                'username'         =>'ken',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'ken@domain.com',
-                'name'             =>'ken Trump',
-                'is_admin'         =>'1',
-                'avatar'           =>'uploads/avatars/ken.jpg',
-                'status'          =>'1',             
-            ])->assignRole(3);
+        //     \App\Models\User::create([    
+        //         'username'         =>'ken',
+        //         'password'         =>Hash::make('12345678'),
+        //         'email'            =>'ken@domain.com',
+        //         'name'             =>'ken Trump',
+        //         'is_admin'         =>'1',
+        //         'avatar'           =>'uploads/avatars/ken.jpg',
+        //         'status'          =>'1',             
+        //     ])->assignRole(3);
 
 
             
-        \App\Models\User::create([    
-            'username'         =>'Lebron',
-            'password'         =>Hash::make('12345678'),
-            'email'            =>'Lebron@domain.com',
-            'name'             =>'Lebron Wayde',
-            'is_admin'         =>'1',
-            'avatar'           =>'uploads/avatars/lebron.jpg',
-            'status'          =>'1',
-        ])->assignRole(2);
+        // \App\Models\User::create([    
+        //     'username'         =>'Lebron',
+        //     'password'         =>Hash::make('12345678'),
+        //     'email'            =>'Lebron@domain.com',
+        //     'name'             =>'Lebron Wayde',
+        //     'is_admin'         =>'1',
+        //     'avatar'           =>'uploads/avatars/lebron.jpg',
+        //     'status'          =>'1',
+        // ])->assignRole(2);
 
 
-        \App\Models\User::create([    
-            'username'         =>'AliceDanchik',
-            'password'         =>Hash::make('12345678'),
-            'email'            =>'AliceDanchik@domain.com',
-            'name'             =>'Alice Danchik',
-            'is_admin'         =>'1',
-            'mobile'           =>'01872971150',
-            'avatar'           =>'uploads/avatars/alice.jpg',
-            'status'           =>'0',
+        // \App\Models\User::create([    
+        //     'username'         =>'AliceDanchik',
+        //     'password'         =>Hash::make('12345678'),
+        //     'email'            =>'AliceDanchik@domain.com',
+        //     'name'             =>'Alice Danchik',
+        //     'is_admin'         =>'1',
+        //     'mobile'           =>'01872971150',
+        //     'avatar'           =>'uploads/avatars/alice.jpg',
+        //     'status'           =>'0',
             
-        ])->assignRole(3);
+        // ])->assignRole(3);
 
-        \App\Models\User::create([    
-            'username'         =>'Brad',
-            'password'         =>Hash::make('12345678'),
-            'email'            =>'Brad@domain.com',
-            'name'             =>'Brad Simmons',
-            'is_admin'         =>'1',
-            'mobile'           =>'01872371450',
-            'avatar'           =>'uploads/avatars/brad.jpg',
-            'status'          =>'1',
-        ])->assignRole(2);
+        // \App\Models\User::create([    
+        //     'username'         =>'Brad',
+        //     'password'         =>Hash::make('12345678'),
+        //     'email'            =>'Brad@domain.com',
+        //     'name'             =>'Brad Simmons',
+        //     'is_admin'         =>'1',
+        //     'mobile'           =>'01872371450',
+        //     'avatar'           =>'uploads/avatars/brad.jpg',
+        //     'status'          =>'1',
+        // ])->assignRole(2);
         
 
 

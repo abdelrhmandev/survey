@@ -11,8 +11,19 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $role = Role::create(['name' => 'administrator']);
-        $role->givePermissionTo(Permission::all());
+        // create permissions
+
+
+        Permission::create(['name' => 'users-list']);
+        Permission::create(['name' => 'users-delete']);
+        Permission::create(['name' => 'users-create']);
+        Permission::create(['name' => 'users-edit']);
+
+
+
+
+
+
 
 
         Permission::create(['name' => 'roles-list']);
@@ -20,10 +31,18 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'roles-create']);
         Permission::create(['name' => 'roles-edit']);
 
+
         Permission::create(['name' => 'permissions-list']);
         Permission::create(['name' => 'permissions-delete']);
         Permission::create(['name' => 'permissions-create']);
         Permission::create(['name' => 'permissions-edit']);
+
+        
+        Permission::create(['name' => 'games-list']);
+        Permission::create(['name' => 'games-delete']);
+        Permission::create(['name' => 'games-create']);
+        Permission::create(['name' => 'games-edit']);
+
 
 
 
@@ -33,25 +52,33 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'events-edit']);
 
 
-        Permission::create(['name' => 'games-list']);
-        Permission::create(['name' => 'games-delete']);
-        Permission::create(['name' => 'games-create']);
-        Permission::create(['name' => 'games-edit']);
+        // create roles and assign created permissions
+
+        $role = Role::create(['name' => 'administrator']);
+        $role->givePermissionTo(Permission::all());
+
+        // // this can be done as separate statements
+
+ 
+
+ 
 
 
-
+  
         $role = Role::create(['name' => 'Medical Rep']);
         $role->givePermissionTo('games-list')
-        ->givePermissionTo(['events-list'])
-        ->givePermissionTo(['events-edit']);
+        ->givePermissionTo(['games-delete']);
 
 
-        
+
         $role = Role::create(['name' => 'Coordinator']);
+        
         $role->givePermissionTo('games-list')
-        ->givePermissionTo(['events-list'])
-        ->givePermissionTo(['events-edit']);
+        ->givePermissionTo(['games-create'])   
+        ->givePermissionTo(['games-edit']);
+
  
+            
 
 
     }
