@@ -7,8 +7,8 @@ class CreateUserTeamTable extends Migration
     public function up(){
         Schema::create('user_team', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('tean_id')->constrained('posts')->onDelete('cascade');
-            $table->unique(['user_id','tean_id']);                  
+            $table->foreignId('team_id')->constrained('posts')->onDelete('cascade');
+            $table->unique(['user_id','team_id']);                  
         });
     }
     public function down(){

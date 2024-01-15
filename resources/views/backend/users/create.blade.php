@@ -97,6 +97,13 @@
                                 data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'mobile' . '&nbsp;']) }}" />
                         </div>
 
+
+                        <div class="fv-row fl">
+                            <label class="required form-label" for="team">{{ __('team.select') }}</label>
+                            <input class="form-control form-control-solid" name="teams[]" value=""
+                                id="kt_tagify_7" />
+                        </div>
+
                         <div class="fv-row fl">
                             <label class="required form-label" for="country">{{ __('country.select') }}</label>
                             <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
@@ -195,12 +202,30 @@
     </div>
 @stop
 @section('scripts')
-
     <script src="{{ asset('assets/backend/js/custom/Tachyons.min.js') }}"></script>
     <script src="{{ asset('assets/backend/js/custom/es6-shim.min.js') }}"></script>
     <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
     <script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
+    <script>
+        // The DOM elements you wish to replace with Tagify
+        var input = document.querySelector("#kt_tagify_7");
+
+        
+        // Initialize Tagify script on the above inputs
+        new Tagify(input, {
+            // whitelist: [{"10":"John"}, {"44":"Thomas"}],
+            whitelist: [@foreach($teams as $team)'{{ $team->title }}'@if(! $loop->last),@endif @endforeach],
+            maxTags: 10,
+            dropdown: {
+                fieldName: 'teams[]',
+                maxItems: 20, // <- mixumum allowed rendered suggestions
+                classname: "tagify__inline__suggestions", // <- custom classname for this dropdown, so it could be targeted
+                enabled: 0, // <- show suggestions on focus
+                closeOnSelect: false // <- do not hide the suggestions dropdown once an item has been selected
+            }
+        });
+    </script>
 
     <script>
         KTUtil.onDOMContentLoaded(function() {

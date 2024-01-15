@@ -29,6 +29,10 @@ class UserController extends Controller
     }
     public function store(UserRequest $request)
     {
+        dd($request);
+        // https://stackoverflow.com/questions/54854892/how-to-get-php-value-from-input-using-tagify/
+        // var_dump(implode(', ', array_column(json_decode($_POST['tag']), 'value')));
+
         $arry = [
             'name'       => $request->input('name'),
             'email'      => $request->input('email'),
@@ -50,6 +54,7 @@ class UserController extends Controller
     }
     public function create()
     {
+
         $compact = [
             'roles'          => Role::select('id', 'name')->get(),
             'countries'      => Country::select('id', 'name')->get(),
