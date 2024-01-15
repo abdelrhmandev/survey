@@ -20,19 +20,8 @@ class RoleRequest extends FormRequest
     {
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
-
-        foreach(\LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
-            $rules['title_'.substr($properties['regional'],0,2)] = 'required|unique:roles,trans'.$id;
-        } 
-
-
-
-
-
         $rules['name'] = 'required|unique:roles,name'.$id;
         $rules['permissions'] =  'exists:permissions,id';   
-       
-
         return $rules; 
 
     }

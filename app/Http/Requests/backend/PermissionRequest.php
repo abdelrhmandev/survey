@@ -19,10 +19,6 @@ class PermissionRequest extends FormRequest
     {
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
-
-        foreach(\LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
-            $rules['title_'.substr($properties['regional'],0,2)] = 'required|unique:permissions,trans'.$id;
-        } 
         $rules['name'] = 'required|unique:permissions,name'.$id;
         return $rules; 
 

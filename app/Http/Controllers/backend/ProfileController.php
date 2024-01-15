@@ -4,10 +4,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\Functions; 
 use App\Traits\UploadAble;
-use App\Models\User as MainModel;
+use App\Models\User;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\backend\ProfileRequest as ModuleRequest;
+use App\Http\Requests\backend\ProfileReques;
 class ProfileController extends Controller
 {
     protected $model;
@@ -43,7 +43,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function update(ModuleRequest $request){
+    public function update(ProfileRequest $request){
         $avatar = \Auth::guard('admin')->user()->avatar;
         if(!empty($request->file('avatar'))) {
             $avatar && File::exists(public_path($avatar)) ? $this->unlinkFile($avatar): '';
@@ -57,7 +57,7 @@ class ProfileController extends Controller
             'avatar'        => $avatar,            
 
         ];              
-        if(MainModel::findOrFail(\Auth::guard('admin')->user()->id)->update($arry)){
+        if(User::findOrFail(\Auth::guard('admin')->user()->id)->update($arry)){
             $arr = array('msg' => __($this->TRANS.'.'.'ProfileupdateMessageSuccess'), 'status' => true);   
         }else{
             $arr = array('msg' => __($this->TRANS.'.'.'ProfileupdateMessageError'), 'status' => false);
@@ -74,7 +74,7 @@ class ProfileController extends Controller
             $arr = array('msg' => __('passwords.invalid_current'), 'status' => false);
         }
         if (Hash::check($request->get('current_password'), $auth->password)) {
-            $user =  MainModel::find($auth->id);
+            $user =  User::find($auth->id);
             $user->password =  Hash::make($request->new_password);
             $user->save();
             $arr = array('msg' =>__('passwords.updated'), 'status' => true);

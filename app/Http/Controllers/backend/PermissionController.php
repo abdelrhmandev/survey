@@ -1,16 +1,15 @@
 <?php
 namespace App\Http\Controllers\backend;
 use Carbon\Carbon;
-use LaravelLocalization;
 use App\Traits\Functions;
 use DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission as MainModel;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\backend\PermissionRequest as ModuleRequest;
+use App\Http\Requests\backend\PermissionRequest;
 
 class PermissionController extends Controller
 {
@@ -26,7 +25,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $model = MainModel::select('id', 'name', 'trans', 'created_at')
+            $model = Permission::select('id', 'name', 'created_at')
                 ->with([
                     'roles' => function ($query) {
                         $query->select('*'); # Many to many
@@ -35,7 +34,7 @@ class PermissionController extends Controller
                 ->withCount(['roles']);
             return Datatables::of($model)
                 ->addIndexColumn()
-                ->editColumn('name', function (MainModel $row) {
+                ->editColumn('name', function (Permission $row) {
                     return '<a href=' .
                         route($this->ROUTE_PREFIX . '.edit', $row->id) .
                         " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" .
@@ -45,23 +44,19 @@ class PermissionController extends Controller
                         "</a>
                             ";
                 })
-                ->AddColumn('associated_roles', function (MainModel $row) {
+                ->AddColumn('associated_roles', function (Permission $row) {
                     $RolesDiv = '';
                     if ($row->roles_count > 0) {
                         $RolesDiv = "<span class=\"text-gray-800 fw-bolder fs-3\">" . $row->roles_count . '</span><br/>';
                         foreach ($row->roles as $permission) {
-                            foreach (json_decode($permission->trans, true) as $rol) {
-                                $r = isset($rol[app()->getLocale()]) ? $rol[app()->getLocale()] : '';
-                                $RolesDiv .= '<a href=' . route(config('custom.route_prefix') . '.roles.edit', $permission->id) . " class=\"text-hover-success badge badge-light-primary\" data-kt-item-filter" . $permission->id . "=\"item\" title=" . $r . '>' . $r . '</a>';
-                            }
-                            $RolesDiv .= ' ,';
+                         
                         }
                     } else {
                         $RolesDiv = "<span class=\"text-danger\">" . __('permission.no_associated_role') . '</span>';
                     }
                     return $RolesDiv;
                 })
-                ->editColumn('created_at', function (MainModel $row) {
+                ->editColumn('created_at', function (Permission $row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
                 ->filterColumn('created_at', function ($query, $keyword) {
@@ -75,12 +70,12 @@ class PermissionController extends Controller
         }
         if (view()->exists('backend.permissions.index')) {
             $compact = [
-                'trans' => $this->TRANS,
-                'createRoute' => route($this->ROUTE_PREFIX . '.create'),
-                'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
-                'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),
-                'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
-                'allrecords' => MainModel::count(),
+                'trans'                 => $this->TRANS,
+                'createRoute'           => route($this->ROUTE_PREFIX . '.create'),
+                'storeRoute'            => route($this->ROUTE_PREFIX . '.store'),
+                'destroyMultipleRoute'  => route($this->ROUTE_PREFIX . '.destroyMultiple'),
+                'listingRoute'          => route($this->ROUTE_PREFIX . '.index'),
+                'allrecords'            => Permission::count(),
             ];
             return view('backend.permissions.index', $compact);
         }
@@ -95,21 +90,10 @@ class PermissionController extends Controller
         return view('backend.permissions.create', $compact);
     }
 
-    public function store(ModuleRequest $request)
+    public function store(PermissionRequest $request)
     {
-        foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
-            $regional = substr($properties['regional'], 0, 2);
-            $trans[] = [
-                $regional => request()->get('title_' . $regional),
-            ];
-        }
-        $arry = [
-            'name'       => $request->input('name'),
-            'trans'      => json_encode($trans),
-            'guard_name' => 'admin',
-        ];
-
-        if (MainModel::create($arry)) {
+        $arry = ['name' => $request->input('name')];
+        if (Permission::create($arry)) {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageError'), 'status' => false];
@@ -117,17 +101,10 @@ class PermissionController extends Controller
         return response()->json($arr);
     }
 
-    public function update(ModuleRequest $request, MainModel $permission)
+    public function update(PermissionRequest $request, Permission $permission)
     {
-        foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
-            $regional = substr($properties['regional'], 0, 2);
-            $trans[] = [
-                $regional => request()->get('title_' . $regional),
-            ];
-        }
-        $row = MainModel::find($permission->id);
+        $row = Permission::find($permission->id);
         $row->name = $request->input('name');
-        $row->trans = json_encode($trans);
         if ($row->save()) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
@@ -136,7 +113,7 @@ class PermissionController extends Controller
         return response()->json($arr);
     }
 
-    public function edit(MainModel $permission)
+    public function edit(Permission $permission)
     {
         if (view()->exists('backend.permissions.edit')) {
             $compact = [

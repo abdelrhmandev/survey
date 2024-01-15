@@ -1,41 +1,44 @@
 <?php
 namespace App\Http\Controllers\backend;
+use Hash;
+use DataTables;
 use Carbon\Carbon;
-use LaravelLocalization;
+use App\Models\User;
+use App\Models\Country;
 use App\Traits\Functions;
 use App\Traits\UploadAble;
-use DataTables;
 use Illuminate\Support\Str;
-use Hash;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use App\Models\User as MainModel;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use App\Http\Requests\backend\UserRequest as ModuleRequest;
+use App\Http\Requests\backend\UserRequest;
+
 class UserController extends Controller
 {
     use UploadAble, Functions;
     public function __construct()
     {
-        $this->ROUTE_PREFIX = config('custom.route_prefix') . '.users';
+        $this->ROUTE_PREFIX =  'admin.users';
         $this->TRANS        = 'user';
         $this->Tbl          = 'users';
         $this->UPLOADFOLDER = 'avatars';
     }
-    public function store(ModuleRequest $request)
+    public function store(Request $request)
     {
         $arry = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'mobile' => $request->input('mobile'),
-            'avatar' => !empty($request->file('avatar')) ? $this->uploadFile($request->file('avatar'), $this->UPLOADFOLDER) : null,
-            'username' => $request->input('username'),
-            'password' => Hash::make($request->input('password')),
-            'status' => isset($request->status) ? '1' : '0',
+            'name'       => $request->input('name'),
+            'email'      => $request->input('email'),
+            'mobile'     => $request->input('mobile'),
+            'avatar'     => !empty($request->file('avatar')) ? $this->uploadFile($request->file('avatar'), $this->UPLOADFOLDER) : null,
+            'username'   => $request->input('username'),
+            'password'   => Hash::make($request->input('password')),
+            'status'     => isset($request->status) ? '1' : '0',
+            'is_admin'   =>'1',
+            'country_id' => $request->input('country_id'),
         ];
-        $user = MainModel::create($arry);
+        $user = User::create($arry);
         if ($user && $user->assignRole($request->input('roles'))) {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
@@ -46,20 +49,21 @@ class UserController extends Controller
     public function create()
     {
         $compact = [
-            'roles' => Role::select('id', 'name', 'trans')->get(),
-            'trans' => $this->TRANS,
-            'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
-            'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
+            'roles'          => Role::select('id', 'name')->get(),
+            'countries'      => Country::select('id', 'name')->get(),
+            'trans'          => $this->TRANS,
+            'listingRoute'   => route($this->ROUTE_PREFIX . '.index'),
+            'storeRoute'     => route($this->ROUTE_PREFIX . '.store'),
         ];
         return view('backend.users.create', $compact);
     }
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $model = MainModel::select('id', 'name', 'mobile', 'email', 'avatar', 'status', 'created_at')
+            $model = User::select('id', 'name', 'mobile', 'email', 'avatar','country_id', 'status', 'created_at')
                 ->with([
                     'roles' => function ($query) {
-                        $query->select('id', 'trans'); # Many to many
+                        $query->select('id', 'name'); # Many to many
                     },
                 ])
                 ->withCount(['roles']);
@@ -93,22 +97,24 @@ class UserController extends Controller
                     </div>
                 </div>";
                 })
-                ->AddColumn('role', function (MainModel $row) {
+                ->AddColumn('role', function (User $row) {
                     $roleDiv = '';
                     if ($row->roles_count > 0) {
-                        foreach ($row->roles as $role) {
-                            foreach (json_decode($role->trans, true) as $r) {
-                                if (isset($r[app()->getLocale()])) {
-                                    $roleDiv .= "<div class=\"badge py-3 px-4 fs-7 badge-light-primary\"><span class=\"text-primary\">" . $r[app()->getLocale()] . '</span></div> ';
-                                }
-                            }
+                        foreach ($row->roles as $role) {                       
+                                $roleDiv .= "<div class=\"badge py-3 px-4 fs-7 badge-light-primary\"><span class=\"text-primary\">" . $role->name . '</span></div> ';
                         }
                     } else {
                         $roleDiv = "<span class=\"text-danger\">" . __('user.no_roles_assigned') . '</span>';
                     }
                     return $roleDiv;
                 })
-                ->editColumn('status', function (MainModel $row) {
+
+                ->editColumn('country_id', function (User $row) {
+                    return $row->country->name;
+                })
+
+
+                ->editColumn('status', function (User $row) {
                     if ($row->status == 1) {
                         $checked = 'checked';
                         $statusLabel = "<span class=\"text-success\">" . __('site.active') . '</span>';
@@ -119,14 +125,14 @@ class UserController extends Controller
                     $div = "<div class=\"form-check form-switch form-check-custom form-check-solid\"><input class=\"form-check-input UpdateStatus\" name=\"Updatetatus\" type=\"checkbox\" " . $checked . " id=\"Status" . $row->id . "\" onclick=\"UpdateStatus($row->id,'" . __($this->TRANS . '.plural') . "','$this->Tbl','" . route('UpdateStatus') . "')\" />&nbsp;" . $statusLabel . '</div>';
                     return $div;
                 })
-                ->editColumn('created_at', function (MainModel $row) {
+                ->editColumn('created_at', function (User $row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
                 ->filterColumn('created_at', function ($query, $keyword) {
                     $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') LIKE ?", ["%$keyword%"]);
                 })
                 ->editColumn('actions', function ($row) {
-                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX, 'hide_edit');
+                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
                 ->rawColumns(['name', 'role', 'status', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
@@ -138,12 +144,12 @@ class UserController extends Controller
                 'storeRoute'           => route($this->ROUTE_PREFIX . '.store'),
                 'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),
                 'listingRoute'         => route($this->ROUTE_PREFIX . '.index'),
-                'allrecords'           => MainModel::count(),
+                'allrecords'           => User::count(),
             ];
             return view('backend.users.index', $compact);
         }
     }
-    public function edit(MainModel $user)
+    public function edit(User $user)
     {
         if (view()->exists('backend.users.edit')) {
             $compact = [
@@ -151,24 +157,24 @@ class UserController extends Controller
                 'row'                    => $user,
                 'destroyRoute'           => route($this->ROUTE_PREFIX . '.destroy', $user->id),
                 'trans'                  => $this->TRANS,
-                'permissions'            => Permission::select('id', 'trans')->get(),
+                'roles'                  => Role::select('id', 'name')->get(),
+                'countries'              => Country::select('id', 'name')->get(),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
+                'editPasswordRoute'      => route($this->ROUTE_PREFIX.'.editpassword',$user->id), 
+                'updatePasswordRoute'    => route($this->ROUTE_PREFIX.'.updatepassword',$user->id), 
+
             ];
             return view('backend.users.edit', $compact);
         }
     }
 
-    public function update(ModuleRequest $request, MainModel $user)
+    public function update(UserRequest $request, User $user)
     {
-        foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
-            $regional = substr($properties['regional'], 0, 2);
-            $trans[] = [
-                $regional => request()->get('title_' . $regional),
-            ];
-        }
-        $row = MainModel::find($user->id);
+ 
+        $row = User::find($user->id);
         $row->name = $request->input('name');
-        $row->trans = json_encode($trans);
+    
+        // countries
         if ($row->save() && $row->syncPermissions($request->input('permissions'))) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
@@ -176,7 +182,7 @@ class UserController extends Controller
         }
         return response()->json($arr);
     }
-    public function destroy(MainModel $user)
+    public function destroy(User $user)
     {
         if ($user->delete()) {
             $arr = ['msg' => __($this->TRANS . '.' . 'deleteMessageSuccess'), 'status' => true];
@@ -185,10 +191,40 @@ class UserController extends Controller
         }
         return response()->json($arr);
     }
+
+
+    public function editpassword(){
+        if (view()->exists('backend.users.editpassword')) {
+            $compact = [
+            'trans'                => $this->TRANS,
+            'updatePasswordRoute'  => route($this->ROUTE_PREFIX.'.updatepassword'), 
+        ];  
+            return view('backend.users.editpassword',$compact);
+        }
+    }
+
+    public function updatepassword(Request $request){
+        $this->validate($request, [
+            'current_password' => 'required|string',
+            'new_password' => 'required|confirmed|min:8|string'
+        ]);
+        $auth = \Auth::guard('admin')->user(); 
+        if (!Hash::check($request->get('current_password'), $auth->password)) {
+            $arr = array('msg' => __('passwords.invalid_current'), 'status' => false);
+        }
+        if (Hash::check($request->get('current_password'), $auth->password)) {
+            $user =  User::find($auth->id);
+            $user->password =  Hash::make($request->new_password);
+            $user->save();
+            $arr = array('msg' =>__('passwords.updated'), 'status' => true);
+        }
+        return response()->json($arr);
+    }
+
     public function destroyMultiple(Request $request)
     {
         $ids = explode(',', $request->ids);
-        $items = MainModel::whereIn('id', $ids); // Check
+        $items = User::whereIn('id', $ids); // Check
         if ($items->delete()) {
             $arr = ['msg' => __($this->TRANS . '.' . 'MulideleteMessageSuccess'), 'status' => true];
         } else {

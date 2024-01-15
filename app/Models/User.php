@@ -18,7 +18,8 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
-        'status'
+        'status',
+        'country_id',
     ];
 
     protected $hidden = [
@@ -30,6 +31,10 @@ class User extends Authenticatable
     ];
 
     
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
     // public function likes(){
     //     return $this->belongsToMany(RecipeLike::class, 'recipe_likes','user_id','recipe_id'); // recipe_likes  = table
     // }

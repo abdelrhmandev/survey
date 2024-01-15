@@ -1,16 +1,17 @@
 @extends('backend.base.base')
-@section('title', __($trans . '.plural').' - '.__($trans .'.add'))
+@section('title', __($trans . '.plural') . ' - ' . __($trans . '.add'))
 @section('breadcrumbs')
-<h1 class="d-flex align-items-center text-gray-900 fw-bold my-1 fs-3">{{ __($trans . '.plural') }}</h1>
-<span class="h-20px border-gray-200 border-start mx-3"></span>
-<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
-    <li class="breadcrumb-item text-muted"><a href="{{ route('admin.dashboard') }}" class="text-muted text-hover-primary">{{ __('site.home') }}</a></li>
-    <li class="breadcrumb-item"><span class="bullet bg-gray-200 w-5px h-2px"></span></li>
-    <li class="breadcrumb-item text-dark">{{ __($trans . '.add') }}</li>
-</ul>
+    <h1 class="d-flex align-items-center text-gray-900 fw-bold my-1 fs-3">{{ __($trans . '.plural') }}</h1>
+    <span class="h-20px border-gray-200 border-start mx-3"></span>
+    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+        <li class="breadcrumb-item text-muted"><a href="{{ route('admin.dashboard') }}"
+                class="text-muted text-hover-primary">{{ __('site.home') }}</a></li>
+        <li class="breadcrumb-item"><span class="bullet bg-gray-200 w-5px h-2px"></span></li>
+        <li class="breadcrumb-item text-dark">{{ __($trans . '.add') }}</li>
+    </ul>
 @stop
-@section('style') 
-<link href="{{ asset('assets/backend/css/custom.css') }}" rel="stylesheet" type="text/css" />
+@section('style')
+    <link href="{{ asset('assets/backend/css/custom.css') }}" rel="stylesheet" type="text/css" />
 @stop
 @section('content')
     <div id="kt_content_container" class="container-xxl">
@@ -32,6 +33,7 @@
                                     .image-input-placeholder {
                                         background-image: url({{ asset('assets/backend/media/svg/files/blank-image.svg') }});
                                     }
+
                                     [data-theme="dark"] .image-input-placeholder {
                                         background-image: url({{ asset('assets/backend/media/svg/files/blank-image.svg') }});
                                     }
@@ -94,11 +96,25 @@
                                 data-fv-numeric___message="{{ __('validation.numeric', ['attribute' => 'mobile' . '&nbsp;']) }}"
                                 data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'mobile' . '&nbsp;']) }}" />
                         </div>
-                         <div class="fv-row fl">
+
+                        <div class="fv-row fl">
+                            <label class="required form-label" for="country">{{ __('country.select') }}</label>
+                            <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
+                                data-placeholder="Select a Country" name="country_id">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        <div class="fv-row fl">
                             <label class="required form-label" for="roles">{{ __('role.plural') }}</label>
                             @foreach ($roles as $role)
                                 <label class="form-check form-check-custom form-check-solid align-items-start">
-                                    <input class="form-check-input me-3" type="checkbox" id="roles" name="roles[]" value="{{ $role->id }}" required data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'roles' . '&nbsp;']) }}" />
+                                    <input class="form-check-input me-3" type="checkbox" id="roles" name="roles[]"
+                                        value="{{ $role->id }}" required
+                                        data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'roles' . '&nbsp;']) }}" />
                                     <span class="form-check-label text-dark d-flex flex-column align-items-start">
                                         <span class="fw-bold fs-5 mb-0">{{ $role->name }}</span>
                                     </span>
@@ -156,21 +172,19 @@
                                 id="password-confirm" autocomplete="off" required maxlength="20"
                                 data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'password confirmation']) }}"
                                 data-fv-string-length="true" data-fv-string-length___min="6"
-                                data-fv-string-length___max="20"
-                                data-fv-callback="true"
-                                data-fv-callback___callback="checkidenticalPassword"
-                                 />
+                                data-fv-string-length___max="20" data-fv-callback="true"
+                                data-fv-callback___callback="checkidenticalPassword" />
                         </div>
 
                         <div class="fv-row fl">
-                            <label class="required form-label" for="status">{{ __('site.status') }}</label>                                                    
-                            <div class="form-check form-switch form-check-custom form-check-solid">                                
-                                <span class="p-2">{{ __('site.active')}}</span>
-                                    <input class="form-check-input" type="checkbox" value="1" name="status">                               
-                            </div>                            
+                            <label class="required form-label" for="status">{{ __('site.status') }}</label>
+                            <div class="form-check form-switch form-check-custom form-check-solid">
+                                <span class="p-2">{{ __('site.active') }}</span>
+                                <input class="form-check-input" type="checkbox" value="1" name="status">
+                            </div>
                         </div>
-   
-                        
+
+
                     </div>
                 </div>
                 <div class="card-footer d-flex">
@@ -192,20 +206,20 @@
         KTUtil.onDOMContentLoaded(function() {
             handleFormSubmitFunc('Add{{ $trans }}');
         });
-        function checkidenticalPassword(){
-            var form = document.getElementById('Add{{ $trans }}');            
+
+        function checkidenticalPassword() {
+            var form = document.getElementById('Add{{ $trans }}');
             var password = form.querySelector('[name="password"]').value;
             var password_confirmation = form.querySelector('[name="password_confirmation"]').value;
-            if(password === password_confirmation){
-                    return {
-                        valid: true,    // true
-                    };                    
-            }
-            else{
-                    return {
-                        valid: false,    // or false
-                        message: "{{ __('passwords.password_confirmation') }}"
-                    };                    
+            if (password === password_confirmation) {
+                return {
+                    valid: true, // true
+                };
+            } else {
+                return {
+                    valid: false, // or false
+                    message: "{{ __('passwords.password_confirmation') }}"
+                };
             }
         }
         "use strict";
@@ -227,7 +241,7 @@
                             }
                         });
 
-////////////////
+                        ////////////////
 
 
 

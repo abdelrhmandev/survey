@@ -19,12 +19,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'users-create']);
         Permission::create(['name' => 'users-edit']);
 
-
-
-
-
-
-
+ 
+ 
 
         Permission::create(['name' => 'roles-list']);
         Permission::create(['name' => 'roles-delete']);
@@ -60,10 +56,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // // this can be done as separate statements
 
  
-
  
-
-
   
         $role = Role::create(['name' => 'Medical Rep']);
         $role->givePermissionTo('games-list')

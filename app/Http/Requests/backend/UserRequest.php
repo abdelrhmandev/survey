@@ -24,6 +24,10 @@ class UserRequest extends FormRequest
         $rules['email']     = 'required|string|max:255|email|unique:users,email';
         $rules['roles']     = 'required|exists:roles,id';   
 
+
+
+        $rules['country_id']     = 'required|exists:countries,id';  
+
         $rules['mobile']    = 'required|max:255|unique:users,mobile'; 
         $rules['avatar']    = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB  
 

@@ -67,6 +67,7 @@
             <th>{{ __('user.singular') }}</th>  
             <th>{{ __('site.mobile') }}</th>  
             <th>{{ __('role.singular') }}</th>
+            <th>{{ __('country.singular') }}</th>
             <th>{{ __('site.status') }}</th>                                
             <th class="text-primary w-100px">{{ __('site.created_at') }}</th>
             <th class="text-end min-w-100px noExport">{{ __('site.actions') }}</th>  
@@ -88,6 +89,7 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'name', name: 'name',orderable: false}, 
 { data: 'mobile', name: 'mobile',orderable: false}, 
 { data: 'role', name: 'role',orderable: false,searchable: false},
+{ data: 'country_id', name: 'country_id',orderable: false,searchable: false},
 { data: 'status', name: 'status',orderable: false,searchable: false},
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
