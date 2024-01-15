@@ -5,12 +5,13 @@ use DataTables;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Country;
+use App\Models\Team;
 use App\Traits\Functions;
 use App\Traits\UploadAble;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Role as Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\backend\UserRequest;
@@ -52,6 +53,7 @@ class UserController extends Controller
         $compact = [
             'roles'          => Role::select('id', 'name')->get(),
             'countries'      => Country::select('id', 'name')->get(),
+            'teams'          => Team::select('id', 'title')->get(),
             'trans'          => $this->TRANS,
             'listingRoute'   => route($this->ROUTE_PREFIX . '.index'),
             'storeRoute'     => route($this->ROUTE_PREFIX . '.store'),

@@ -47,7 +47,6 @@ class TeamController extends Controller
                 'storeRoute'            => route($this->ROUTE_PREFIX . '.store'),
                 'destroyMultipleRoute'  => route($this->ROUTE_PREFIX . '.destroyMultiple'),
                 'listingRoute'          => route($this->ROUTE_PREFIX . '.index'),
-                'allrecords'            => Team::count(),
             ];
             return view('backend.teams.index', $compact);
         }
