@@ -13,14 +13,38 @@ class TeamSeeder extends Seeder
     {
         DB::table('teams')->delete();
 
-        $teams = array(
-			array('title' => 'Sales'),
-			array('title' => 'Marketing'),
-			array('title' => 'Customer Service'),
-			array('title' => 'HR'),
-			array('title' => 'Support'),
-		);
+        \App\Models\Team::create([     
+            'title'         =>'Marketing',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Coordinator',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Customer Service',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'HR',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Support',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Sales Manager',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Executive',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Supervisor',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'System Analyst',
+        ]);
+        \App\Models\Team::create([     
+            'title'         =>'Business Analyst',
+        ]);
 
-       DB::table('teams')->insert($teams);   
+
+
     }
 }

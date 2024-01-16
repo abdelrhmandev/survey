@@ -27,11 +27,10 @@ class UserController extends Controller
         $this->Tbl          = 'users';
         $this->UPLOADFOLDER = 'avatars';
     }
+ 
+
     public function store(UserRequest $request)
     {
-        dd($request);
-        // https://stackoverflow.com/questions/54854892/how-to-get-php-value-from-input-using-tagify/
-        // var_dump(implode(', ', array_column(json_decode($_POST['tag']), 'value')));
 
         $arry = [
             'name'       => $request->input('name'),
@@ -45,7 +44,20 @@ class UserController extends Controller
             'country_id' => $request->input('country_id'),
         ];
         $user = User::create($arry);
+
         if ($user && $user->assignRole($request->input('roles'))) {
+
+            if(!(empty($request->input('teams')))){
+                $tagTeamsArr = json_decode($request->input('teams'), true); 
+                $tagTeamList = array_column($tagTeamsArr, 'value');
+                foreach($tagTeamList as $v){         
+                    $team = Team::firstOrCreate(['title' => $v]);
+                }
+                $teams = Team::whereIn('title', $tagTeamList)->pluck('id');
+                $user->team()->sync($teams);
+            }
+    
+
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageError'), 'status' => false];

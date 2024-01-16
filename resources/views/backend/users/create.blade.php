@@ -100,7 +100,7 @@
 
                         <div class="fv-row fl">
                             <label class="required form-label" for="team">{{ __('team.select') }}</label>
-                            <input class="form-control form-control-solid" name="teams[]" value=""
+                            <input class="form-control form-control-solid" name="teams" value=""
                                 id="kt_tagify_7" />
                         </div>
 
@@ -214,11 +214,9 @@
         
         // Initialize Tagify script on the above inputs
         new Tagify(input, {
-            // whitelist: [{"10":"John"}, {"44":"Thomas"}],
             whitelist: [@foreach($teams as $team)'{{ $team->title }}'@if(! $loop->last),@endif @endforeach],
-            maxTags: 10,
-            dropdown: {
-                fieldName: 'teams[]',
+            // maxTags: 10,
+            dropdown: {               
                 maxItems: 20, // <- mixumum allowed rendered suggestions
                 classname: "tagify__inline__suggestions", // <- custom classname for this dropdown, so it could be targeted
                 enabled: 0, // <- show suggestions on focus

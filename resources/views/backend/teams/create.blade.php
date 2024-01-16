@@ -14,33 +14,46 @@
 @stop
 @section('content')
     <div id="kt_content_container" class="container-xxl">
-        <form id="Add{{ $trans }}" data-route-url="{{ $storeRoute }}" class="form d-flex flex-column flex-lg-row"            
-            data-form-submit-error-message="{{ __('site.form_submit_error')}}"
-            data-form-agree-label="{{ __('site.agree') }}" 
-            enctype="multipart/form-data">            
+        <form id="Add{{ $trans }}" data-route-url="{{ $storeRoute }}" class="form d-flex flex-column flex-lg-row"
+            data-form-submit-error-message="{{ __('site.form_submit_error') }}"
+            data-form-agree-label="{{ __('site.agree') }}" enctype="multipart/form-data">
+
+            
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
-                <div class="card card-flush py-0">                    
+                <div class="card card-flush py-0">
                     <div class="card-body pt-0">
-                        <div class="d-flex flex-column gap-5 mt-2">                                            
-                          <x-backend.langs.ulTabs/>
-                        <x-backend.langs.LangInputs :showDescription="1" :richTextArea="0" :showSlug="1" />                                            
+                        <div class="d-flex flex-column gap-5 mt-5">                                            
+                       
+                            <div class="fv-row fl">
+                                <label class="required form-label" for="title">Title</label>
+                                <input type="text" id="title" name="title" class="form-control mb-2" required
+                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"/>
+                                    
+                            </div>
+                        </div>
                     </div>
-                </div>                              
+
+
+                  
+                </div>
+                <x-backend.btns.button />
             </div>
-            <x-backend.btns.button /> 
-            </div>
+
+
+
+
         </form>
     </div>
 @stop
 @section('scripts')
-<script src="{{ asset('assets/backend/js/custom/Tachyons.min.js') }}"></script>
-<script src="{{ asset('assets/backend/js/custom/es6-shim.min.js') }}"></script>
-<script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-<script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
-<script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
-<script>
-KTUtil.onDOMContentLoaded(function() {
-   handleFormSubmitFunc('Add{{ $trans }}');
-});
-</script>
+    <script src="{{ asset('assets/backend/js/custom/Tachyons.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/js/custom/es6-shim.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+    <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
+    <script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
+    <script>
+        KTUtil.onDOMContentLoaded(function() {
+            handleFormSubmitFunc('Add{{ $trans }}');
+        });
+    </script>
 @stop

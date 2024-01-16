@@ -38,9 +38,9 @@ class User extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
-    // public function likes(){
-    //     return $this->belongsToMany(RecipeLike::class, 'recipe_likes','user_id','recipe_id'); // recipe_likes  = table
-    // }
+    public function team(){
+        return $this->belongsToMany(Team::class, 'user_team','user_id','team_id'); 
+    }
 
     // public function getRoleNames(){
     //     return $this->roles->pluck('display');

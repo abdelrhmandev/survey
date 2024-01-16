@@ -23,14 +23,14 @@
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
                 <div class="card card-flush py-0">
                     <div class="card-body pt-0">
-                        <div class="d-flex flex-column gap-5 mt-2">
+                        <div class="d-flex flex-column gap-5 mt-5">
                             <div class="fv-row fl">
                                 <label class="required form-label" for="name">{{ __('site.name') }}</label>
                                 <input type="text" id="name" name="name" class="form-control mb-2"
                                     placeholder="Example posts-create" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'name' . '&nbsp;']) }}"
                                     value="{{ $row->name }}" />
-                                <small class="fs-7 fw-semibold text-danger">English Only No Spaces</small>
+                               
                             </div>
                         </div>
                     </div>

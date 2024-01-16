@@ -9,5 +9,10 @@ class Team extends Model
 	
 	public $timestamps = true;
 	
+
+
+	public function user(){
+        return $this->belongsToMany(User::class, 'user_team','team_id','user_id'); 
+    }
 	
 }

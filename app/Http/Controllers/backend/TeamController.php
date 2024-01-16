@@ -76,14 +76,13 @@ class TeamController extends Controller
 }
 
 
-    public function edit(Team $tag)
+    public function edit(Team $team)
     {
         if (view()->exists('backend.teams.edit')) {
             $compact = [
-                'updateRoute'             => route($this->ROUTE_PREFIX . '.update', $tag->id),
-                'row'                     => $tag,
-                'TrsanslatedColumnValues' => $this->getItemtranslatedllangs($tag, $thisCOLUMNS, $this->TblForignKey),
-                'destroyRoute'            => route($this->ROUTE_PREFIX . '.destroy', $tag->id),
+                'updateRoute'             => route($this->ROUTE_PREFIX . '.update', $team->id),
+                'row'                     => $team,
+                'destroyRoute'            => route($this->ROUTE_PREFIX . '.destroy', $team->id),
                 'redirect_after_destroy'  => route($this->ROUTE_PREFIX . '.index'),
                 'trans'                   => $this->TRANS,
             ];
@@ -92,17 +91,20 @@ class TeamController extends Controller
     }
 
     /////////////
-    public function update(TeamRequest $request, Team $tag){
-        if($this->UpdateMultiLangsQuery($thisCOLUMNS, $this->TRANS . '_translations', [$this->TblForignKey => $tag->id])){
+    public function update(TeamRequest $request, Team $team){
+        
+        $row = Team::find($team->id);
+        $row->title = $request->input('title');
+        if ($row->save()) {
             $arr = ['msg' => __($this->TRANS.'.updateMessageSuccess'), 'status' => true];
         }else{
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
         }
         return response()->json($arr);
     }
-    public function destroy(Team $tag){        
+    public function destroy(Team $team){        
         //SET ALL childs to NULL 
-        if($tag->delete()){
+        if($team->delete()){
             $arr = array('msg' => __($this->TRANS.'.'.'deleteMessageSuccess'), 'status' => true);
         }else{
             $arr = array('msg' => __($this->TRANS.'.'.'deleteMessageError'), 'status' => false);
