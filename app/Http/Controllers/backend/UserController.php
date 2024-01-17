@@ -55,6 +55,7 @@ class UserController extends Controller
                 }
                 $teams = Team::whereIn('title', $tagTeamList)->pluck('id');
                 $user->team()->sync($teams);
+                ///
             }
     
 
