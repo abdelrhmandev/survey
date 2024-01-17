@@ -12,37 +12,22 @@ class TeamSeeder extends Seeder
     public function run()
     {
         DB::table('teams')->delete();
+        $items = [
+            ['title'=>'Marketing'],
+            ['title'=>'Coordinator'],
+            ['title'=>'Customer Service'],
+            ['title'=>'HR'],
+            ['title'=>'Support'],
+            ['title'=>'Sales Manager'],
+            ['title'=>'Executive'],
+            ['title'=>'Supervisor'],
+            ['title'=>'System Analyst'],
+            ['title'=>'Business Analyst'],
+        ];
+        DB::table('teams')->insert($items);
 
-        \App\Models\Team::create([     
-            'title'         =>'Marketing',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Coordinator',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Customer Service',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'HR',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Support',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Sales Manager',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Executive',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Supervisor',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'System Analyst',
-        ]);
-        \App\Models\Team::create([     
-            'title'         =>'Business Analyst',
-        ]);
+
+
 
 
 

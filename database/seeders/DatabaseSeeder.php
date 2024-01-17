@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             // UserSeeder::class,
             TeamSeeder::class,
+            EventSeeder::class,
+            // GameSeeder::class,
             
         ]); 
 
