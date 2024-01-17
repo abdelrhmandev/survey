@@ -92,7 +92,7 @@
 
                         <div class="fv-row mb-3 fl">
                             <label class="required form-label" for="email">{{ __('site.email') }}</label>
-                            <input type="email" id="email" value="abdelrahman@domain.com{{ old('email') }}" name="email"
+                            <input type="email" id="email" value="{{ old('email') }}" name="email"
                                 class="form-control bg-transparent" />
 
                             @error('email')
@@ -105,7 +105,7 @@
                         <div class="fv-row mb-3 fl">
                             <label class="required form-label" for="password">{{ __('site.password') }}</label>
                             <input type="password" id="password" name="password" class="form-control bg-transparent"
-                                autocomplete="off" value="12345678" />
+                                autocomplete="off" />
 
                             @error('password')
                                 <span class="text-danger">

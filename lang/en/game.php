@@ -1,0 +1,23 @@
+<?php
+return [
+'title'                     => 'Game Title',
+'edit'                      => 'Edit Game',
+'view'                      => 'View Game',
+'add'                       => 'Add Game',
+'delete'                    => 'Delete Game',
+'select'                    => 'Select Game',
+'select_multi'              =>' Select Games',
+'parent'                    => 'Parent Game',
+'plural'                    => 'Games',
+'singular'                  => 'Game',
+'deleteMessageSuccess'      => 'Game has been deleted successfully',
+'MulideleteMessageSuccess'  => 'Games has been deleted successfully',
+'delete_selected'           => 'Delete Selected Game(s)',
+'not_delete_selected'       => 'Game(s) not deleted',
+'deleteMessageError'        => 'Error in delete Game',
+'MultideleteMessageError'   => 'Error in delete Games',
+'updateMessageSuccess'      => 'Game has been updated successfully',
+'updateMessageError'        => 'Error in update Game',
+'storeMessageSuccess'       => 'Game has been created successfully',
+'storeMessageError'         => 'Error in Store Game',
+];

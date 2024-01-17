@@ -11,10 +11,13 @@
         </div>
         @include('layouts.backend.aside.__tab-contents.includes.user')
 
+        {{-- @include('layouts.backend.aside.__tab-contents.includes.type') --}}
+
         @include('layouts.backend.aside.__tab-contents.includes.team')
 
-        {{-- @include('layouts.backend.aside.__tab-contents.includes.event')
-        @include('layouts.backend.aside.__tab-contents.includes.game') --}}
+        @include('layouts.backend.aside.__tab-contents.includes.event')
+
+        @include('layouts.backend.aside.__tab-contents.includes.game')
 
     </div>
 </div>

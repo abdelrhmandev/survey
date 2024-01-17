@@ -38,11 +38,21 @@ Route::group(
         Route::delete('teams/destroy/all', 'TeamController@destroyMultiple')->name('teams.destroyMultiple');
         ######################### End teams ##########################
 
+        ######################### Start Types ##########################
+        Route::resource('types', TypeController::class)->except('show');
+        Route::delete('types/destroy/all', 'TypeController@destroyMultiple')->name('types.destroyMultiple');
+        ######################### End Types ##########################
                 
         ######################### Start Events ##########################
-        // Route::resource('events', EventController::class)->except('show');
-        // Route::delete('Events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
+        Route::resource('events', EventController::class)->except('show');
+        Route::delete('events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
         ######################### End Events ##########################
+
+
+        ######################### Start Games ##########################
+        Route::resource('games', GameController::class)->except('show');
+        Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
+        ######################### End Games ##########################
 
         ######################### Start Profile ##########################
         Route::group(['prefix' => 'profile'], function () {

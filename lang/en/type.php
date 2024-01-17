@@ -1,0 +1,23 @@
+<?php
+return [
+'title'                     => 'Type Title',
+'edit'                      => 'Edit Type',
+'view'                      => 'View Type',
+'add'                       => 'Add Type',
+'delete'                    => 'Delete Type',
+'select'                    => 'Select Type',
+'select_multi'              =>' Select Types',
+'parent'                    => 'Parent Type',
+'plural'                    => 'Types',
+'singular'                  => 'Type',
+'deleteMessageSuccess'      => 'Type has been deleted successfully',
+'MulideleteMessageSuccess'  => 'Types has been deleted successfully',
+'delete_selected'           => 'Delete Selected Type(s)',
+'not_delete_selected'       => 'Type(s) not deleted',
+'deleteMessageError'        => 'Error in delete Type',
+'MultideleteMessageError'   => 'Error in delete Types',
+'updateMessageSuccess'      => 'Type has been updated successfully',
+'updateMessageError'        => 'Error in update Type',
+'storeMessageSuccess'       => 'Type has been created successfully',
+'storeMessageError'         => 'Error in Store Type',
+];

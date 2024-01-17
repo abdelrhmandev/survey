@@ -1,7 +1,7 @@
 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
     <span class="menu-link menu-center">
         <span class="menu-icon me-0">
-            <i class="ki-outline ki-message-question fs-2x"></i>
+            <i class="ki-outline ki-joystick fs-2x"></i>
         </span>
         <span class="menu-title">{{ __('game.plural') }}</span>
     </span>
@@ -34,6 +34,14 @@
                             <span class="bullet bullet-dot"></span>
                         </span>
                         <span class="menu-title">{{ __('game.add') }}</span>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a class="menu-link" href="{{ route('admin.types.index') }}">
+                        <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                        </span>
+                        <span class="menu-title">{{ __('type.plural') }}</span>
                     </a>
                 </div> 
             </div>

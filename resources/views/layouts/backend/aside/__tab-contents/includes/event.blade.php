@@ -1,7 +1,7 @@
 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item py-2">
     <span class="menu-link menu-center">
         <span class="menu-icon me-0">
-            <i class="ki-outline ki-message-question fs-2x"></i>
+            <i class="ki-outline ki-calendar fs-2x"></i>
         </span>
         <span class="menu-title">{{ __('event.plural') }}</span>
     </span>

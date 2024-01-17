@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 class EventSeeder extends Seeder
 {
     /**
@@ -13,16 +14,9 @@ class EventSeeder extends Seeder
     {
         DB::table('events')->delete();
         $items = [
-            ['title'=>'Downtown Contemporary Art Festival','start_date'=>'15-1-2024','end_date'=>'25-1-2024','logo'=>NULL],
-            ['title'=>'Cairo Jazz Festival','start_date'=>'20-1-2024','end_date'=>'25-1-2024',,'logo'=>NULL],
-            ['title'=>'Panorama Of the European Film','start_date'=>'22-1-2024','end_date'=>'19-2-2024',,'logo'=>NULL],
-            ['title'=>'Cairo Bites','start_date'=>'10-2-2024','end_date'=>'18-2-2024',,'logo'=>NULL],
-            ['title'=>'Egypt Fitness Fest','start_date'=>'12-2-2024','end_date'=>'18-2-2024',,'logo'=>NULL],
-            ['title'=>'Cairo Fashion Festival','start_date'=>'18-2-2024','end_date'=>'24-2-2024',,'logo'=>NULL],
-            ['title'=>'Hakawy International Festival For Children','start_date'=>'23-2-2024','end_date'=>'1-3-2024',,'logo'=>NULL],
-            ['title'=>'El Gouna Film Festival','start_date'=>'14-2-2024','end_date'=>'16-3-2024',,'logo'=>NULL],
-            ['title'=>'Kala Brunch at Four Seasons Hotel Alexandria','start_date'=>'15-3-2024','end_date'=>'25-3-2024',,'logo'=>NULL],
-            ['title'=>'Strawberry Extravaganza at Grand Nile Tower’s ','start_date'=>'27-3-2024','end_date'=>'29-3-2024',,'logo'=>NULL],
+            ['title'=>'Downtown Contemporary Art Festival','slug'=>'downtown-contemporary-art-festival','start_date'=>Carbon::parse('2024-01-11'),'end_date'=>Carbon::parse('2024-02-25'),'logo'=>'uploads/events/1.jpg','created_at'=>Carbon::now()],
+            ['title'=>'Panorama Of the European-film','slug'=>'panorama-of-the-european-film','start_date'=>Carbon::parse('2024-02-19'),'end_date'=>Carbon::parse('2024-02-21'),'logo'=>'uploads/events/2.jpg','created_at'=>Carbon::now()],
+            ['title'=>'Cairo Bites','slug'=>'cairo-bites','start_date'=>Carbon::parse('2024-03-18'),'end_date'=>Carbon::parse('2024-02-15'),'logo'=>'uploads/events/3.jpg','created_at'=>Carbon::now()],
         ];
         DB::table('events')->insert($items);
 
