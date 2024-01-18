@@ -5,6 +5,8 @@ class Team extends Model
 {
     protected $fillable = [
 		'title',
+		'slug',
+		'description'
 	];
 	
 	public $timestamps = true;

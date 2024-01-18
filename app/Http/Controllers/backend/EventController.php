@@ -7,6 +7,7 @@ use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use App\Traits\Functions;
 use App\Traits\UploadAble;
 use DataTables;
@@ -26,9 +27,16 @@ class EventController extends Controller
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
+
+
                 ->editColumn('title', function (Event $row) {
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>';
                 })
+
+                ->editColumn('image', function (Event $row) {
+                    return $this->dataTableGetImage($row, $this->ROUTE_PREFIX . '.edit');
+                })
+
                 ->editColumn('created_at', function (Event $row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
@@ -38,7 +46,7 @@ class EventController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['title', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image','title', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.events.index')) {
@@ -69,15 +77,9 @@ class EventController extends Controller
         $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
         $validated['slug'] = Str::slug($request->title);
 
-        $validated['start_date'] = trim(strpos($request->event_date_range, 0, strpos($request->event_date_range, '-')));
-
-         $end_date = '';
-        $index = strpos($request->event_date_range, '-');
-        if ($index !== false) {
-            $end_date = substr($request->event_date_range, $index + strlen('-'));
-        }
-        $validated['end_date'] = trim($end_date);
-        
+        $EventDateRange = explode(" - ", $request->event_date_range);
+        $validated['start_date'] = $EventDateRange[0];
+        $validated['end_date'] = $EventDateRange[1];
         if (Event::create($validated)) {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
@@ -87,13 +89,13 @@ class EventController extends Controller
         return response()->json($arr);
     }
 
-    public function edit(Team $team)
+    public function edit(Event $event)
     {
         if (view()->exists('backend.events.edit')) {
             $compact = [
-                'updateRoute' => route($this->ROUTE_PREFIX . '.update', $team->id),
-                'row' => $team,
-                'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $team->id),
+                'updateRoute' => route($this->ROUTE_PREFIX . '.update', $event->id),
+                'row' => $event,
+                'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $event->id),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'trans' => $this->TRANS,
             ];
@@ -102,21 +104,40 @@ class EventController extends Controller
     }
 
     /////////////
-    public function update(EventRequest $request, Team $team)
+    public function update(EventRequest $request, Event $event)
     {
-        $row = Event::find($team->id);
-        $row->title = $request->input('title');
-        if ($row->save()) {
+
+        $validated = $request->validated();
+
+        $validated['slug'] = Str::slug($request->title);
+
+
+        $EventDateRange = explode(" - ", $request->event_date_range);
+        $validated['start_date'] = $EventDateRange[0];
+        $validated['end_date'] = $EventDateRange[1];
+
+        $image = $event->image;
+        if (!empty($request->file('image'))) {
+            $event->image && File::exists(public_path($event->image)) ? $this->unlinkFile($event->image) : '';
+            $image = $this->uploadFile($request->file('image'), $this->UPLOADFOLDER);
+        }
+        if (isset($request->drop_image_checkBox) && $request->drop_image_checkBox == 1) {
+            $this->unlinkFile($event->image);
+            $image = null;
+        }
+        $validated['image'] = $image;
+
+        if (Event::findOrFail($event->id)->update($validated)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
         }
         return response()->json($arr);
     }
-    public function destroy(Team $team)
+    public function destroy(Event $event)
     {
         //SET ALL childs to NULL
-        if ($team->delete()) {
+        if ($event->delete()) {
             $arr = ['msg' => __($this->TRANS . '.' . 'deleteMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'deleteMessageError'), 'status' => false];

@@ -9,9 +9,10 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
+            $table->text('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
-            $table->string('logo',150)->nullable();
+            $table->string('image',150)->nullable();
             $table->timestamps();
         });
     }

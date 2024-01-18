@@ -65,7 +65,10 @@
                 <input class="form-check-input AA" type="checkbox" data-kt-check="true" data-kt-check-target="#{{ __($trans.".plural") }} .AA" value="1" />
               </div>
             </th>            
+            <th>{{ __('site.image') }}</th>  
             <th>{{ __('site.title') }}</th>
+            <th>{{ __('event.start_date') }}</th>
+            <th>{{ __('event.end_date') }}</th>
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-150px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -90,7 +93,11 @@
 <script>
 var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
-{ data: 'title', name: 'title',orderable: false}, // 2
+{ data: 'image', name: 'image',orderable: false}, 
+{ data: 'title', name: 'title',orderable: false}, 
+{ data: 'start_date', name: 'start_date',orderable: false}, 
+{ data: 'end_date', name: 'end_date',orderable: false},
+
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

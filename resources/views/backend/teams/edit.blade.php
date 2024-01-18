@@ -22,15 +22,17 @@
             @method('PUT')
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
                 <div class="card card-flush py-0">
-                    <div class="card-body pt-0">
-                        <div class="d-flex flex-column gap-5 mt-5">
+                    <div class="card-body pt-5">
+                        <div class="d-flex flex-column gap-5">                          
                             <div class="fv-row fl">
-                                <label class="required form-label" for="title">{{ __('site.name') }}</label>
-                                <input type="text" id="title" name="title" class="form-control mb-2"
-                                    placeholder="Example posts-create" required
-                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"
-                                    value="{{ $row->title }}" />
-                               
+                                <label class="required form-label" for="title">Title</label>
+                                <input type="text" id="title" name="title" value="{{ $row->title }}"  class="form-control mb-2" required
+                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"/>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <label class="form-label" for="description-en">Description</label>
+                                <textarea  class="form-control form-control-solid" rows="4" id="description"
+                                    name="description">{{ $row->description }}</textarea>
                             </div>
                         </div>
                     </div>

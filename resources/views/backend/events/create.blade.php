@@ -33,6 +33,13 @@
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"
                                     />
                             </div>
+
+                            <div class="d-flex flex-column">
+                                <label class="form-label" for="description-en">Description</label>
+                                <textarea  class="form-control form-control-solid" rows="4" id="description"
+                                    name="description"></textarea>
+                            </div>
+
                             <div class="fv-row fl">
                                 <label class="required form-label"
                                     for="event_date_range">{{ __('event.date_range') }}</label>
@@ -64,8 +71,9 @@
 
 $("#event_date_range").daterangepicker({
     drops: 'up',
+    separator: " - ",
     locale: {
-      format: 'DD/M/YYYY'
+      format: 'YYYY-MM-DD'
     }
 });
 KTUtil.onDOMContentLoaded(function() {

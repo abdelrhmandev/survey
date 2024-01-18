@@ -64,7 +64,8 @@ class TeamController extends Controller
         }
     }
     public function store(TeamRequest $request){
-            $validated               = $request->validated();                     
+            $validated  = $request->validated();                     
+            $validated['slug'] = Str::slug($request->title);
             if(Team::create($validated)){              
                      $arr = array('msg' => __($this->TRANS.'.'.'storeMessageSuccess'), 'status' => true);              
             }else{
@@ -93,10 +94,11 @@ class TeamController extends Controller
     /////////////
     public function update(TeamRequest $request, Team $team){
         
-        $row = Team::find($team->id);
-        $row->title = $request->input('title');
-        if ($row->save()) {
-            $arr = ['msg' => __($this->TRANS.'.updateMessageSuccess'), 'status' => true];
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($request->title);
+        if (Team::findOrFail($team->id)->update($validated)) {
+        
+        $arr = ['msg' => __($this->TRANS.'.updateMessageSuccess'), 'status' => true];
         }else{
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
         }

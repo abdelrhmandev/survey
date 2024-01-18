@@ -9,6 +9,8 @@ return [
 'select_multi'              =>' Select Events',
 'parent'                    => 'Parent Event',
 'date_range'                => 'Event Date',
+'start_date'                => 'Start Date',
+'end_date'                  => 'Start Date',
 'plural'                    => 'Events',
 'singular'                  => 'Event',
 'deleteMessageSuccess'      => 'Event has been deleted successfully',

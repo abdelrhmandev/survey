@@ -20,7 +20,8 @@ class TeamRequest extends FormRequest
     {
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
-        $rules['title'] = 'required|unique:teams,title'.$id;
+        $rules['title'] = 'required|max:255|unique:teams,title'.$id;
+        $rules['description'] = 'nullable';
         return $rules; 
 
     }

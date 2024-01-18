@@ -8,9 +8,13 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug');
+            $table->string('image',150)->nullable();
+            $table->text('description')->nullable();
             $table->integer('attendees');
             $table->enum('play_with_team', ['0','1'])->default(1);
             $table->integer('team_players')->nullable();
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
             $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
             $table->timestamps();
         });

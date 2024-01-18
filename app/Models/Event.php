@@ -8,7 +8,7 @@ class Event extends Model
 		'slug',
 		'start_date',
 		'end_date',
-		'logo',		
+		'image',		
 	];
 	
 	public $timestamps = true;
