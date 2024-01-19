@@ -9,6 +9,8 @@ return [
 'select_multi'              =>' Select Games',
 'parent'                    => 'Parent Game',
 'plural'                    => 'Games',
+'attendees'                 => 'Attendees',
+'team_players'              =>'Team Players',
 'singular'                  => 'Game',
 'deleteMessageSuccess'      => 'Game has been deleted successfully',
 'MulideleteMessageSuccess'  => 'Games has been deleted successfully',

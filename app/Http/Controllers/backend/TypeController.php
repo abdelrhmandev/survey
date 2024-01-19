@@ -29,15 +29,15 @@ class TypeController extends Controller
                 ->addIndexColumn()
 
 
-                ->editColumn('title', function (Event $row) {
+                ->editColumn('title', function ($row) {
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>';
                 })
 
-                ->editColumn('image', function (Event $row) {
+                ->editColumn('image', function ($row) {
                     return $this->dataTableGetImage($row, $this->ROUTE_PREFIX . '.edit');
                 })
 
-                ->editColumn('created_at', function (Event $row) {
+                ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
                 ->filterColumn('created_at', function ($query, $keyword) {
@@ -71,7 +71,7 @@ class TypeController extends Controller
             return view('backend.types.create', $compact);
         }
     }
-    public function store(EventRequest $request)
+    public function store(TypeRequest $request)
     {
         $validated = $request->validated();
         $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
@@ -87,12 +87,12 @@ class TypeController extends Controller
         return response()->json($arr);
     }
 
-    public function edit(Event $event)
+    public function edit(Type $type)
     {
         if (view()->exists('backend.types.edit')) {
             $compact = [
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $type->id),
-                'row' => $event,
+                'row' => $type,
                 'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $type->id),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'trans' => $this->TRANS,
@@ -102,7 +102,7 @@ class TypeController extends Controller
     }
 
     /////////////
-    public function update(EventRequest $request, Event $event)
+    public function update(TypeRequest $request, Type $type)
     {
 
         $validated = $request->validated();
@@ -129,7 +129,7 @@ class TypeController extends Controller
         }
         return response()->json($arr);
     }
-    public function destroy(Event $event)
+    public function destroy(Type $type)
     {
         //SET ALL childs to NULL
         if ($type->delete()) {

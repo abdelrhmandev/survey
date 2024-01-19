@@ -1,10 +1,17 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-class GameType extends Model
+class Type extends Model
 {
+
+	protected $table = 'types';
+
+
     protected $fillable = [
 		'title',
+		'slug',
+		'image',
+		'description'
 	];
 	
 	public $timestamps = true;

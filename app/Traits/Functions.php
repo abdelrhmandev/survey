@@ -38,7 +38,7 @@ trait Functions
 
 
     public function dataTableGetCreatedat($date){
-
+        $shortDate = \Carbon\Carbon::parse($date)->diffForHumans();
         $div = "<div class=\"font-weight-bolder text-primary mb-0\">".\Carbon\Carbon::parse($date)->format('d/m/Y').'</div><div class=\"text-muted\">'.''."</div>";
         return [                    
             'display' => $div, 

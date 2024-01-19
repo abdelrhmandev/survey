@@ -12,7 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable , HasRoles;
     
-   
+
+    protected $table = 'users';
+
     protected $guard_name = 'admin';
     protected $fillable = [
         'name',

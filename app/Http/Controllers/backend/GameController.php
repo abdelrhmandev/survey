@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers\backend;
-use App\Http\Requests\backend\EventRequest;
+use App\Http\Requests\backend\GameRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Game;
+use App\Models\Type;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -11,29 +13,24 @@ use Illuminate\Support\Facades\File;
 use App\Traits\Functions;
 use App\Traits\UploadAble;
 use DataTables;
-class EventController extends Controller
+class GameController extends Controller
 {
     use UploadAble, Functions;
     public function __construct()
     {
-        $this->ROUTE_PREFIX = 'admin.events';
-        $this->TRANS = 'event';
-        $this->UPLOADFOLDER = 'events';
+        $this->ROUTE_PREFIX = 'admin.games';
+        $this->TRANS = 'game';
+        $this->UPLOADFOLDER = 'games';
     }
 
     public function index(Request $request)
     {
-        $model = Event::select('*');
+        $model = Game::select('*');
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
-
-
                 ->editColumn('title', function ($row) {
-                    $EventHit = '';
-                    if($row->end_date < date('Y-m-d')) $EventHit = "<div class=\"text-danger\">Expired</div>";
-                    
-                    return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>'.$EventHit;
+                    return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>';                    
                 })
 
                 ->editColumn('image', function ($row) {
@@ -62,7 +59,7 @@ class EventController extends Controller
                 ->rawColumns(['image','title','start_date', 'end_date','actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
-        if (view()->exists('backend.events.index')) {
+        if (view()->exists('backend.games.index')) {
             $compact = [
                 'trans' => $this->TRANS,
                 'createRoute' => route($this->ROUTE_PREFIX . '.create'),
@@ -70,30 +67,30 @@ class EventController extends Controller
                 'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
             ];
-            return view('backend.events.index', $compact);
+            return view('backend.games.index', $compact);
         }
     }
     public function create()
     {
-        if (view()->exists('backend.events.create')) {
+        if (view()->exists('backend.games.create')) {
             $compact = [
+                'types' =>Type::select('id','title')->get(),
+                'events' =>Event::select('id','title')->where('start_date','>',date('Y-m-d'))->get(),
                 'trans' => $this->TRANS,
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
             ];
-            return view('backend.events.create', $compact);
+            return view('backend.games.create', $compact);
         }
     }
-    public function store(EventRequest $request)
+    public function store(GameRequest $request)
     {
         $validated = $request->validated();
         $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
         $validated['slug'] = Str::slug($request->title);
 
-        $EventDateRange = explode(" - ", $request->event_date_range);
-        $validated['start_date'] = $EventDateRange[0];
-        $validated['end_date'] = $EventDateRange[1];
-        if (Event::create($validated)) {
+
+        if (Game::create($validated)) {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageError'), 'status' => false];
@@ -104,7 +101,7 @@ class EventController extends Controller
 
     public function edit(Event $event)
     {
-        if (view()->exists('backend.events.edit')) {
+        if (view()->exists('backend.games.edit')) {
             $compact = [
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $event->id),
                 'row' => $event,
@@ -112,12 +109,12 @@ class EventController extends Controller
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'trans' => $this->TRANS,
             ];
-            return view('backend.events.edit', $compact);
+            return view('backend.games.edit', $compact);
         }
     }
 
     /////////////
-    public function update(EventRequest $request, Event $event)
+    public function update(GameRequest $request, Event $event)
     {
 
         $validated = $request->validated();
@@ -140,7 +137,7 @@ class EventController extends Controller
         }
         $validated['image'] = $image;
 
-        if (Event::findOrFail($event->id)->update($validated)) {
+        if (Game::findOrFail($event->id)->update($validated)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
@@ -160,7 +157,7 @@ class EventController extends Controller
     public function destroyMultiple(Request $request)
     {
         $ids = explode(',', $request->ids);
-        $items = Event::whereIn('id', $ids); // Check
+        $items = Game::whereIn('id', $ids); // Check
         if ($items->delete()) {
             $arr = ['msg' => __($this->TRANS . '.' . 'MulideleteMessageSuccess'), 'status' => true];
         } else {
