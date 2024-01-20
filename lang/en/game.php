@@ -12,6 +12,7 @@ return [
 'attendees'                 => 'Attendees',
 'team_players'              =>'Team Players',
 'singular'                  => 'Game',
+'play_with_team'            =>'Play With Team',
 'deleteMessageSuccess'      => 'Game has been deleted successfully',
 'MulideleteMessageSuccess'  => 'Games has been deleted successfully',
 'delete_selected'           => 'Delete Selected Game(s)',

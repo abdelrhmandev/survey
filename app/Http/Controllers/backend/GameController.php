@@ -25,7 +25,7 @@ class GameController extends Controller
 
     public function index(Request $request)
     {
-        $model = Game::select('*');
+        $model = Game::select('*')->with(['type','event']);
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
@@ -37,14 +37,32 @@ class GameController extends Controller
                     return $this->dataTableGetImage($row, $this->ROUTE_PREFIX . '.edit');
                 })
 
-                ->editColumn('start_date', function ($row) {
-                    return $div = "<div class=\"font-weight-bolder text-success mb-0\">".Carbon::parse($row->start_date)->format('d/m/Y').'</div><div class=\"text-muted\">'.Carbon::parse($row->start_date)->diffForHumans()."</div>";
+
+                ->editColumn('attendees', function ($row) {
+                    return "<span class=\"text-gray-800 fw-bolder fs-3\">".$row->attendees."</span>";
                 })
 
-                ->editColumn('end_date', function ($row) {
-                    return $div = "<div class=\"font-weight-bolder text-danger mb-0\">".Carbon::parse($row->end_date)->format('d/m/Y').'</div><div class=\"text-muted\">'.Carbon::parse($row->end_date)->diffForHumans()."</div>";
+                
+
+                ->editColumn('play_with_team', function ($row) {
+
+                    return "<div class=\"badge py-3 px-4 fs-7 badge-light-".($row->play_with_team == '1' ? 'primary':'danger')."\"><span class=\"text-".($row->play_with_team == '1' ? 'sccuess':'danger')."\">".($row->play_with_team == '1' ? 'Yes':'No')."</span></div>";
                 })
 
+                ->editColumn('team_players', function ($row) {
+
+                    return "<span class=\"text-gray-800 fw-bolder fs-3\">".($row->play_with_team == '1' && $row->team_players ? $row->team_players:'-')."</span>";
+                })
+
+
+                ->editColumn('event_id', function ($row) {
+                    return $row->event->title;
+                })
+
+                ->editColumn('type_id', function ($row) {
+                    return $row->type->title;
+
+                })
 
 
                 ->editColumn('created_at', function ($row) {
@@ -56,7 +74,7 @@ class GameController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['image','title','start_date', 'end_date','actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image','title','attendees','play_with_team', 'team_players','actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {

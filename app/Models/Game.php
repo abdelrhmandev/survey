@@ -22,6 +22,12 @@ class Game extends Model
 	
 
 
+	public function event(){
+        return $this->belongsTo(Event::class); 
+    }
+	public function type(){
+        return $this->belongsTo(Type::class); 
+    }
  
 	
 }

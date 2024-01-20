@@ -44,7 +44,7 @@
                                 <label class="required form-label"
                                     for="event">{{ __('event.select') }}</label>
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                                    data-placeholder="Select a event" name="event_id">
+                                    data-placeholder="{{ __('event.select') }}" name="event_id">
                                     <option value="">{{ __('event.select') }}</option>
                                     @foreach ($events as $event)
                                         <option value="{{ $event->id }}">{{ $event->title }}</option>
@@ -71,7 +71,7 @@
                                 <label class="required form-label"
                                     for="type">{{ __('type.select') }}</label>
                                     <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
-                                    data-placeholder="Select a Type" name="type_id">
+                                    data-placeholder="{{ __('type.select') }}" name="type_id">
                                     <option value="">{{ __('type.select') }}</option>
                                     @foreach ($types as $type)
                                         <option value="{{ $type->id }}">{{ $type->title }}</option>
@@ -92,12 +92,9 @@
                             <div class="fv-row fl" id="team_playersDiv">
                                 <label class="required form-label"
                                     for="team_players">{{ __('game.team_players') }}</label>
-                                <input placeholder="{{ __('game.team_players') }}" id="team_players"
-                                    name="team_players" class="form-control mb-2" required
-                                    data-fv-numeric="true"
-                                    type="textbox" 
-                                    data-fv-numeric___message="Team players must be a number"
-                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'Team Players' . '&nbsp;']) }}"
+                                <input type="textbox" placeholder="{{ __('game.team_players') }}" 
+                                    id="team_players"
+                                    name="team_players" class="form-control mb-2" 
                                     />
                             </div>
                         </div>
@@ -121,14 +118,6 @@
 <script>
 
 
-$("#event_date_range").daterangepicker({
-    drops: 'up',
-    separator: " - ",
-    locale: {
-      format: 'YYYY-MM-DD'
-    }
-});
-
 $('#team_playersDiv').hide();
 $('input[type="checkbox"]').on('change', function() {
 if($("#play_with_team").is(':checked')){
@@ -138,6 +127,36 @@ if($("#play_with_team").is(':checked')){
 }
 });
 
+///////////////////////////////////
+document.addEventListener('DOMContentLoaded', function (e) {
+
+    
+    FormValidation.formValidation(document.getElementById('AddGame'), {
+        fields: {
+            team_players: {
+                validators: {
+                    callback: {
+                        message: 'ssssss answer',
+                        callback: function (input) {
+                            return input.value;
+                        },
+                    },
+                },
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap: new FormValidation.plugins.Bootstrap(),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            icon: new FormValidation.plugins.Icon({
+                valid: 'fa fa-check',
+                invalid: 'fa fa-times',
+                validating: 'fa fa-refresh',
+            }),
+        },
+    });
+});
+//////////////////////////////////////
 
 
 KTUtil.onDOMContentLoaded(function() {
