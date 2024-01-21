@@ -67,9 +67,11 @@
     <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
     <script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
     <script src="{{ asset('assets/backend/js/custom/deleteConfirmSwal.js') }}"></script>
+
     <script>
         $("#event_date_range").daterangepicker({
             drops: 'up',
+            minDate:new Date(),
             separator: " - ",
             locale: {
                 format: 'YYYY-MM-DD'

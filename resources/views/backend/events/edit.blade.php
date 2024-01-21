@@ -74,6 +74,7 @@
         var end_date = '{{ $row->end_date }}';
         $('#event_date_range').daterangepicker({
             drops: 'up',
+            minDate:new Date(),
             separator: " - ",
             locale: {
                 format: 'YYYY-MM-DD'

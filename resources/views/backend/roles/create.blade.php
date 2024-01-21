@@ -33,7 +33,7 @@
 
 
                   
-                    <div class="card card-flush py-4">
+                    {{--  <div class="card card-flush py-4">
                         <div class="card-header">
                             <div class="card-title">
                                 <h2>{{ __('permission.plural')}}</h2>
@@ -51,7 +51,7 @@
                                     @endforeach
                                 </div>       
                         </div>
-                    </div>                    
+                    </div>                      --}}
                 </div>
                 <x-backend.btns.button />
             </div>

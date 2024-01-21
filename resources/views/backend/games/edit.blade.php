@@ -19,6 +19,7 @@
             data-form-agree-label="{{ __('site.agree') }}" 
             enctype="multipart/form-data">            
             <input type="hidden" name="id" value="{{ $row->id }}" />
+            <input type="hidden" id="title_{{ app()->getLocale() }}" value="{{ $row->comment }}"/>
             @method('PUT') 
             
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">

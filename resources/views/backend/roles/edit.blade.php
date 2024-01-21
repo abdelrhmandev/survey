@@ -29,7 +29,6 @@
                                 <input type="text" id="name" name="name" class="form-control mb-2" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'name' . '&nbsp;']) }}"
                                     value="{{ $row->name }}" />
-                                <small class="fs-7 fw-semibold text-danger">English Only No Spaces</small>
                             </div>
                         </div>
                     </div>
@@ -58,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card card-flush py-4">
+                    {{--  <div class="card card-flush py-4">
                         <div class="card-header">
                             <div class="card-title">
                                 <h2>{{ __('permission.plural') }} [{{ $row->permissions->count() }}]</h2>
@@ -79,7 +78,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div>  --}}
                 </div>
                 <x-backend.btns.button :destroyRoute="$destroyRoute" :redirectRoute="$redirect_after_destroy" :row="$row" :trans="$trans" />
             </div>

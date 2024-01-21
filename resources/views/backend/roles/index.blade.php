@@ -68,7 +68,7 @@
             </th>            
             <th class="w-200px">{{ __('site.title') }}</th>  
             <th class="w-500px">{{ __('permission.plural') }}</th>                                
-            <th class="w-300px">{{ __('role.associated_users') }}</th>
+            {{--  <th class="w-300px">{{ __('role.associated_users') }}</th>  --}}
             <th class="text-primary w-100px">{{ __('site.created_at') }}</th>
             <th class="text-end min-w-100px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -91,7 +91,7 @@
 var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'name', name: 'name',orderable: false}, // 2
-{ data: 'permissions', name: 'permissions',orderable: false,searchable: false},
+//{ data: 'permissions', name: 'permissions',orderable: false,searchable: false},
 { data: 'associated_users', name: 'associated_users',orderable: false,searchable: false},
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    

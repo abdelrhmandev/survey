@@ -43,24 +43,24 @@
                 <span class="menu-bullet">
                     <span class="bullet bullet-dot"></span>
                 </span>
-                <span class="menu-title">{{ __('permission.plural') }}</span>
+                <span class="menu-title">{{ __('team.plural') }}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-accordion">
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.permissions.index') }}">
+                    <a class="menu-link" href="{{ route('admin.teams.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">{{ __('site.all') }} {{ __('permission.plural') }}</span>
+                        <span class="menu-title">{{ __('site.all') }} {{ __('team.plural') }}</span>
                     </a>
                 </div> 
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.permissions.create') }}">
+                    <a class="menu-link" href="{{ route('admin.teams.create') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">{{ __('permission.add') }}</span>
+                        <span class="menu-title">{{ __('team.add') }}</span>
                     </a>
                 </div>
             </div>
