@@ -21,6 +21,7 @@ class TypeRequest extends FormRequest
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
         $rules['title'] = 'required|max:255|unique:events,title'.$id;
+        $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB
         $rules['description'] = 'nullable';
         return $rules; 
 

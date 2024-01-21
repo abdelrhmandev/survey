@@ -94,7 +94,7 @@ class UserController extends Controller
                     $avatar = !empty($row->avatar) ? asset($row->avatar) : asset('assets/backend/media/avatars/blank.png');
                     return "<div class=\"d-flex align-items-center\">
                     <div class=\"symbol symbol-circle symbol-50px overflow-hidden me-3\">
-                        <a href=\"#\">
+                        <a href=".route('admin.users.edit',$row->id).">
                             <div class=\"symbol-label\">
                                 <img src=" .
                         $avatar .
@@ -105,8 +105,7 @@ class UserController extends Controller
                         </a>
                     </div>
                     <div class=\"d-flex flex-column\">
-                        <a href=" .
-                        '#' .
+                        <a href=" .route('admin.users.edit',$row->id).
                         " class=\"text-gray-800 text-hover-primary mb-1\">" .
                         $row->name .
                         "</a>

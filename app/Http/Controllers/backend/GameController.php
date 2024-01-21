@@ -46,7 +46,7 @@ class GameController extends Controller
 
                 ->editColumn('play_with_team', function ($row) {
 
-                    return "<div class=\"badge py-3 px-4 fs-7 badge-light-".($row->play_with_team == '1' ? 'primary':'danger')."\"><span class=\"text-".($row->play_with_team == '1' ? 'sccuess':'danger')."\">".($row->play_with_team == '1' ? 'Yes':'No')."</span></div>";
+                    return "<div class=\"badge py-3 px-4 fs-7 badge-light-".($row->play_with_team == '1' ? 'success':'danger')."\"><span class=\"text-".($row->play_with_team == '1' ? 'sccuess':'danger')."\">".($row->play_with_team == '1' ? 'Yes':'No')."</span></div>";
                 })
 
                 ->editColumn('team_players', function ($row) {
@@ -56,12 +56,11 @@ class GameController extends Controller
 
 
                 ->editColumn('event_id', function ($row) {
-                    return $row->event->title;
+                    return  '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
                 })
 
                 ->editColumn('type_id', function ($row) {
-                    return $row->type->title;
-
+                     return  '<a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
                 })
 
 
@@ -74,7 +73,7 @@ class GameController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['image','title','attendees','play_with_team', 'team_players','actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image','title','attendees','type_id','event_id','play_with_team', 'team_players','actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
