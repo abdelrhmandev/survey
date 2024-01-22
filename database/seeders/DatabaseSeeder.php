@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             EventSeeder::class,
             GameSeeder::class,
+            QuestionSeeder::class,
+            ChoiceSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
             

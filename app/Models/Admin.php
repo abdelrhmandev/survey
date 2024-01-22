@@ -8,14 +8,14 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Notifications\AdminPasswordResetNotification as ResetPasswordNotification;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable , HasRoles;
     
 
     protected $table = 'users';
 
-    // protected $guard_name = 'admin';
+    protected $guard_name = 'admin';
     protected $fillable = [
         'name',
         'username',
