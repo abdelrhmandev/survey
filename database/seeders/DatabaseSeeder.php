@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             ChoiceSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
-            
+            QuestionCorrectAnswerSeeder::class,
         ]); 
 
     }

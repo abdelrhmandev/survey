@@ -2,17 +2,16 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreateChoicesTable extends Migration
+class CreateQuestionCorrectAnswerTable extends Migration
 {
     public function up(){
-        Schema::create('choices', function (Blueprint $table) {
+        Schema::create('question_correct_answer', function (Blueprint $table) {
             $table->id();
-            $table->string('title');           
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreignId('correct_choice_id')->constrained('choices')->onDelete('cascade');
         });
     }
     public function down(){
-        Schema::dropIfExists('choices');
+        Schema::dropIfExists('question_correct_answer');
     }
 }

@@ -16,8 +16,8 @@ class GameSeeder extends Seeder
         ///// 1///////
         $items = [
             [
-                'title' => 'Foot Ball',
-                'slug' => 'foot-ball',
+                'title' => 'Nintendo',
+                'slug' => 'nintendo',
                 'event_id'=>'10',
                 'attendees' => '4',
                 'type_id'=>'10',
@@ -29,8 +29,8 @@ class GameSeeder extends Seeder
             ],
             ///// 2///////
             [
-                'title' => 'Fortnite',
-                'slug' => 'fortnite',
+                'title' => 'Brave New World',
+                'slug' => 'brave-new-world',
                 'event_id'=>'1',
                 'attendees' => '4',
                 'type_id'=>'6',
@@ -43,8 +43,8 @@ class GameSeeder extends Seeder
 
             ///// 3 ///////
             [
-                'title' => 'Red Dead Redemption',
-                'slug' => 'red-dead-redemption',
+                'title' => 'Marvel comics anti-hero',
+                'slug' => 'marvel-comics-anti-hero',
                 'event_id'=>'2',
                 'attendees' => '80',
                 'type_id'=>'5',
@@ -57,8 +57,8 @@ class GameSeeder extends Seeder
 
             ///////4/////
             [
-                'title' => 'Baket Ball',
-                'slug' => 'baket-ball',
+                'title' => 'Prehistoric Party',
+                'slug' => 'prehistoric-party',
                 'event_id'=>'1',
                 'attendees' => '4',
                 'type_id'=>'3',
@@ -71,8 +71,8 @@ class GameSeeder extends Seeder
 
             //////5//////
             [
-                'title' => 'Overwatch',
-                'slug' => 'overwatch',
+                'title' => 'Hearthstone',
+                'slug' => 'hearthstone',
                 'event_id'=>'7',
                 'attendees' => '23',
                 'type_id'=>'6',
@@ -85,8 +85,8 @@ class GameSeeder extends Seeder
 
             ///////6/////
             [
-                'title' => 'Metroid Prime',
-                'slug' => 'metroid-prime',
+                'title' => 'Arkham Origins Blackgate',
+                'slug' => 'arkham-origins-blackgate',
                 'event_id'=>'8',
                 'attendees' => '17',
                 'type_id'=>'8',
@@ -99,8 +99,8 @@ class GameSeeder extends Seeder
 
             ///////7/////
             [
-                'title' => 'Apex Legends',
-                'slug' => 'apex-legends',
+                'title' => 'Reaper of Souls',
+                'slug' => 'reaper-of-souls',
                 'event_id'=>'4',
                 'attendees' => '20',
                 'type_id'=>'4',
@@ -113,8 +113,8 @@ class GameSeeder extends Seeder
 
             ///////8/////
             [
-                'title' => 'Bio Shock',
-                'slug' => 'bio-shock',
+                'title' => 'Stick of Truth',
+                'slug' => 'stick-of-truth',
                 'event_id'=>'1',
                 'attendees' => '4',
                 'type_id'=>'6',
@@ -127,8 +127,8 @@ class GameSeeder extends Seeder
 
             //////9//////
             [
-                'title' => 'Half Life 2',
-                'slug' => 'half-ife-2',
+                'title' => 'Mario',
+                'slug' => 'mario',
                 'event_id'=>'10',
                 'attendees' => '150',
                 'type_id'=>'9',
@@ -141,8 +141,8 @@ class GameSeeder extends Seeder
 
             ///////10/////
             [
-                'title' => 'Blackjack',
-                'slug' => 'black-jack',
+                'title' => 'Mascots',
+                'slug' => 'mascots',
                 'event_id'=>'4',
                 'attendees' => '45',
                 'type_id'=>'9',
@@ -152,6 +152,9 @@ class GameSeeder extends Seeder
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
                 'created_at' => Carbon::now(),
             ],
+
+ 
+            
         ];
         DB::table('games')->insert($items);
     }
