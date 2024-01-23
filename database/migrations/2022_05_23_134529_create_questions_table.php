@@ -10,6 +10,7 @@ class CreateQuestionsTable extends Migration
             $table->string('title');
             $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
             $table->integer('score');
+            $table->integer('time');
             $table->string('difficulty');
             $table->timestamps();
         });

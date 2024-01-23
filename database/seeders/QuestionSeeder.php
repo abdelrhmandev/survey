@@ -20,16 +20,17 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'normal',
                 'score' => '20',
                 'game_id' => '1',
+                'time' => '2',
                 'created_at' => Carbon::now(),
             ],
             ///////////////////////////////////////
-
 
             [
                 'title' => 'Brave New World" was a 2013 expansion to what popular strategy video game?',
                 'difficulty' => 'hard',
                 'score' => '30',
                 'game_id' => '2',
+                'time' => '4',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -37,6 +38,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '40',
                 'game_id' => '3',
+                'time' => '3',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -44,6 +46,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '15',
                 'game_id' => '4',
+                'time' => '5',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -51,6 +54,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '15',
                 'game_id' => '5',
+                'time' => '6',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -58,6 +62,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'medium',
                 'score' => '25',
                 'game_id' => '6',
+                'time' => '2',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -65,6 +70,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '35',
                 'game_id' => '7',
+                'time' => '3',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -72,6 +78,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '10',
                 'game_id' => '8',
+                'time' => '5',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -79,6 +86,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '5',
                 'game_id' => '9',
+                'time' => '6',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -86,20 +94,18 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'hard',
                 'score' => '20',
                 'game_id' => '10',
+                'time' => '7',
                 'created_at' => Carbon::now(),
             ],
-
-
 
             [
                 'title' => 'Which character is the mascot of Nintendo ?',
                 'difficulty' => 'normal',
                 'score' => '40',
                 'game_id' => '1',
+                'time' => '14',
                 'created_at' => Carbon::now(),
             ],
-
-
         ];
         DB::table('questions')->insert($items);
     }
