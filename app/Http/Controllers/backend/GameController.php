@@ -65,7 +65,16 @@ class GameController extends Controller
                     $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') LIKE ?", ["%$keyword%"]);
                 })
                 ->editColumn('actions', function ($row) {
-                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                    $addQestion =
+                        '<a href=' .
+                        route('admin.Q', $row->id) .
+                        " class=\"btn btn-sm btn-light-primary\">
+                    <i class=\"ki-outline ki-message-question fs-3\"></i>" .
+                        __('question.add') .
+                        "</a>
+                ";
+
+                    return $addQestion . $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
                 ->rawColumns(['image', 'title', 'attendees', 'type_id', 'event_id', 'play_with_team', 'team_players', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
@@ -104,23 +113,20 @@ class GameController extends Controller
 
         //Draw Game Team Records
 
-
         $query = Game::create($validated);
 
         if ($query) {
-
-            if($request->play_with_team && $request->play_with_team == '1'){            
-                $TeamRecords = ceil($validated['attendees']/$validated['team_players']);
+            if ($request->play_with_team && $request->play_with_team == '1') {
+                $TeamRecords = ceil($validated['attendees'] / $validated['team_players']);
                 $gameTeamInfo = [];
-                for($i = 1; $i<=$TeamRecords ;$i++){
-                    $gameTeamInfo[$i]['game_id']    = $query->id;
-                    $gameTeamInfo[$i]['event_id']   = $validated['event_id'];
-                    $gameTeamInfo[$i]['type_id']    = $validated['type_id'];
-                    $gameTeamInfo[$i]['team_title'] = 'Team '.$i;
+                for ($i = 1; $i <= $TeamRecords; $i++) {
+                    $gameTeamInfo[$i]['game_id'] = $query->id;
+                    $gameTeamInfo[$i]['event_id'] = $validated['event_id'];
+                    $gameTeamInfo[$i]['type_id'] = $validated['type_id'];
+                    $gameTeamInfo[$i]['team_title'] = 'Team ' . $i;
                 }
                 GameTeam::insert($gameTeamInfo);
             }
-
 
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {

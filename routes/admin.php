@@ -31,7 +31,10 @@ Route::group(
 
 
         
-            Route::resource('questions', QuestionController::class)->except('show');
+            Route::resource('questions', QuestionController::class)->except('show');            
+            Route::get('questions/create/{id}', 'QuestionController@create')->name('Q');
+
+
             Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
             ######################### End Questions ##########################
 
