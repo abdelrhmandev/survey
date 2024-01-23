@@ -1,0 +1,23 @@
+<?php
+return [
+'title'                     => 'Question Title',
+'edit'                      => 'Edit Question',
+'view'                      => 'View Question',
+'add'                       => 'Add Question',
+'delete'                    => 'Delete Question',
+'select'                    => 'Select Question',
+'select_multi'              =>' Select Questions',
+'parent'                    => 'Parent Question',
+'plural'                    => 'Questions',
+'singular'                  => 'Question',
+'deleteMessageSuccess'      => 'Question has been deleted successfully',
+'MulideleteMessageSuccess'  => 'Questions has been deleted successfully',
+'delete_selected'           => 'Delete Selected Question(s)',
+'not_delete_selected'       => 'Question(s) not deleted',
+'deleteMessageError'        => 'Error in delete Question',
+'MultideleteMessageError'   => 'Error in delete Questions',
+'updateMessageSuccess'      => 'Question has been updated successfully',
+'updateMessageError'        => 'Error in update Question',
+'storeMessageSuccess'       => 'Question has been created successfully',
+'storeMessageError'         => 'Error in Store Question',
+];

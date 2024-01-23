@@ -27,11 +27,20 @@ Route::group(
         Route::delete('permissions/destroy/all', 'PermissionController@destroyMultiple')->name('permissions.destroyMultiple');
         ######################### End Permissions ##########################
 
-        ######################### Start Games ##########################
-        // Route::resource('games', GameController::class)->except('show');
-        // Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
-        ######################### End Games ##########################
+        ######################### Start Questions ##########################
 
+
+        
+            Route::resource('questions', QuestionController::class)->except('show');
+            Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
+            ######################### End Questions ##########################
+
+            ######################### Start choices ##########################
+            Route::resource('choices', ChoiceController::class)->except('show');
+            Route::delete('choices/destroy/all', 'ChoiceController@destroyMultiple')->name('choices.destroyMultiple');
+            ######################### End Choices ##########################
+
+        
 
         ######################### Start teams ##########################
         Route::resource('teams', TeamController::class)->except('show');
