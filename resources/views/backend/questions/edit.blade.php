@@ -1,63 +1,101 @@
 @extends('backend.base.base')
-@section('title', __($trans . '.plural').' - '.__($trans .'.edit'))
+@section('title', __($trans . '.plural') . ' - ' . __($trans . '.edit'))
 @section('breadcrumbs')
-<h1 class="d-flex align-items-center text-gray-900 fw-bold my-1 fs-3">{{ __($trans . '.plural') }}</h1>
-<span class="h-20px border-gray-200 border-start mx-3"></span>
-<ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
-    <li class="breadcrumb-item text-muted"><a href="{{ route('admin.dashboard') }}" class="text-muted text-hover-primary">{{ __('site.home') }}</a></li>
-    <li class="breadcrumb-item"><span class="bullet bg-gray-200 w-5px h-2px"></span></li>
-    <li class="breadcrumb-item text-dark">{{ __($trans . '.edit') }}</li>
-</ul>
+    <h1 class="d-flex align-items-center text-gray-900 fw-bold my-1 fs-3">{{ __($trans . '.plural') }}</h1>
+    <span class="h-20px border-gray-200 border-start mx-3"></span>
+    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+        <li class="breadcrumb-item text-muted"><a href="{{ route('admin.dashboard') }}"
+                class="text-muted text-hover-primary">{{ __('site.home') }}</a></li>
+        <li class="breadcrumb-item"><span class="bullet bg-gray-200 w-5px h-2px"></span></li>
+        <li class="breadcrumb-item text-dark">{{ __($trans . '.edit') }}</li>
+    </ul>
 @stop
-@section('style') 
-<link href="{{ asset('assets/backend/css/custom.css') }}" rel="stylesheet" type="text/css" />
+@section('style')
+    <link href="{{ asset('assets/backend/css/custom.css') }}" rel="stylesheet" type="text/css" />
 @stop
 @section('content')
     <div id="kt_content_container" class="container-xxl">
-        <form id="Edit{{ $trans }}" data-route-url="{{ $updateRoute }}" class="form d-flex flex-column flex-lg-row"            
-            data-form-submit-error-message="{{ __('site.form_submit_error')}}"
-            data-form-agree-label="{{ __('site.agree') }}" 
-            enctype="multipart/form-data">            
+        <form id="Edit{{ $trans }}" data-route-url="{{ $updateRoute }}" class="form d-flex flex-column flex-lg-row"
+            data-form-submit-error-message="{{ __('site.form_submit_error') }}"
+            data-form-agree-label="{{ __('site.agree') }}" enctype="multipart/form-data">
             <input type="hidden" name="id" value="{{ $row->id }}" />
-            <input type="hidden" id="title_{{ app()->getLocale() }}" value="{{ $row->comment }}"/>
-            @method('PUT') 
-            
+            @method('PUT')
+
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
-                <!--begin::General options-->
-                
+
                 <div class="card card-flush py-0">
-                    <div class="card-body pt-5">                        
+                    <div class="card-body pt-5">
                         <div class="d-flex flex-column gap-5">
-                            <div class="fv-row fl">
-                                <label class="required form-label"
-                                    for="title">{{ __('site.title') }}</label>
-                                <input placeholder="{{ __('site.title') }}" type="text" id="title_"
-                                    name="title" class="form-control mb-2" value="{{ $row->title }}" required
-                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"
-                                    />
-                            </div>
-
-                            <div class="d-flex flex-column">
-                                <label class="form-label" for="description-en">Description</label>
-                                <textarea  class="form-control form-control-solid" rows="4" id="description"
-                                    name="description">{{ $row->description }}</textarea>
-                            </div>
 
                             <div class="fv-row fl">
-                                <label class="required form-label"
-                                    for="event_date_range">{{ __('event.date_range') }}</label>
-                                <input placeholder="{{ __('event.date_range') }}" type="text" id="event_date_range"
-                                    name="event_date_range" class="form-control mb-2" required
-                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'event date range' . '&nbsp;']) }}"
-                                    />
-                            </div>                               
+                                <label class="required form-label" for="game">{{ __('game.select') }}</label>
+                                <select class="form-select form-select-solid" data-control="select2"
+                                    data-hide-search="false" data-placeholder="{{ __('game.select') }}" name="game_id">
+                                    <option value="">{{ __('game.select') }}</option>
+                                    @foreach ($games as $game)
+                                        <option value="{{ $game->id }}"
+                                            {{ $game->id == $row->game_id ? 'selected' : '' }}>
+                                            {{ $game->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="fv-row fl">
+                                <label class="required form-label" for="title">{{ __('question.title') }}</label>
+                                <input placeholder="Example : Which country is hosting the 1998 World Cup" type="text"
+                                    id="title" value="{{ $row->title }}" name="title" class="form-control mb-2"
+                                    required
+                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}" />
+                            </div>
+
+                            <div class="fs-3 fw-bold mb-n2">Question Answers With Correct Selected Annswer</div>
+                            @foreach ($row->answers as $answer)
+                                {{ __('answer.singular') }} {{ $loop->index + 1 }}
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <label class="form-check form-check-custom form-check-solid me-1">
+                                            <input class="form-check-input sm" id="CorrectAnswer{{ $answer->id }}" value="{{ $answer->id }}" type="radio"
+                                                name="answer" {{ $answer->id == $row->correctAnswer->correct_answer_id ? 'checked=checked' : '' }}>
+                                        </label>
+                                    </span>
+                                    <input type="text" value="{{ $answer->title }}" id="answerText{{ $answer->id }}"
+                                        name="answers[{{ $answer->id }}]" class="form-control mb"/>
+
+                                </div>
+                            @endforeach
+
+                            <div class="fs-3 fw-bold mb-n2">Score and Time Duration</div>
+                            <div class="d-flex flex-column flex-md-row gap-5">
+
+
+                                <div class="fv-row fl flex-row-fluid">
+                                    <label class="required form-label" for="score">Score</label>
+                                    <input placeholder="Example 20" maxlength="3" type="text" id="score"
+                                        name="score" value="{{ $row->score }}" class="form-control mb-2" required
+                                        data-fv-numeric="true" type="textbox"
+                                        data-fv-numeric___message="score must be a number"
+                                        data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'score' . '&nbsp;']) }}" />
+                                </div>
+
+                                <div class="flex-row-fluid">
+                                    <div class="fv-row fl flex-row-fluid">
+                                        <label class="required form-label" for="time">Time</label>
+                                        <input placeholder="Example 120" value="{{ $row->time }}" type="text"
+                                            id="time" name="time" class="form-control mb-2" maxlength="3" required
+                                            data-fv-numeric="true" type="textbox"
+                                            data-fv-numeric___message="time must be a number"
+                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'time' . '&nbsp;']) }}" />
+                                    </div>
+
+                                    <div class="text-muted fs-7">by seconds</div>
+
+                                </div>
+                            </div>  
+
                         </div>
                     </div>
                 </div>
                 <x-backend.btns.button :destroyRoute="$destroyRoute" :redirectRoute="$redirect_after_destroy" :row="$row" :trans="$trans"/>
-            </div>            
-            <div class="d-flex flex-column flex-row-fluid gap-0 w-lg-400px gap-lg-5">                                 
-                <x-backend.cms.image :image="$row->image"/>                    
             </div>
         </form>
     </div>
@@ -70,23 +108,8 @@
 <script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
 <script src="{{ asset('assets/backend/js/custom/deleteConfirmSwal.js') }}"></script>
 <script>
-
-
-var start_date = '{{ $row->start_date }}';
-var end_date = '{{ $row->end_date }}';
-$('#event_date_range').daterangepicker({ 
-    drops: 'up',
-    separator: " - ",
-    locale: {
-      format: 'YYYY-MM-DD'
-    },
-    startDate: start_date, 
-    endDate: end_date 
-});
-
-
-KTUtil.onDOMContentLoaded(function() {
-   handleFormSubmitFunc('Edit{{ $trans }}');
-});
+    KTUtil.onDOMContentLoaded(function() {
+        handleFormSubmitFunc('Edit{{ $trans }}');
+    });
 </script>
 @stop

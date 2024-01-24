@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             GameSeeder::class,
             QuestionSeeder::class,
-            ChoiceSeeder::class,
+            AnswerSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
             QuestionCorrectAnswerSeeder::class,

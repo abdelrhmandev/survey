@@ -11,7 +11,7 @@ class Question extends Model
 		'game_id',
 		'score',
 		'time',
-		'difficulty',
+		// 'difficulty',
 	];
 	
 	public $timestamps = true;
@@ -22,5 +22,8 @@ class Question extends Model
         return $this->hasMany(Answer::class); 
     }
  
+	public function correctAnswer(){
+        return $this->hasOne(QuestionCorrectAnswer::class); 
+    }
 	
 }

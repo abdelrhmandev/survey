@@ -46,109 +46,17 @@
                             </div>
 
                             <div class="fs-3 fw-bold mb-n2">Question Answers</div>
-
-
-
                             @for ($i = 1; $i <= 4; $i++)
                                 <div class="fv-row fl">
                                     <label class="required form-label"
-                                        for="answer{{ $i }}">{{ __('answer.title') }} </label>
-                                    <div class="input-group mb-5">
-                                        <span class="input-group-text" id="basic-addon1">Answer {{ $i }}</span>
+                                        for="answer{{ $i }}">{{ __('answer.title') }} {{ $i }}</label>
                                         <input type="text" id="answer{{ $i }}"
-                                            name="answers[{{ $i }}]" class="form-control" required
-                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'answer']) }}" />
-                                    </div>
+                                            name="answers[{{ $i }}]" class="form-control mb-5" required
+                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'answer']) }}"
+                                         />
                                 </div>
                             @endfor
 
-
-
-
-
-
-
-
-                            <div class="fv-row mb-10">
-                                <label class="fs-2 fw-semibold mb-2">Difficulty Level
-                                    <span class="ms-1" data-bs-toggle="tooltip"
-                                        title="Select a Difficulty type for this game question">
-                                        <i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
-                                    </span></label>
-                                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-5 g-9"
-                                    data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']">
-                                    <div class="col">
-                                        <label
-                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary active d-flex text-start p-6"
-                                            data-kt-button="true">
-                                            <span
-                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                <input class="form-check-input" type="radio" name="difficulty"
-                                                    value="normal" checked="checked" />
-                                            </span>
-                                            <span class="ms-5">
-                                                <span class="fs-4 fw-bold text-gray-800 d-block">Normal</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <label
-                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                            data-kt-button="true">
-                                            <span
-                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                <input class="form-check-input" type="radio" name="difficulty"
-                                                    value="hard" />
-                                            </span>
-                                            <span class="ms-5">
-                                                <span class="fs-4 fw-bold text-gray-800 d-block">Hard</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <label
-                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                            data-kt-button="true">
-                                            <span
-                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                <input class="form-check-input" type="radio" name="difficulty"
-                                                    value="expert" />
-                                            </span>
-                                            <span class="ms-5">
-                                                <span class="fs-4 fw-bold text-gray-800 d-block">Expert</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <label
-                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                            data-kt-button="true">
-                                            <span
-                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                <input class="form-check-input" type="radio" name="difficulty"
-                                                    value="easy" />
-                                            </span>
-                                            <span class="ms-5">
-                                                <span class="fs-4 fw-bold text-gray-800 d-block">Easy</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col">
-                                        <label
-                                            class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                            data-kt-button="true">
-                                            <span
-                                                class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                                                <input class="form-check-input" type="radio" name="difficulty"
-                                                    value="medium" />
-                                            </span>
-                                            <span class="ms-5">
-                                                <span class="fs-4 fw-bold text-gray-800 d-block">Medium</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="fs-3 fw-bold mb-n2">Score and Time Duration</div>
                             <div class="d-flex flex-column flex-md-row gap-5">

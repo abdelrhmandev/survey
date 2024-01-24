@@ -35,7 +35,7 @@ Route::group(
             Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
 
 
-            Route::get('questions/create/{id}', 'QuestionController@create')->name('Q');
+            Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');
 
 
             Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
