@@ -8,7 +8,7 @@ class CreateQuestionCorrectAnswerTable extends Migration
         Schema::create('question_correct_answer', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
-            $table->foreignId('correct_choice_id')->constrained('choices')->onDelete('cascade');
+            $table->foreignId('correct_answer_id')->constrained('answers')->onDelete('cascade');
         });
     }
     public function down(){

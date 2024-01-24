@@ -77,14 +77,14 @@ function handleQFunc(formId) {
                                 if (response["status"] == true) {
 
 /////////////
-        let choicesArr = "";
-        $.each(response["choices"], function(key, value) {
-                choicesArr+='<label class="d-flex align-items-center mb-5"><span class="form-check form-check-custom form-check-solid me-5"><input class="form-check-input choice" type="radio" name="choice_id" id="'+value.id+'" value="'+value.id+'"/></span><span class="d-flex flex-column me-3"><span class="fw-bold">'+value.title+'</span></span></label>'; 
+        let answersArr = "";
+        $.each(response["answers"], function(key, value) {
+                answersArr+='<label class="d-flex align-items-center mb-5"><span class="form-check form-check-custom form-check-solid me-5"><input class="form-check-input answer" type="radio" name="answer_id" id="'+value.id+'" value="'+value.id+'"/></span><span class="d-flex flex-column me-3"><span class="fw-bold">'+value.title+'</span></span></label>'; 
         });
 
 Swal.fire({
     title: response["msg"]+'<br/><br/><span class="text-success">'+response["QT"]+'</span>',    
-    html: choicesArr+'<span class="text-danger">You need to choose Correct Question Answer!</span>',  
+    html: answersArr+'<span class="text-danger">You need to choose Correct Question Answer!</span>',  
     icon: 'success',  
     buttonsStyling: false,
     showLoaderOnConfirm: true,
@@ -103,7 +103,7 @@ Swal.fire({
             url: response["action"],
             data: {
                  'question_id':response["Qid"],
-                 'choice_id': $('.choice:checked').val(),
+                 'answer_id': $('.answer:checked').val(),
                 '_method': 'post',
             },
             success: function(response, textStatus, xhr) {

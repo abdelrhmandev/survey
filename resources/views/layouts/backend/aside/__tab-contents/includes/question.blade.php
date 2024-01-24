@@ -44,16 +44,16 @@
                 <span class="menu-bullet">
                     <span class="bullet bullet-dot"></span>
                 </span>
-                <span class="menu-title"> {{ __('choice.plural') }}</span>
+                <span class="menu-title"> {{ __('answer.plural') }}</span>
                 <span class="menu-arrow"></span>
             </span>
             <div class="menu-sub menu-sub-accordion">
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.choices.index') }}">
+                    <a class="menu-link" href="{{ route('admin.answers.index') }}">
                         <span class="menu-bullet">
                             <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title">{{ __('site.all') }} {{ __('choice.plural') }}</span>
+                        <span class="menu-title">{{ __('site.all') }} {{ __('answer.plural') }}</span>
                     </a>
                 </div> 
                 

@@ -17,48 +17,48 @@ class QuestionCorrectAnswerSeeder extends Seeder
         $items = [
             [
                 'question_id' => '1',
-                'correct_choice_id' => '1',
+                'correct_answer_id' => '1',
             ],
             [
                 'question_id' => '2',
-                'correct_choice_id' => '8',
+                'correct_answer_id' => '8',
             ],
             [
                 'question_id' => '3',
-                'correct_choice_id' => '11',
+                'correct_answer_id' => '11',
             ],
             [
                 'question_id' => '4',
-                'correct_choice_id' => '14',
+                'correct_answer_id' => '14',
             ],
             [
                 'question_id' => '5',
-                'correct_choice_id' => '19',
+                'correct_answer_id' => '19',
             ],
             [
                 'question_id' => '6',
-                'correct_choice_id' => '23',
+                'correct_answer_id' => '23',
             ],
             [
                 'question_id' => '7',
-                'correct_choice_id' => '25',
+                'correct_answer_id' => '25',
             ],
             [
                 'question_id' => '8',
-                'correct_choice_id' => '30',
+                'correct_answer_id' => '30',
             ],
             [
                 'question_id' => '9',
-                'correct_choice_id' => '36',
+                'correct_answer_id' => '36',
             ],
             [
                 'question_id' => '10',
-                'correct_choice_id' => '37',
+                'correct_answer_id' => '37',
             ],
 
             [
                 'question_id' => '11',
-                'correct_choice_id' => '41',
+                'correct_answer_id' => '41',
             ],
         ];
         DB::table('question_correct_answer')->insert($items);

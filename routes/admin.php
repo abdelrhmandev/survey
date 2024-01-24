@@ -32,7 +32,7 @@ Route::group(
 
         
             Route::resource('questions', QuestionController::class)->except('show');            
-            Route::post('questions/saveQCHOICE', 'QuestionController@saveQCHOICE')->name('saveQCHOICE');
+            Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
 
 
             Route::get('questions/create/{id}', 'QuestionController@create')->name('Q');
@@ -41,10 +41,10 @@ Route::group(
             Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
             ######################### End Questions ##########################
 
-            ######################### Start choices ##########################
-            Route::resource('choices', ChoiceController::class)->except('show');
-            Route::delete('choices/destroy/all', 'ChoiceController@destroyMultiple')->name('choices.destroyMultiple');
-            ######################### End Choices ##########################
+            ######################### Start Answers ##########################
+            Route::resource('answers', AnswerController::class)->except('show');
+            Route::delete('answers/destroy/all', 'AnswerController@destroyMultiple')->name('answers.destroyMultiple');
+            ######################### End Answers ##########################
 
         
 

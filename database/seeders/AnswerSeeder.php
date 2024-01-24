@@ -3,7 +3,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-class ChoiceSeeder extends Seeder
+class AnswerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class ChoiceSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('choices')->delete();
+        DB::table('answers')->delete();
 
         $items = [
             /////////////////////////For Q 1 ///////////////////////////////////////////////
@@ -204,6 +204,6 @@ class ChoiceSeeder extends Seeder
                 'question_id' => '11',
             ],
         ];
-        DB::table('choices')->insert($items);
+        DB::table('answers')->insert($items);
     }
 }

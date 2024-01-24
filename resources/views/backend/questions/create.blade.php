@@ -40,51 +40,33 @@
 
                             <div class="fv-row fl">
                                 <label class="required form-label" for="title">{{ __('question.title') }}</label>
-                                <input placeholder="{{ __('site.title') }}" type="text" id="title_" name="title"
-                                    class="form-control mb-2" required
+                                <input placeholder="Example : Which country is hosting the 1998 World Cup" type="text"
+                                    id="title_" name="title" class="form-control mb-2" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}" />
                             </div>
 
-                            <div class="fs-3 fw-bold mb-n2">Question Answers Choices</div>
-
-                            <div class="d-flex flex-column flex-md-row gap-5">
+                            <div class="fs-3 fw-bold mb-n2">Question Answers</div>
 
 
-                                <div class="fv-row fl flex-row-fluid">
-                                    <label class="required form-label" for="choice1">Choice 1</label>
-                                    <input type="text" id="choice1" name="choices[1]" class="form-control mb-2"
-                                        required
-                                        data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'choice 1' . '&nbsp;']) }}" />
-                                </div>
 
-                                <div class="flex-row-fluid">
-                                    <div class="fv-row fl flex-row-fluid">
-                                        <label class="required form-label" for="choice2">Choice 2</label>
-                                        <input type="text" id="choice2" name="choices[2]" class="form-control mb-2"
-                                            required
-                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'choice 2' . '&nbsp;']) }}" />
+                            @for ($i = 1; $i <= 4; $i++)
+                                <div class="fv-row fl">
+                                    <label class="required form-label"
+                                        for="answer{{ $i }}">{{ __('answer.title') }} </label>
+                                    <div class="input-group mb-5">
+                                        <span class="input-group-text" id="basic-addon1">Answer {{ $i }}</span>
+                                        <input type="text" id="answer{{ $i }}"
+                                            name="answers[{{ $i }}]" class="form-control" required
+                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'answer']) }}" />
                                     </div>
                                 </div>
-                            </div>
+                            @endfor
 
 
-                            <div class="d-flex flex-column flex-md-row gap-5">
-                                <div class="fv-row fl flex-row-fluid">
-                                    <label class="required form-label" for="choice3">Choice 3</label>
-                                    <input type="text" id="choice3" name="choices[3]" class="form-control mb-2"
-                                        required
-                                        data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'choice 3' . '&nbsp;']) }}" />
-                                </div>
 
-                                <div class="flex-row-fluid">
-                                    <div class="fv-row fl flex-row-fluid">
-                                        <label class="required form-label" for="choice4">Choice 4</label>
-                                        <input type="text" id="choice4" name="choices[4]" class="form-control mb-2"
-                                            required
-                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'choice 4' . '&nbsp;']) }}" />
-                                    </div>
-                                </div>
-                            </div>
+
+
+
 
 
                             <div class="fv-row mb-10">
@@ -174,22 +156,22 @@
 
                                 <div class="fv-row fl flex-row-fluid">
                                     <label class="required form-label" for="score">Score</label>
-                                    <input type="text" id="score" name="score" class="form-control mb-2"
-                                        required data-fv-numeric="true" type="textbox"
-                                        data-fv-numeric___message="score must be a number"
+                                    <input placeholder="Example 20" maxlength="3" type="text" id="score"
+                                        name="score" class="form-control mb-2" required data-fv-numeric="true"
+                                        type="textbox" data-fv-numeric___message="score must be a number"
                                         data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'score' . '&nbsp;']) }}" />
                                 </div>
 
                                 <div class="flex-row-fluid">
                                     <div class="fv-row fl flex-row-fluid">
                                         <label class="required form-label" for="time">Time</label>
-                                        <input type="text" id="time" name="time" class="form-control mb-2"
-                                            required data-fv-numeric="true" type="textbox"
-                                            data-fv-numeric___message="time must be a number"
+                                        <input placeholder="Example 120" type="text" id="time" name="time"
+                                            class="form-control mb-2" maxlength="3" required data-fv-numeric="true"
+                                            type="textbox" data-fv-numeric___message="time must be a number"
                                             data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'time' . '&nbsp;']) }}" />
                                     </div>
 
-                                    <div class="text-muted fs-7">By Seconds</div>
+                                    <div class="text-muted fs-7">by seconds</div>
 
                                 </div>
                             </div>
@@ -209,14 +191,12 @@
     <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
     <script src="{{ asset('assets/backend/js/custom/handleQuestionSubmit.js') }}"></script>
     <script>
- 
-
         ///////////////////////////////////
- 
+
 
 
         KTUtil.onDOMContentLoaded(function() {
-            handleQFunc('Add{{ $trans }}');          
+            handleQFunc('Add{{ $trans }}');
         });
     </script>
 @stop

@@ -4,17 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 class QuestionCorrectAnswer extends Model
 {
 
-	protected $table = 'questions';
+	protected $table = 'question_correct_answer';
 
     protected $fillable = [
-		'title',
-		'game_id',
-		'score',
-		'time',
-		'difficulty',
+		'question_id',
+		'correct_answer_id',
 	];
 	
-	public $timestamps = true;
+	public $timestamps = false;
 	
 
 

@@ -3,8 +3,9 @@ namespace App\Http\Controllers\backend;
 use DataTables;
 use Carbon\Carbon;
 use App\Models\Game;
-use App\Models\Choice;
+use App\Models\Answer;
 use App\Models\Question;
+use App\Models\QuestionCorrectAnswer;
 use App\Traits\Functions;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -46,19 +47,19 @@ class QuestionController extends Controller
         ];
         $query = Question::create($data);
 
-        $choiceArr = [];
-        foreach ($request->choices as $k => $choice) {
-            $choiceArr[$k]['title'] = $choice;
-            $choiceArr[$k]['question_id'] = $query->id;
+        $answerArr = [];
+        foreach ($request->answers as $k => $answer) {
+            $answerArr[$k]['title'] = $answer;
+            $answerArr[$k]['question_id'] = $query->id;
         }
 
-        $choice = Choice::insert($choiceArr);
+        $answer = Answer::insert($answerArr);
 
         $arr = [
             'QT' => $query->title,
             'Qid' => $query->id,
-            'action' => route('admin.saveQCHOICE'),
-            'choices' => $query->choices()->get(),
+            'action' => route('admin.saveQCAnswer'),
+            'answers' => $query->answers()->get(),
             'msg' => __($this->TRANS . '.' . 'storeMessageSuccess'),
             'status' => true,
         ];
@@ -66,10 +67,12 @@ class QuestionController extends Controller
         return response()->json($arr);
     }
 
-    public function saveQCHOICE(Request $request)
+    public function saveQCAnswer(Request $request)
     {
-        if (intval($request->choice_id) && intval($request->question_id)) {
-            $choice = QuestionCorrectAnswer::insert(['question_id' => $request->question_id, 'correct_choice_id' => $request->question_id]);
+
+        dd($request);
+        if (intval($request->answer_id) && intval($request->question_id)) {
+            $answer = QuestionCorrectAnswer::insert(['question_id' => $request->question_id, 'correct_answer_id' => $request->question_id]);
             $arr = [
                 'msg' => 'Thanks You have Add The Correct Question Answer',
                 'status' => true,
