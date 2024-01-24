@@ -20,7 +20,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'normal',
                 'score' => '20',
                 'game_id' => '1',
-                'time' => '2',
+                'time' => '200',
                 'created_at' => Carbon::now(),
             ],
             ///////////////////////////////////////
@@ -30,7 +30,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'hard',
                 'score' => '30',
                 'game_id' => '2',
-                'time' => '4',
+                'time' => '400',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -38,7 +38,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '40',
                 'game_id' => '3',
-                'time' => '3',
+                'time' => '120',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -46,7 +46,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '15',
                 'game_id' => '4',
-                'time' => '5',
+                'time' => '300',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -54,7 +54,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '15',
                 'game_id' => '5',
-                'time' => '6',
+                'time' => '120',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -62,7 +62,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'medium',
                 'score' => '25',
                 'game_id' => '6',
-                'time' => '2',
+                'time' => '200',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -70,7 +70,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '35',
                 'game_id' => '7',
-                'time' => '3',
+                'time' => '150',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -78,7 +78,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'easy',
                 'score' => '10',
                 'game_id' => '8',
-                'time' => '5',
+                'time' => '120',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -86,7 +86,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'expert',
                 'score' => '5',
                 'game_id' => '9',
-                'time' => '6',
+                'time' => '60',
                 'created_at' => Carbon::now(),
             ],
             [
@@ -94,7 +94,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'hard',
                 'score' => '20',
                 'game_id' => '10',
-                'time' => '7',
+                'time' => '60',
                 'created_at' => Carbon::now(),
             ],
 
@@ -103,7 +103,7 @@ class QuestionSeeder extends Seeder
                 'difficulty' => 'normal',
                 'score' => '40',
                 'game_id' => '1',
-                'time' => '14',
+                'time' => '140',
                 'created_at' => Carbon::now(),
             ],
         ];

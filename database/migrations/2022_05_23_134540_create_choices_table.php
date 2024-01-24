@@ -9,7 +9,6 @@ class CreateChoicesTable extends Migration
             $table->id();
             $table->string('title');           
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
-            $table->timestamps();
         });
     }
     public function down(){

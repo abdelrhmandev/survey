@@ -2,7 +2,7 @@
 var DeleteRow = function() {
     var deleteFunction = () => {
         const destroy = document.getElementById('delete_item');
-        var itemName = '<strong><u>' + document.getElementById('title_' + document.documentElement.lang).value + '</u></strong>';
+        var itemName = '<strong><u>' + document.getElementById('title').value + '</u></strong>';
         destroy.addEventListener('click', function(e) {
             e.preventDefault();            
             Swal.fire({

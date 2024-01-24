@@ -32,6 +32,9 @@ Route::group(
 
         
             Route::resource('questions', QuestionController::class)->except('show');            
+            Route::post('questions/saveQCHOICE', 'QuestionController@saveQCHOICE')->name('saveQCHOICE');
+
+
             Route::get('questions/create/{id}', 'QuestionController@create')->name('Q');
 
 
