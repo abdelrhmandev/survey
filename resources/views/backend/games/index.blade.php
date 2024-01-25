@@ -67,13 +67,11 @@
             </th>            
             <th>{{ __('site.image') }}</th>  
             <th>{{ __('site.title') }}</th>
-            <th>{{ __('game.attendees') }}</th>
-            <th>{{ __('game.play_with_team') }}</th>
-            <th>{{ __('game.team_players') }}</th>
             <th>{{ __('event.singular') }}</th>
-            <th>{{ __('type.singular') }}</th>            
+            <th>Info</th>   
+            <th>{{ __('question.plural') }}</th>            
             <th class="text-primary">{{ __('site.created_at') }}</th>
-            <th class="text-end w-150px noExport">{{ __('site.actions') }}</th>  
+            <th class="text-end w-100px noExport">{{ __('site.actions') }}</th>  
           </tr>
         </thead>
         <tbody class="text-gray-600"> 
@@ -98,11 +96,11 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'image', name: 'image',orderable: false}, 
 { data: 'title', name: 'title',orderable: false}, 
-{ data: 'attendees', name: 'attendees',orderable: false}, 
-{ data: 'play_with_team', name: 'play_with_team',orderable: false}, 
-{ data: 'team_players', name: 'team_players',orderable: false}, 
+ 
 { data: 'event_id', name: 'event_id',orderable: false}, 
-{ data: 'type_id', name: 'type_id',orderable: false}, 
+{ data: 'info', name: 'info',orderable: false}, 
+
+{ data: 'question_id', name: 'question_id',orderable: false}, 
 
 
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6

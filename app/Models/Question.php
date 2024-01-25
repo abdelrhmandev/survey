@@ -17,6 +17,10 @@ class Question extends Model
 	public $timestamps = true;
 	
 
+	public function game(){
+        return $this->belongsTo(Game::class); 
+    }
+
 
 	public function answers(){
         return $this->hasMany(Answer::class); 

@@ -21,7 +21,9 @@ class Game extends Model
 	public $timestamps = true;
 	
 
-
+	public function questions(){
+        return $this->hasMany(Question::class); 
+    }
 	public function event(){
         return $this->belongsTo(Event::class); 
     }

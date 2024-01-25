@@ -25,10 +25,10 @@ class TeamController extends Controller
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
-                ->editColumn('title', function (Team $row) {
+                ->editColumn('title', function ($row) {
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>';
                 })
-                ->editColumn('created_at', function (Team $row) {
+                ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                  })
                  ->filterColumn('created_at', function ($query, $keyword) {

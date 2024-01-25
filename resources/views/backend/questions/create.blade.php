@@ -41,7 +41,7 @@
                             <div class="fv-row fl">
                                 <label class="required form-label" for="title">{{ __('question.title') }}</label>
                                 <input placeholder="Example : Which country is hosting the 1998 World Cup" type="text"
-                                    id="title_" name="title" class="form-control mb-2" required
+                                    id="title" name="title" class="form-control mb-2" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}" />
                             </div>
 
@@ -50,7 +50,7 @@
                                 <div class="fv-row fl">
                                     <label class="required form-label"
                                         for="answer{{ $i }}">{{ __('answer.title') }} {{ $i }}</label>
-                                        <input type="text" id="answer{{ $i }}"
+                                        <input placeholder="Example : @if($i == '1') Germany @elseif($i == '2') France @elseif($i == '3') Spain @elseif($i == '4') England @endif" type="text" id="answer{{ $i }}"
                                             name="answers[{{ $i }}]" class="form-control mb-5" required
                                             data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'answer']) }}"
                                          />

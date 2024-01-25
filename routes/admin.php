@@ -31,8 +31,15 @@ Route::group(
 
 
         
-            Route::resource('questions', QuestionController::class)->except('show');            
+            Route::resource('questions', QuestionController::class)->except('show');   
+            
+            Route::get('questions/FilterByGame/{game_id}', 'QuestionController@index')->name('questions.ByGame');
+
+
             Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
+
+
+
 
 
             Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');

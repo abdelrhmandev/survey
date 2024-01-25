@@ -44,6 +44,10 @@
                         <span class="menu-title">{{ __('type.plural') }}</span>
                     </a>
                 </div> 
+
+           
+
+
             </div>
         </div>
  

@@ -24,59 +24,67 @@ class GameController extends Controller
         $this->UPLOADFOLDER = 'games';
     }
 
+ 
     public function index(Request $request)
     {
-        $model = Game::select('*')->with(['type', 'event']);
+        $model = Game::select('*')->with(['type', 'event'])->withCount(['questions']);
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
                 ->editColumn('title', function ($row) {
-                    return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>';
+                    return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . $row->title . '</a>
+                    <p>Attendees
+                    '."<span class=\"text-success fw-bolder fs-3\">" . $row->attendees . '</span>
+                    ';
                 })
 
                 ->editColumn('image', function ($row) {
                     return $this->dataTableGetImage($row, $this->ROUTE_PREFIX . '.edit');
                 })
-
-                ->editColumn('attendees', function ($row) {
-                    return "<span class=\"text-gray-800 fw-bolder fs-3\">" . $row->attendees . '</span>';
-                })
-
-                ->editColumn('play_with_team', function ($row) {
-                    return "<div class=\"badge py-3 px-4 fs-7 badge-light-" . ($row->play_with_team == '1' ? 'success' : 'danger') . "\"><span class=\"text-" . ($row->play_with_team == '1' ? 'sccuess' : 'danger') . "\">" . ($row->play_with_team == '1' ? 'Yes' : 'No') . '</span></div>';
-                })
-
-                ->editColumn('team_players', function ($row) {
-                    return "<span class=\"text-gray-800 fw-bolder fs-3\">" . ($row->play_with_team == '1' && $row->team_players ? $row->team_players : '-') . '</span>';
-                })
-
                 ->editColumn('event_id', function ($row) {
                     return '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
                 })
-
-                ->editColumn('type_id', function ($row) {
-                    return '<a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
+                ->editColumn('info', function ($row) {
+                    $play_with_team = "<span class=\"badge py-3 px-4 fs-7 badge-light-" . ($row->play_with_team == '1' ? 'success' : 'danger') . "\"><span class=\"text-" . ($row->play_with_team == '1' ? 'sccuess' : 'danger') . "\">" . ($row->play_with_team == '1' ? 'Yes' : 'No') . "</span></span>";
+                    return '
+                    <p>'.__('game.play_with_team').'
+                    '. $play_with_team.'
+                    <br>'.__('game.team_players').'
+                    '."<span class=\"text-info fw-bolder fs-3\">" .  ($row->play_with_team == '1' && $row->team_players ? $row->team_players : '-') . '</span>
+                    </p>';
                 })
 
                 ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
-                ->filterColumn('created_at', function ($query, $keyword) {
-                    $query->whereRaw("DATE_FORMAT(created_at,'%d/%m/%Y') LIKE ?", ["%$keyword%"]);
-                })
-                ->editColumn('actions', function ($row) {
+                ->AddColumn('question_id', function ($row) {
+                   
                     $addQestion =
-                        '<a href=' .
-                        route('admin.Q', $row->id) .
-                        " class=\"btn btn-sm btn-light-primary\">
-                    <i class=\"ki-outline ki-message-question fs-3\"></i>" .
-                        __('question.add') .
-                        "</a>
-                ";
-
-                    return $addQestion . $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                    '<a href=' .
+                    route('admin.Q', $row->id) .
+                    " class=\"btn btn-sm btn-light-primary\">
+                <i class=\"ki-outline ki-message-question fs-3\"></i>" .
+                    __('question.add') .
+                    "</a>
+            ";
+                    return "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
                 })
-                ->rawColumns(['image', 'title', 'attendees', 'type_id', 'event_id', 'play_with_team', 'team_players', 'actions', 'created_at', 'created_at.display'])
+
+
+                ->editColumn('created_at', function ($row) {
+                    return $this->dataTableGetCreatedat($row->created_at);
+                })
+
+
+                ->editColumn('actions', function ($row) {
+
+
+
+ 
+
+                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                })
+                ->rawColumns(['image', 'title', 'question_id','info', 'event_id', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
