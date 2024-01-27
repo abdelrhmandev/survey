@@ -33,8 +33,13 @@ class GameController extends Controller
                 ->addIndexColumn()
                 ->editColumn('title', function ($row) {
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . $row->title . '</a>
-                    <p>Attendees
-                    '."<span class=\"text-success fw-bolder fs-3\">" . $row->attendees . '</span>
+                    <p>
+                    Attendees
+                    '."<span class=\"text-success fw-bolder fs-3\">" . $row->attendees . '</span>                   
+                    | Questions
+                    '."<span class=\"text-primary fw-bolder fs-3\">" . $row->questions_count . '</span>                   
+                    </p>
+
                     ';
                 })
 
@@ -44,22 +49,34 @@ class GameController extends Controller
                 ->editColumn('event_id', function ($row) {
                     return '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
                 })
-                ->editColumn('info', function ($row) {
+
+
+                ->editColumn('play_with_team', function ($row) {
                     $play_with_team = "<span class=\"badge py-3 px-4 fs-7 badge-light-" . ($row->play_with_team == '1' ? 'success' : 'danger') . "\"><span class=\"text-" . ($row->play_with_team == '1' ? 'sccuess' : 'danger') . "\">" . ($row->play_with_team == '1' ? 'Yes' : 'No') . "</span></span>";
                     return '
-                    <p>'.__('game.play_with_team').'
+                    <p>
                     '. $play_with_team.'
-                    <br>'.__('game.team_players').'
+                    '.__('game.team_players').'
                     '."<span class=\"text-info fw-bolder fs-3\">" .  ($row->play_with_team == '1' && $row->team_players ? $row->team_players : '-') . '</span>
                     </p>';
                 })
 
+
+                ->editColumn('type_id', function ($row) {
+                    return '<a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
+                })
+
+
+
                 ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
-                ->AddColumn('question_id', function ($row) {
-                   
-                    $addQestion =
+
+                    ->editColumn('created_at', function ($row) {
+                    return $this->dataTableGetCreatedat($row->created_at);
+                })
+                ->editColumn('actions', function ($row) {
+                    $addQuestion =
                     '<a href=' .
                     route('admin.Q', $row->id) .
                     " class=\"btn btn-sm btn-light-primary\">
@@ -67,24 +84,13 @@ class GameController extends Controller
                     __('question.add') .
                     "</a>
             ";
-                    return "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
-                })
 
 
-                ->editColumn('created_at', function ($row) {
-                    return $this->dataTableGetCreatedat($row->created_at);
-                })
-
-
-                ->editColumn('actions', function ($row) {
-
-
-
- 
+                    // "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
 
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['image', 'title', 'question_id','info', 'event_id', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image', 'title', 'question_id','play_with_team','event_id','type_id', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
@@ -150,6 +156,10 @@ class GameController extends Controller
             $compact = [
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $game->id),
                 'row' => $game,
+                'types' => Type::select('id', 'title')->get(),
+                'events' => Event::select('id', 'title')
+                    ->where('start_date', '>', date('Y-m-d'))
+                    ->get(),
                 'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $game->id),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'trans' => $this->TRANS,
@@ -159,26 +169,14 @@ class GameController extends Controller
     }
 
     /////////////
-    public function update(GameRequest $request, Event $game)
+    public function update(GameRequest $request, Game $game)
     {
-        $validated = $request->validated();
 
+        
+        $validated = $request->validated();
+        $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
         $validated['slug'] = Str::slug($request->title);
 
-        $gameDateRange = explode(' - ', $request->event_date_range);
-        $validated['start_date'] = $gameDateRange[0];
-        $validated['end_date'] = $gameDateRange[1];
-
-        $image = $game->image;
-        if (!empty($request->file('image'))) {
-            $game->image && File::exists(public_path($game->image)) ? $this->unlinkFile($game->image) : '';
-            $image = $this->uploadFile($request->file('image'), $this->UPLOADFOLDER);
-        }
-        if (isset($request->drop_image_checkBox) && $request->drop_image_checkBox == 1) {
-            $this->unlinkFile($game->image);
-            $image = null;
-        }
-        $validated['image'] = $image;
 
         if (Game::findOrFail($game->id)->update($validated)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];

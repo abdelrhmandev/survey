@@ -153,7 +153,37 @@ class GameSeeder extends Seeder
                 'created_at' => Carbon::now(),
             ],
 
- 
+
+        ///////11/////
+        [
+            'title' => 'FIFA 24',
+            'slug' => 'fifa-24',
+            'event_id'=>'6',
+            'attendees' => '15',
+            'type_id'=>'4',
+            'play_with_team' => '1',
+            'team_players'=>'180',
+            'image' => NULL,
+            'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+            'created_at' => Carbon::now(),
+        ],
+
+        ///////12/////
+        [
+            'title' => 'Mortal Kombat',
+            'slug' => 'mortal-kombat',
+            'event_id'=>'3',
+            'attendees' => '35',
+            'type_id'=>'5',
+            'play_with_team' => '0',
+            'team_players'=>NULL,
+            'image' => NULL,
+            'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+            'created_at' => Carbon::now(),
+        ],
+        
+        
+
             
         ];
         DB::table('games')->insert($items);

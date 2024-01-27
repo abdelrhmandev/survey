@@ -67,9 +67,9 @@
             </th>            
             <th>{{ __('site.image') }}</th>  
             <th>{{ __('site.title') }}</th>
-            <th>{{ __('event.singular') }}</th>
-            <th>Info</th>   
-            <th>{{ __('question.plural') }}</th>            
+            <th style="width: 130px;">{{ __('event.singular') }}</th>
+            <th>{{ __('type.singular') }}</th>
+            <th style="width: 180px;">Play With Team</th>            
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-100px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -98,11 +98,10 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'title', name: 'title',orderable: false}, 
  
 { data: 'event_id', name: 'event_id',orderable: false}, 
-{ data: 'info', name: 'info',orderable: false}, 
 
-{ data: 'question_id', name: 'question_id',orderable: false}, 
+{ data: 'type_id', name: 'type_id',orderable: false}, 
 
-
+{ data: 'play_with_team', name: 'play_with_team',orderable: false}, 
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

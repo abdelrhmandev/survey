@@ -23,7 +23,7 @@ class TypeController extends Controller
 
     public function index(Request $request)
     {
-        $model = Type::select('*');
+        $model = Type::select('*')->withCount('games');
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()

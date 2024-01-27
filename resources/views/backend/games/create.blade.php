@@ -126,39 +126,6 @@ if($("#play_with_team").is(':checked')){
     $('#team_playersDiv').hide();
 }
 });
-
-///////////////////////////////////
-document.addEventListener('DOMContentLoaded', function (e) {
-
-    
-    FormValidation.formValidation(document.getElementById('AddGame'), {
-        fields: {
-            team_players: {
-                validators: {
-                    callback: {
-                        message: 'ssssss answer',
-                        callback: function (input) {
-                            return input.value;
-                        },
-                    },
-                },
-            },
-        },
-        plugins: {
-            trigger: new FormValidation.plugins.Trigger(),
-            bootstrap: new FormValidation.plugins.Bootstrap(),
-            submitButton: new FormValidation.plugins.SubmitButton(),
-            icon: new FormValidation.plugins.Icon({
-                valid: 'fa fa-check',
-                invalid: 'fa fa-times',
-                validating: 'fa fa-refresh',
-            }),
-        },
-    });
-});
-//////////////////////////////////////
-
-
 KTUtil.onDOMContentLoaded(function() {
    handleFormSubmitFunc('Add{{ $trans }}');
 });

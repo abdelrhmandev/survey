@@ -23,10 +23,11 @@ class QuestionController extends Controller
         $this->UPLOADFOLDER = 'questions';
     }
 
-    public function index(Request $request,$game_id=null)
+    public function index(Request $request,$g_id=null)
     {
-      
-        dd($game_id);
+        (isset($request->game_id)) ? $game_id = $request->game_id : $game_id = $g_id;
+
+        // echo ($GID);
         $model = Question::where('game_id',$game_id)->with(['game', 'answers', 'correctAnswer']);
         if ($request->ajax()) {
             return Datatables::of($model)
@@ -40,17 +41,13 @@ class QuestionController extends Controller
                             } else {
                                 $class = 'primary';
                             }
-                            $QuestionAnswers .= "<div class=\"badge py-3 px-4 fs-7 badge-light-" . $class . " mt-1\">&nbsp;<span class=\"text-" . $class . "\">" . $value->title . '</span></div> ';
+                            $QuestionAnswers .= "<div class=\"badge py-3 px-4 fs-7 badge-light-" . $class . " mt-1\">&nbsp;<span class=\"text-" . $class . "\">" . $value->title . '</span></div><br> ';
                         }
-                        $QuestionAnswers = "<span class =\"text-muted\">Answers</span> " . substr($QuestionAnswers, 0, -2);
+                        $QuestionAnswers = "<span class =\"text-muted\">Answers</span><br> " . substr($QuestionAnswers, 0, -2);
                     }
-
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . $row->title . '</a><br>' . $QuestionAnswers;
                 })
 
-                ->editColumn('game_id', function ($row) {
-                    return '<a href=' . route('admin.games.edit', $row->game_id) . " class=\"text-hover-success\"  title=" . $row->game->title . '>' . $row->game->title . '</a>';
-                })
 
                 ->editColumn('score', function ($row) {
                     return "<span class=\"text-success fw-bolder fs-3\">" . $row->score . '</span>';
@@ -68,12 +65,15 @@ class QuestionController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['title', 'game_id', 'score', 'time', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['title', 'score', 'time', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.questions.index')) {
             $compact = [
                 'trans' => $this->TRANS,
+                'game_id' => $game_id ?? 0,
+                'counter'=>$model->count(),
+                'games' => Game::select('id', 'title')->withCount('questions')->get(),
                 'createRoute' => route($this->ROUTE_PREFIX . '.create'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
                 'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),

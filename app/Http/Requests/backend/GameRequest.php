@@ -25,7 +25,7 @@ class GameRequest extends FormRequest
 
         $rules['attendees'] = 'required|numeric';
 
-        $rules['play_with_team'] = 'required';
+        $rules['play_with_team'] = 'nullable|in:0,1';
 
         $rules['team_players'] = 'nullable|numeric';
 

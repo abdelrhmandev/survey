@@ -19,7 +19,6 @@
             data-form-agree-label="{{ __('site.agree') }}" 
             enctype="multipart/form-data">            
             <input type="hidden" name="id" value="{{ $row->id }}" />
-            <input type="hidden" id="title_{{ app()->getLocale() }}" value="{{ $row->comment }}"/>
             @method('PUT') 
             
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
@@ -31,7 +30,7 @@
                             <div class="fv-row fl">
                                 <label class="required form-label"
                                     for="title">{{ __('site.title') }}</label>
-                                <input placeholder="{{ __('site.title') }}" type="text" id="title_"
+                                <input placeholder="{{ __('site.title') }}" type="text" id="title"
                                     name="title" class="form-control mb-2" value="{{ $row->title }}" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}"
                                     />
@@ -45,10 +44,57 @@
 
                             <div class="fv-row fl">
                                 <label class="required form-label"
-                                    for="event_date_range">{{ __('event.date_range') }}</label>
-                                <input placeholder="{{ __('event.date_range') }}" type="text" id="event_date_range"
-                                    name="event_date_range" class="form-control mb-2" required
-                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'event date range' . '&nbsp;']) }}"
+                                    for="event">{{ __('event.select') }}</label>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
+                                    data-placeholder="{{ __('event.select') }}" name="event_id">
+                                    <option value="">{{ __('event.select') }}</option>
+                                    @foreach ($events as $event)
+                                        <option value="{{ $event->id }}" {{ $event->id == $row->event_id ? 'selected' : '' }}>{{ $event->title }}</option>
+                                    @endforeach
+                                  </select>                              
+                                  <div class="text-muted fs-7">upcoming events only</div>                                    
+                            </div>
+
+
+                            <div class="fv-row fl">
+                                <label class="required form-label"
+                                    for="attendees">{{ __('game.attendees') }}</label>
+                                <input value="{{ $row->attendees }}" placeholder="{{ __('game.attendees') }}" id="attendees"
+                                    name="attendees" class="form-control mb-2" required
+                                    data-fv-numeric="true"
+                                    type="textbox" 
+                                    data-fv-numeric___message="attendees must be a number"
+                                    data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'attendees' . '&nbsp;']) }}"
+                                    />
+                            </div>
+
+                            <div class="fv-row fl">
+                                <label class="required form-label"
+                                    for="type">{{ __('type.select') }}</label>
+                                    <select class="form-select form-select-solid" data-control="select2" data-hide-search="false"
+                                    data-placeholder="{{ __('type.select') }}" name="type_id">
+                                    <option value="">{{ __('type.select') }}</option>
+                                    @foreach ($types as $type)
+                                        <option value="{{ $type->id }}" {{ $type->id == $row->type_id ? 'selected' : '' }}>{{ $type->title }}</option>
+                                    @endforeach
+                                  </select>                                
+                            </div>
+
+
+                            <div class="d-flex flex-column fv-row rounded-3 p-7 border border-dashed border-gray-300">
+                                <div class="fs-5 fw-bold form-label mb-3">Play With Team</div>
+                                <label class="form-check form-check-custom form-check-solid">
+                                    <input class="form-check-input" name="play_with_team" id="play_with_team" type="checkbox" value="1" {{ $row->play_with_team == '1' ? 'checked' : '' }} />
+                                    <span class="form-check-label text-gray-600">Allow Play With Team , must set the number of teams player</span>
+                                </label>
+                            </div>
+
+                            <div class="fv-row fl" id="team_playersDiv">
+                                <label class="required form-label"
+                                    for="team_players">{{ __('game.team_players') }}</label>
+                                <input type="textbox" placeholder="{{ __('game.team_players') }}" 
+                                    id="team_players" value="{{ $row->team_players }}"
+                                    name="team_players" class="form-control mb-2" 
                                     />
                             </div>                               
                         </div>
@@ -58,7 +104,8 @@
             </div>            
             <div class="d-flex flex-column flex-row-fluid gap-0 w-lg-400px gap-lg-5">                                 
                 <x-backend.cms.image :image="$row->image"/>                    
-            </div>
+                <x-backend.cms.question :questions="$row->questions->count()"/>                    
+                </div>
         </form>
     </div>
 @stop
@@ -71,19 +118,20 @@
 <script src="{{ asset('assets/backend/js/custom/deleteConfirmSwal.js') }}"></script>
 <script>
 
+    var play_with_team = '{{ $row->play_with_team }}';
+    if( play_with_team == '1'){
+    $('#team_playersDiv').show();
+}else{
+    $('#team_playersDiv').hide();
+}
 
-var start_date = '{{ $row->start_date }}';
-var end_date = '{{ $row->end_date }}';
-$('#event_date_range').daterangepicker({ 
-    drops: 'up',
-    separator: " - ",
-    locale: {
-      format: 'YYYY-MM-DD'
-    },
-    startDate: start_date, 
-    endDate: end_date 
+$('input[type="checkbox"]').on('change', function() {
+if($("#play_with_team").is(':checked')){
+    $("#team_playersDiv").show();  // checked
+}else{
+    $('#team_playersDiv').hide();
+}
 });
-
 
 KTUtil.onDOMContentLoaded(function() {
    handleFormSubmitFunc('Edit{{ $trans }}');
