@@ -126,11 +126,11 @@
                             @foreach ($roles as $role)
                                 <label class="form-check form-check-custom form-check-solid align-items-start">
                                     <input class="form-check-input me-3" type="checkbox" id="roles" name="roles[]"
-                                        value="{{ $role->id }}" required @if(in_array($role->id,$row->roles->pluck('id')->toArray())) checked @endif
+                                        value="{{ $role }}" required @if(in_array($role,$userRole)) checked @endif
                                         
                                         data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'roles' . '&nbsp;']) }}" />
                                     <span class="form-check-label text-dark d-flex flex-column align-items-start">
-                                        <span class="fw-bold fs-5 mb-0">{{ $role->name }}</span>
+                                        <span class="fw-bold fs-5 mb-0">{{ $role }}</span>
                                     </span>
                                 </label>
                                 <div class="separator separator-dashed my-6"></div>

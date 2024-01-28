@@ -47,7 +47,6 @@ class UserController extends Controller
 
         if ($user && $user->assignRole($request->input('roles'))) {
           
-            dd('DONE');
             if(!(empty($request->input('teams')))){
                 $tagTeamsArr = json_decode($request->input('teams'), true); 
                 $tagTeamList = array_column($tagTeamsArr, 'value');
@@ -70,7 +69,7 @@ class UserController extends Controller
     {
 
         $compact = [
-            'roles'          => Role::select('id', 'name')->get(),
+            'roles'          => Role::pluck('name','name')->all(),
             'countries'      => Country::select('id', 'name')->get(),
             'teams'          => Team::select('id', 'title')->get(),
             'trans'          => $this->TRANS,
@@ -191,7 +190,8 @@ class UserController extends Controller
                 'row'                    => $user,
                 'destroyRoute'           => route($this->ROUTE_PREFIX . '.destroy', $user->id),
                 'trans'                  => $this->TRANS,
-                'roles'                  => Role::select('id', 'name')->get(),
+                'roles'                  => Role::pluck('name','name')->all(),
+                'userRole'               => $user->roles->pluck('name','name')->all(),
                 'teams'                  => Team::select('id', 'title')->get(),
                 'countries'              => Country::select('id', 'name')->get(),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
@@ -257,7 +257,6 @@ class UserController extends Controller
     }
 
     public function updatepassword(Request $request){
-        dd($request);
         $this->validate($request, [
             'current_password' => 'required|string',
             'new_password' => 'required|confirmed|min:8|string'

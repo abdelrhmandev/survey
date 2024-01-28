@@ -115,15 +115,17 @@
                         </div>
 
 
+
+                        
                         <div class="fv-row fl">
                             <label class="required form-label" for="roles">{{ __('role.plural') }}</label>
                             @foreach ($roles as $role)
                                 <label class="form-check form-check-custom form-check-solid align-items-start">
                                     <input class="form-check-input me-3" type="checkbox" id="roles" name="roles[]"
-                                        value="{{ $role->id }}" required
+                                        value="{{ $role }}" required
                                         data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'roles' . '&nbsp;']) }}" />
                                     <span class="form-check-label text-dark d-flex flex-column align-items-start">
-                                        <span class="fw-bold fs-5 mb-0">{{ $role->name }}</span>
+                                        <span class="fw-bold fs-5 mb-0">{{ $role }}</span>
                                     </span>
                                 </label>
                                 <div class="separator separator-dashed my-6"></div>

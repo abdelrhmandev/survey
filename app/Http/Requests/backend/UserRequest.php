@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
         $rules['name']      = 'required|string|max:255';
 
         $rules['email']     = 'required|string|max:255|email|unique:users,email';
-        $rules['roles']     = 'required|exists:roles,id';   
+        $rules['roles']     = 'required|exists:roles,name';   
 
 
 
