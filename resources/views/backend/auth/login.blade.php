@@ -19,14 +19,10 @@
                     src="{{ asset('assets/backend/media/auth/agency.png') }}" alt="" />
                 <img class="theme-dark-show mx-auto mw-100 w-150px w-lg-300px mb-10 mb-lg-20"
                     src="{{ asset('assets/backend/media/auth/agency-dark.png') }}" alt="" />
-                <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">{{ config('app.name') }} Fast, Efficient and
-                    Productive</h1>
-                <div class="text-gray-600 fs-base text-center fw-semibold">In this kind of post,
-                    <a href="#" class="opacity-75-hover text-primary me-1">the blogger</a>introduces a person they’ve
-                    interviewed
-                    <br />and provides some background information about
-                    <a href="#" class="opacity-75-hover text-primary me-1">the interviewee</a>and their
-                    <br />work following this is a transcript of the interview.
+                <h1 class="text-gray-800 fs-2qx fw-bold text-center mb-7">{{ config('custom.project_name') }}
+                    </h1>
+                <div class="text-gray-600 fs-base text-center fw-semibold">
+                    {{ config('custom.project_description') }}
                 </div>
             </div>
         </div>
@@ -34,10 +30,6 @@
 
             <div class="bg-body d-flex flex-center rounded-4 w-md-600px p-10">
                 <div class="w-md-400px">
-
-
-
-
                     <form id="login" method="POST" action="{{ route('admin.auth.login.submit') }} " class="form w-100"
                         data-form-submit-error-message="{{ __('site.form_submit_error') }}"
                         data-form-agree-label="{{ __('site.agree') }}">

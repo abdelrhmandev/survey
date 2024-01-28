@@ -24,8 +24,11 @@ class QuestionRequest extends FormRequest
         $rules['title'] = 'required';
         $rules['score'] = 'required';
         $rules['time'] = 'required';
-        $rules['answer'] = 'required';
+        $rules['answers'] = 'required';
         
+        if($id){
+            $rules['correct_answer_check'] = 'required';
+        }
         return $rules; 
 
     }

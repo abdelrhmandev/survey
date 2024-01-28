@@ -14,6 +14,11 @@ return [
 
     // Project name. Shown in the breadcrumbs and a few other places.
     'project_name' => 'Survey Game2024',
+
+
+    'project_description' => 'Start Survey Game!
+    Without much to your name, you go about each lovely day repeating the same boring tasks , enjoy. Every amazing day the same as the one before, like flipping an unbalanced coin. However, this time, your usual pattern will be disrupted, as you will find out that not everything is as it seems enjoy... in the Midnight Zone !',
+
   
     /*
     |--------------------------------------------------------------------------

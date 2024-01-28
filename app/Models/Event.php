@@ -18,7 +18,9 @@ class Event extends Model
 	
 	public $timestamps = true;
 	
-
+	public function games(){
+        return $this->belongsTo(Game::class,'id','event_id'); 
+    }
 
 	
 }

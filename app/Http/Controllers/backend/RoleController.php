@@ -20,8 +20,8 @@ class RoleController extends Controller
     }
     public function store(RoleRequest $request){
  
-            $arry = [
-            'name'          => $request->input('name'),            
+        $arry = [
+            'name' => $request->input('name'),            
         ];              
         $role = Role::create($arry);
         if($role && $role->syncPermissions($request->input('permissions'))){

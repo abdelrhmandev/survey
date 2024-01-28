@@ -39,8 +39,8 @@ class EventSeeder extends Seeder
             [
                 'title' => 'Cairo Food',
                 'slug' => 'cairo-food',
-                'start_date' => Carbon::parse('2024-03-28'),
-                'end_date' => Carbon::parse('2024-04-14'),
+                'start_date' => Carbon::parse('2024-01-24'),
+                'end_date' => Carbon::parse('2024-01-27'),
                 'image' => 'uploads/events/3.jpg',
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
                 'created_at' => Carbon::now(),
@@ -105,8 +105,8 @@ class EventSeeder extends Seeder
             [
                 'title' => 'Fashion Day',
                 'slug' => 'fashion-day',
-                'start_date' => Carbon::parse('2024-02-14'),
-                'end_date' => Carbon::parse('2024-02-27'),
+                'start_date' => Carbon::parse('2024-01-14'),
+                'end_date' => Carbon::parse('2024-01-27'),
                 'image' => 'uploads/events/9.jpg',
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
                 'created_at' => Carbon::now(),

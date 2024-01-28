@@ -29,7 +29,7 @@
                         <div class="d-flex flex-column gap-5">
                             <div class="fv-row fl">
                                 <label class="required form-label" for="title">{{ __('site.title') }}</label>
-                                <input placeholder="{{ __('site.title') }}" type="text" id="title_" name="title"
+                                <input placeholder="{{ __('site.title') }}" type="text" id="title" name="title"
                                     class="form-control mb-2" value="{{ $row->title }}" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}" />
                             </div>

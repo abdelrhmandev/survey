@@ -118,7 +118,6 @@ class QuestionController extends Controller
             'game_id' => $request->game_id,
             'score' => $request->score,
             'time' => $request->time,
-            'difficulty' => $request->difficulty,
         ];
         $query = Question::create($data);
         $answerArr = [];
@@ -177,7 +176,7 @@ class QuestionController extends Controller
         $ids = implode(',', $ids);
         $cases = implode(' ', $cases);
         \DB::update("UPDATE `answers` SET `title` = CASE `id` {$cases} END  WHERE `id` in ({$ids})", $params);
-        QuestionCorrectAnswer::updateOrCreate(['question_id' => $question->id], ['correct_answer_id' => $request->answer]);
+        QuestionCorrectAnswer::updateOrCreate(['question_id' => $question->id], ['correct_answer_id' => $request->correct_answer_check]);
         if (Question::findOrFail($question->id)->update($validated)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {

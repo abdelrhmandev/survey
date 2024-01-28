@@ -15,7 +15,9 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    // protected $guard_name = 'admin';
+
+ protected $guard = 'admin';
+ 
     protected $fillable = [
         'name',
         'username',
@@ -40,7 +42,7 @@ class User extends Authenticatable
         return $this->belongsTo(Country::class);
     }
 
-    public function team(){
+    public function teams(){
         return $this->belongsToMany(Team::class, 'user_team','user_id','team_id'); 
     }
 

@@ -19,6 +19,11 @@ class GameRequest extends FormRequest
     {
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
+
+        // https://codeanddeploy.com/blog/laravel/laravel-8-user-roles-and-permissions-step-by-step-tutorial
+        // $game = request()->route('game');
+        // $id = $game->id;
+
         $rules['title'] = 'required|max:255|unique:events,title' . $id;
         $rules['description'] = 'nullable';
         $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB

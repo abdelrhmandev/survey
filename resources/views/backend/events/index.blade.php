@@ -69,6 +69,7 @@
             <th>{{ __('site.title') }}</th>
             <th>{{ __('event.start_date') }}</th>
             <th>{{ __('event.end_date') }}</th>
+            <th>{{ __('game.plural') }}</th>
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-150px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -97,7 +98,7 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'title', name: 'title',orderable: false}, 
 { data: 'start_date', name: 'start_date',orderable: false}, 
 { data: 'end_date', name: 'end_date',orderable: false},
-
+{ data: 'games', name: 'games',orderable: false}, 
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

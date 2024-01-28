@@ -69,9 +69,9 @@
             <th>{{ __('site.title') }}</th>
             <th style="width: 130px;">{{ __('event.singular') }}</th>
             <th>{{ __('type.singular') }}</th>
-            <th style="width: 180px;">Play With Team</th>            
+            <th style="width: 150px;">Play With Team</th>            
             <th class="text-primary">{{ __('site.created_at') }}</th>
-            <th class="text-end w-100px noExport">{{ __('site.actions') }}</th>  
+            <th class="text-end w-120px noExport">{{ __('site.actions') }}</th>  
           </tr>
         </thead>
         <tbody class="text-gray-600"> 

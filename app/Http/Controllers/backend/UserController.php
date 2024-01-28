@@ -46,7 +46,8 @@ class UserController extends Controller
         $user = User::create($arry);
 
         if ($user && $user->assignRole($request->input('roles'))) {
-
+          
+            dd('DONE');
             if(!(empty($request->input('teams')))){
                 $tagTeamsArr = json_decode($request->input('teams'), true); 
                 $tagTeamList = array_column($tagTeamsArr, 'value');
@@ -86,8 +87,11 @@ class UserController extends Controller
                     'roles' => function ($query) {
                         $query->select('id', 'name'); # Many to many
                     },
+                    'teams' => function ($query) {
+                        $query->select('teams.id', 'teams.title'); # Many to many
+                    },
                 ])
-                ->withCount(['roles']);
+                ->withCount(['roles','teams']);
             return Datatables::of($model)
                 ->addIndexColumn()
                 ->editColumn('name', function ($row) {
@@ -117,7 +121,7 @@ class UserController extends Controller
                     </div>
                 </div>";
                 })
-                ->AddColumn('role', function (User $row) {
+                ->AddColumn('roles', function (User $row) {
                     $roleDiv = '';
                     if ($row->roles_count > 0) {
                         foreach ($row->roles as $role) {                       
@@ -129,6 +133,18 @@ class UserController extends Controller
                     return $roleDiv;
                 })
 
+                ->AddColumn('teams', function ($row) {
+                    $teamDiv = '';
+                    if ($row->teams_count > 0) {
+                    foreach ($row->teams as $team) {                       
+                    $teamDiv .= "<div class=\"badge py-3 px-4 fs-7 badge-light-info mt-1\"><span class=\"text-info\">" . $team->title . '</span></div> ';
+                    }
+                    } else {
+                    $teamDiv = "<span class=\"text-danger\">" . __('user.no_teams_assigned') . '</span>';
+                    }
+                    return $teamDiv;
+                    })
+                    
                 ->editColumn('country_id', function (User $row) {
                     return $row->country->name;
                 })
@@ -152,7 +168,7 @@ class UserController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['name', 'role', 'status', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['name', 'roles', 'status', 'teams','actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.users.index')) {
@@ -176,6 +192,7 @@ class UserController extends Controller
                 'destroyRoute'           => route($this->ROUTE_PREFIX . '.destroy', $user->id),
                 'trans'                  => $this->TRANS,
                 'roles'                  => Role::select('id', 'name')->get(),
+                'teams'                  => Team::select('id', 'title')->get(),
                 'countries'              => Country::select('id', 'name')->get(),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'editPasswordRoute'      => route($this->ROUTE_PREFIX.'.editpassword',$user->id), 
@@ -205,8 +222,11 @@ class UserController extends Controller
 
 
         $update = $user->update($arry);
+        
         if ($update && $user->assignRole($request->input('roles'))) {
  
+            $user->teams()->sync((array) $request->input('teams'));
+            
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];

@@ -23,7 +23,7 @@ class EventController extends Controller
 
     public function index(Request $request)
     {
-        $model = Event::select('*');
+        $model = Event::select('*')->withCount(['games']);
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
@@ -34,6 +34,11 @@ class EventController extends Controller
                     if($row->end_date < date('Y-m-d')) $EventHit = "<div class=\"text-danger\">Expired</div>";
                     
                     return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . Str::words($row->title, '5') . '</a>'.$EventHit;
+                })
+
+
+                ->addColumn('games', function ($row) {
+                    return $row->games_count;
                 })
 
                 ->editColumn('image', function ($row) {

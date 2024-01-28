@@ -123,9 +123,6 @@
 
                         <div class="fv-row fl">
                             <label class="required form-label" for="roles">{{ __('role.plural') }}</label>
-                            
-                            
-
                             @foreach ($roles as $role)
                                 <label class="form-check form-check-custom form-check-solid align-items-start">
                                     <input class="form-check-input me-3" type="checkbox" id="roles" name="roles[]"
@@ -139,6 +136,26 @@
                                 <div class="separator separator-dashed my-6"></div>
                             @endforeach
                         </div>
+
+
+                        <div class="fv-row fl">
+                            <label class="required form-label" for="teams">{{ __('team.plural') }}</label>
+                            @foreach ($teams as $team)
+                                <label class="form-check form-check-custom form-check-solid align-items-start">
+                                    <input class="form-check-input me-3" type="checkbox" id="teams" name="teams[]"
+                                        value="{{ $team->id }}" required @if(in_array($team->id,$row->teams->pluck('id')->toArray())) checked @endif
+                                        
+                                        data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'teams' . '&nbsp;']) }}" />
+                                    <span class="form-check-label text-dark d-flex flex-column align-items-start">
+                                        <span class="fw-bold fs-5 mb-0">{{ $team->title }}</span>
+                                    </span>
+                                </label>
+                                <div class="separator separator-dashed my-6"></div>
+                            @endforeach
+                        </div>
+
+
+
                         <div class="notice d-flex bg-light-primary rounded border-primary border border-dashed mb-9 p-6">
                             <i class="ki-outline ki-design-1 fs-2tx text-primary me-4"></i>
                             <div class="d-flex flex-stack flex-grow-1">

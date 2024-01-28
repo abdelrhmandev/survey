@@ -5,7 +5,7 @@ class Permission extends Model
 {
 
 	protected $table    = 'permissions';
-    // protected $guard_name = 'admin'; // or whatever guard you want to use
+ 
     /**
      * The attributes that are mass assignable.
      *

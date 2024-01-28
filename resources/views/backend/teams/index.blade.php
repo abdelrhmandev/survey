@@ -66,6 +66,7 @@
               </div>
             </th>            
             <th>{{ __('site.title') }}</th>
+            <th>{{ __('user.plural') }}</th>
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-150px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -91,6 +92,7 @@
 var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'title', name: 'title',orderable: false}, // 2
+{ data: 'users', name: 'users',orderable: false}, // 2
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

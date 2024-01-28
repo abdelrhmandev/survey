@@ -82,7 +82,7 @@
                                     <span class="input-group-text">
                                         <label class="form-check form-check-custom form-check-solid me-1">
                                             <input class="form-check-input sm" id="CorrectAnswer{{ $answer->id }}" value="{{ $answer->id }}" type="radio"
-                                                name="answer" {{ isset($row->correctAnswer->correct_answer_id) && $answer->id == $row->correctAnswer->correct_answer_id   ? 'checked=checked' : '' }}>
+                                                name="correct_answer_check" {{ isset($row->correctAnswer->correct_answer_id) && $answer->id == $row->correctAnswer->correct_answer_id   ? 'checked=checked' : '' }}>
                                         </label>
                                     </span>
                                     <input type="text" value="{{ $answer->title }}" id="answerText{{ $answer->id }}"

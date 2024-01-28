@@ -24,21 +24,35 @@ class GameController extends Controller
         $this->UPLOADFOLDER = 'games';
     }
 
- 
     public function index(Request $request)
     {
-        $model = Game::select('*')->with(['type', 'event'])->withCount(['questions']);
+        $model = Game::select('*')
+            ->with(['type', 'event'])
+            ->withCount(['questions']);
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
                 ->editColumn('title', function ($row) {
-                    return '<a href=' . route($this->ROUTE_PREFIX . '.edit', $row->id) . " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" . $row->id . "=\"item\">" . $row->title . '</a>
+                    return '<a href=' .
+                        route($this->ROUTE_PREFIX . '.edit', $row->id) .
+                        " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" .
+                        $row->id .
+                        "=\"item\">" .
+                        $row->title .
+                        '</a>
                     <p>
                     Attendees
-                    '."<span class=\"text-success fw-bolder fs-3\">" . $row->attendees . '</span>                   
+                    ' .
+                        "<span class=\"text-success fw-bolder fs-3\">" .
+                        $row->attendees .
+                        '</span>
                     | Questions
-                    '."<span class=\"text-primary fw-bolder fs-3\">" . $row->questions_count . '</span>                   
+                    ' .
+                        "<span class=\"text-primary fw-bolder fs-3\">" .
+                        $row->questions_count .
+                        '</span>
                     </p>
+                   
 
                     ';
                 })
@@ -50,47 +64,61 @@ class GameController extends Controller
                     return '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
                 })
 
-
                 ->editColumn('play_with_team', function ($row) {
-                    $play_with_team = "<span class=\"badge py-3 px-4 fs-7 badge-light-" . ($row->play_with_team == '1' ? 'success' : 'danger') . "\"><span class=\"text-" . ($row->play_with_team == '1' ? 'sccuess' : 'danger') . "\">" . ($row->play_with_team == '1' ? 'Yes' : 'No') . "</span></span>";
-                    return '
+                    $playWithTeam =
+                        '
                     <p>
-                    '. $play_with_team.'
-                    '.__('game.team_players').'
-                    '."<span class=\"text-info fw-bolder fs-3\">" .  ($row->play_with_team == '1' && $row->team_players ? $row->team_players : '-') . '</span>
+                    ' .
+                        "<span class=\"badge py-3 px-4 fs-7 badge-light-danger\"><span class=\"text-danger\">No</span></span>" .
+                        '
                     </p>';
-                })
 
+                    if ($row->play_with_team == '1') {
+                        $playWithTeam =
+                            '
+                    <p>
+                    ' .
+                            "<span class=\"badge py-3 px-4 fs-7 badge-light-success\"><span class=\"text-success\">Yes</span></span><br>" .
+                            '
+                    ' .
+                            __('game.team_players') .
+                            '
+                    ' .
+                            "<span class=\"text-info fw-bolder fs-3\">" .
+                            $row->team_players .
+                            '</span>
+                    </p>';
+                    }
+
+                    return $playWithTeam;
+                })
 
                 ->editColumn('type_id', function ($row) {
                     return '<a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
                 })
 
-
-
                 ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
 
-                    ->editColumn('created_at', function ($row) {
+                ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
                 ->editColumn('actions', function ($row) {
                     $addQuestion =
-                    '<a href=' .
-                    route('admin.Q', $row->id) .
-                    " class=\"btn btn-sm btn-light-primary\">
-                <i class=\"ki-outline ki-message-question fs-3\"></i>" .
-                    __('question.add') .
-                    "</a>
+                        '<br/><br/><a href=' .
+                        route('admin.Q', $row->id) .
+                        " class=\"btn btn-sm btn-light-primary\">
+                <i class=\"ki-outline ki-plus-square fs-3\"></i>" .
+                        __('question.add') .
+                        "</a>
             ";
-
 
                     // "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
 
-                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX).$addQuestion;
                 })
-                ->rawColumns(['image', 'title', 'question_id','play_with_team','event_id','type_id', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image', 'title', 'question_id', 'play_with_team', 'event_id', 'type_id', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
@@ -171,12 +199,9 @@ class GameController extends Controller
     /////////////
     public function update(GameRequest $request, Game $game)
     {
-
-        
         $validated = $request->validated();
         $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
         $validated['slug'] = Str::slug($request->title);
-
 
         if (Game::findOrFail($game->id)->update($validated)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
