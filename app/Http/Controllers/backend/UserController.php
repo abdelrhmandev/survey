@@ -116,7 +116,12 @@ class UserController extends Controller
                         $row->email .
                         "\">" .
                         $row->email .
-                        "</a></span>
+                        "</a>
+                        <br>
+                        <span class=\"menu-icon me-0\">
+                        <i class=\"ki-outline ki-phone fs-1x\"></i>
+                    </span>                        
+                        ".$row->mobile ?? ''."
                     </div>
                 </div>";
                 })

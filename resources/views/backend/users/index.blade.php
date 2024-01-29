@@ -65,7 +65,6 @@
               </div>
             </th>            
             <th>{{ __('user.singular') }}</th>  
-            <th>{{ __('site.mobile') }}</th>
             <th>{{ __('team.plural') }}</th>  
             <th>{{ __('role.plural') }}</th>
             <th>{{ __('country.singular') }}</th>
@@ -88,7 +87,6 @@
 var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'name', name: 'name',orderable: false}, 
-{ data: 'mobile', name: 'mobile',orderable: false}, 
 { data: 'teams', name: 'teams',orderable: false}, 
 { data: 'roles', name: 'roles',orderable: false,searchable: false},
 { data: 'country_id', name: 'country_id',orderable: false,searchable: false},

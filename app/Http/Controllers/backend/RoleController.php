@@ -22,6 +22,7 @@ class RoleController extends Controller
  
         $arry = [
             'name' => $request->input('name'),            
+            'guard_name'=>'admin',
         ];              
         $role = Role::create($arry);
         if($role && $role->syncPermissions($request->input('permissions'))){

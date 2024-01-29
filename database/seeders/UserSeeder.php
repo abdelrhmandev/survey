@@ -26,19 +26,7 @@ class UserSeeder extends Seeder
                 'avatar'           =>'uploads/avatars/1.jpg',
                 'country_id'       =>'64',
                 'status'           =>'1',
-            ])->assignRole(1);
-
-            \App\Models\User::create([    
-                'username'         =>'Mab',
-                'password'         =>Hash::make('12345678'),
-                'email'            =>'Mab@domain.com',
-                'name'             =>'Mab Bok',
-                'is_admin'         =>'1',
-                'mobile'           =>'01872971227',
-                'status'           =>'1',
-                'country_id'       =>'44',
-            ])->assignRole(2);
-
+            ])->assignRole('Administrator');
             
             \App\Models\User::create([    
                 'username'         =>'emad',
@@ -50,7 +38,18 @@ class UserSeeder extends Seeder
                 'avatar'           =>'uploads/avatars/2.jpg',
                 'status'           =>'1',
                 'country_id'       =>'64',
-            ])->assignRole(1);
+            ])->assignRole('Administrator');
+
+            \App\Models\User::create([    
+                'username'         =>'Mab',
+                'password'         =>Hash::make('12345678'),
+                'email'            =>'Mab@domain.com',
+                'name'             =>'Mab Bok',
+                'is_admin'         =>'1',
+                'mobile'           =>'01872971227',
+                'status'           =>'1',
+                'country_id'       =>'44',
+            ])->assignRole('Medical Rep');
 
             \App\Models\User::create([    
                 'username'         =>'DanWilson',
@@ -62,7 +61,7 @@ class UserSeeder extends Seeder
                 'country_id'       =>'10',
                 'mobile'           =>'0187297444',
                 'avatar'           =>'uploads/avatars/3.jpg',
-            ])->assignRole(2);
+            ])->assignRole('Medical Rep');
 
             \App\Models\User::create([    
                 'username'         =>'FrancisMitcham',
@@ -75,7 +74,7 @@ class UserSeeder extends Seeder
                 'country_id'       =>'22',
                 'mobile'           =>'07872971280',
                 'avatar'           =>'uploads/avatars/4.jpg',
-            ])->assignRole(3);
+            ])->assignRole('Coordinator');
 
  
             \App\Models\User::create([    
@@ -87,10 +86,22 @@ class UserSeeder extends Seeder
                 'mobile'           =>'01872971230',
                 'status'           =>'1',
                 'country_id'       =>'50',
-                'mobile'           =>'0787297127',
-            ])->assignRole(3);
+                'mobile'           =>'9787297127',
+            ])->assignRole('Coordinator');
 
- 
+            \App\Models\User::create([    
+                'username'         =>'kanty Mool',
+                'password'         =>Hash::make('12345678'),
+                'email'            =>'kanty@domain.com',
+                'name'             =>'kanty Mool',
+                'is_admin'         =>'1',
+                'mobile'           =>'71872971230',
+                'status'           =>'0',
+                'country_id'       =>'20',
+                'mobile'           =>'7787297127',
+            ])->assignRole('Coordinator');
+
+            
 
             
  
