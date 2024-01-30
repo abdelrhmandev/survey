@@ -160,7 +160,7 @@ class UserController extends Controller
                         $checked = '';
                         $statusLabel = "<span class=\"text-danger\">" . __('site.deactivated') . '</span>';
                     }
-                    $div = "<div class=\"form-check form-switch form-check-custom form-check-solid\"><input class=\"form-check-input UpdateStatus\" name=\"Updatetatus\" type=\"checkbox\" " . $checked . " id=\"Status" . $row->id . "\" onclick=\"UpdateStatus($row->id,'" . __($this->TRANS . '.plural') . "','$this->Tbl','" . route('UpdateStatus') . "')\" />&nbsp;" . $statusLabel . '</div>';
+                    $div = "<div class=\"form-check form-switch form-check-custom form-check-solid\"><input class=\"form-check-input UpdateStatus\" name=\"Updatetatus\" type=\"checkbox\" " . $checked . " id=\"Status" . $row->id . "\" onclick=\"UpdateStatus($row->id,'" . __($this->TRANS . '.plural') . "','$this->Tbl','" . route('admin.UpdateStatus') . "')\" />&nbsp;" . $statusLabel . '</div>';
                     return $div;
                 })
                 ->editColumn('created_at', function (User $row) {

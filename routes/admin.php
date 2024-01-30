@@ -13,7 +13,7 @@ Route::group(
         ######################### End Dashboard ########################
 
         ######################### Start Update Status #################################
-        Route::post('/UpdateStatus', [App\Http\Controllers\backend\BaseController::class, 'UpdateStatus'])->name('UpdateStatus');
+        Route::post('/UpdateStatus', 'BaseController@UpdateStatus')->name('UpdateStatus');
         ######################### End Update Status #################################
 
         Route::resource('users', UserController::class)->except('show');
