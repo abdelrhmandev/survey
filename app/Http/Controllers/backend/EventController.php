@@ -65,7 +65,14 @@ class EventController extends Controller
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
                 ->rawColumns(['image','title','start_date', 'end_date','actions', 'created_at', 'created_at.display'])
+                
+                // ->setRowAttr([
+                //     'style' => function($row){
+                //         return $row->end_date < date('Y-m-d') ? 'background-color: #ffeef3;' :'';
+                //     }
+                // ])
                 ->make(true);
+                
         }
         if (view()->exists('backend.events.index')) {
             $compact = [

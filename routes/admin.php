@@ -11,6 +11,11 @@ Route::group(
         ######################### Start Dashboard #################################
         Route::get('/', 'DashboardController@index')->name('dashboard');
         ######################### End Dashboard ########################
+
+        ######################### Start Update Status #################################
+        Route::post('/UpdateStatus', [App\Http\Controllers\backend\BaseController::class, 'UpdateStatus'])->name('UpdateStatus');
+        ######################### End Update Status #################################
+
         Route::resource('users', UserController::class)->except('show');
         Route::get('/{id}/EditUserPassword', 'UserController@editpassword')->name('users.editpassword');
         Route::put('update/UserPassword', 'UserController@updatepassword')->name('users.updatepassword');
@@ -28,32 +33,17 @@ Route::group(
         ######################### End Permissions ##########################
 
         ######################### Start Questions ##########################
+        Route::resource('questions', QuestionController::class)->except('show');
+        Route::get('questions/FilterByGame/{game_id}', 'QuestionController@index')->name('questions.FilterByGame');
+        Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
+        Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');
+        Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
+        ######################### End Questions ##########################
 
-
-        
-            Route::resource('questions', QuestionController::class)->except('show');   
-            
-            Route::get('questions/FilterByGame/{game_id}', 'QuestionController@index')->name('questions.FilterByGame');
-
-
-            Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
-
-
-
-
-
-            Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');
-
-
-            Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
-            ######################### End Questions ##########################
-
-            ######################### Start Answers ##########################
-            Route::resource('answers', AnswerController::class)->except('show');
-            Route::delete('answers/destroy/all', 'AnswerController@destroyMultiple')->name('answers.destroyMultiple');
-            ######################### End Answers ##########################
-
-        
+        ######################### Start Answers ##########################
+        Route::resource('answers', AnswerController::class)->except('show');
+        Route::delete('answers/destroy/all', 'AnswerController@destroyMultiple')->name('answers.destroyMultiple');
+        ######################### End Answers ##########################
 
         ######################### Start teams ##########################
         Route::resource('teams', TeamController::class)->except('show');
@@ -64,12 +54,11 @@ Route::group(
         Route::resource('types', TypeController::class)->except('show');
         Route::delete('types/destroy/all', 'TypeController@destroyMultiple')->name('types.destroyMultiple');
         ######################### End Types ##########################
-                
+
         ######################### Start Events ##########################
         Route::resource('events', EventController::class)->except('show');
         Route::delete('events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
         ######################### End Events ##########################
-
 
         ######################### Start Games ##########################
         Route::resource('games', GameController::class)->except('show');
