@@ -3,17 +3,17 @@
 	<head>
 		<title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<meta name="description" content="GameTime" />
-		<meta name="keywords" content="Metronic, bootstrap, bootstrap 5, Angular" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="GSK" />
+		<meta name="keywords" content="GSK" />
+		<meta name="viewport" content="GSK" />
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
-		<meta property="og:title" content="Metronic - Bootstrap 5 HTML, VueJS, React" />
-		<meta property="og:url" content="#" />
-		<meta property="og:site_name" content="Metronic" />
-		<link rel="canonical" href="google.com" />
+		<meta property="og:title" content="GSK" />
+		<meta property="og:url" content="https://game.invent.solutions" />
+		<meta property="og:site_name" content="GSK" />
+		<link rel="canonical" href="https://game.invent.solutions" />
 		<link rel="shortcut icon" href="{{ asset('assets/backend/media/logos/favicon.ico')}}" />
 		@yield('style')
 		<script>
