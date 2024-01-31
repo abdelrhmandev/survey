@@ -7,7 +7,7 @@ use App\Traits\UploadAble;
 use App\Models\User;
 use Illuminate\Support\Facades\File; 
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\backend\ProfileReques;
+use App\Http\Requests\backend\ProfileRequest;
 class ProfileController extends Controller
 {
     protected $model;
