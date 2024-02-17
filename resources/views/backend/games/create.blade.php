@@ -114,7 +114,7 @@
 <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
 <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
 <script src="{{ asset('assets/backend/js/custom/handleFormSubmit.js') }}"></script>
-<script src="{{ asset('assets/backend/js/custom/deleteConfirmSwal.js') }}"></script>
+
 <script>
 
 
