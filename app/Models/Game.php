@@ -14,7 +14,10 @@ class Game extends Model
 		'attendees',
 		'play_with_team',
 		'team_players',
-		'event_id',
+		'event_title',
+		'event_start_date',
+		'event_end_date',
+		'event_location',		
 		'type_id',
 	];
 	

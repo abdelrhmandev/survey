@@ -27,13 +27,13 @@
                         <div class="d-flex flex-column gap-5">
 
                             <div class="fv-row fl">
-                                <label class="required form-label" for="game">{{ __('game.select') }}</label>
+                                <label class="required form-label" for="brand">{{ __('brand.select') }}</label>
                                 <select class="form-select form-select-solid" data-control="select2"
-                                    data-hide-search="false" data-placeholder="{{ __('game.select') }}" name="game_id">
-                                    <option value="">{{ __('game.select') }}</option>
-                                    @foreach ($games as $game)
-                                        <option value="{{ $game->id }}" {{ $game->id == $GameId ? 'selected' : '' }}>
-                                            {{ $game->title }}</option>
+                                    data-hide-search="false" data-placeholder="{{ __('brand.select') }}" name="brand_id">
+                                    <option value="">{{ __('brand.select') }}</option>
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}" {{ $brand->id == $BrandId ? 'selected' : '' }}>
+                                            {{ $brand->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -58,28 +58,59 @@
                             @endfor
 
 
-                            <div class="fs-3 fw-bold mb-n2">Score and Time Duration</div>
+                            <div class="fs-3 fw-bold mb-n2">Time Duration</div>
                             <div class="d-flex flex-column flex-md-row gap-5">
 
 
-                                <div class="fv-row fl flex-row-fluid">
+                                <div class="fv-row fl flex-row-fluid d-none">
                                     <label class="required form-label" for="score">Score</label>
                                     <input placeholder="Example 20" maxlength="3" type="text" id="score"
-                                        name="score" class="form-control mb-2" required data-fv-numeric="true"
+                                        name="score" value="5" class="form-control mb-2" required data-fv-numeric="true"
                                         type="textbox" data-fv-numeric___message="score must be a number"
                                         data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'score' . '&nbsp;']) }}" />
                                 </div>
 
                                 <div class="flex-row-fluid">
-                                    <div class="fv-row fl flex-row-fluid">
-                                        <label class="required form-label" for="time">Time</label>
-                                        <input placeholder="Example 120" type="text" id="time" name="time"
-                                            class="form-control mb-2" maxlength="3" required data-fv-numeric="true"
-                                            type="textbox" data-fv-numeric___message="time must be a number"
-                                            data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'time' . '&nbsp;']) }}" />
-                                    </div>
+                                   
 
-                                    <div class="text-muted fs-7">by seconds</div>
+                                    <div class="mb-10">
+                                        <!--begin::Heading-->
+                                        
+                                        <!--end::Heading-->
+                                        <!--begin::Row-->
+                                        <div class="fv-row">
+                                            <!--begin::Radio group-->
+                                            <div class="btn-group w-100" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                                <!--begin::Radio-->
+                                                <label class="btn btn-outline btn-active-success btn-color-muted" data-kt-button="true">
+                                                <!--begin::Input-->
+                                                <input class="btn-check" type="radio" name="time" value="15" />
+                                                <!--end::Input-->
+                                                15 seconds</label>
+                                                <!--end::Radio-->
+                                                <!--begin::Radio-->
+                                                <label class="btn btn-outline btn-active-success btn-color-muted active" data-kt-button="true">
+                                                <!--begin::Input-->
+                                                <input class="btn-check" type="radio" name="time" checked="checked" value="30" />
+                                                <!--end::Input-->
+                                                30 seconds </label>
+                                                <!--end::Radio-->
+                                                <!--begin::Radio-->
+                                                <label class="btn btn-outline btn-active-success btn-color-muted" data-kt-button="true">
+                                                <!--begin::Input-->
+                                                <input class="btn-check" type="radio" name="time" value="45" />
+                                                <!--end::Input-->
+                                                45 seconds</label>
+                                                <!--end::Radio-->
+                                                <!--begin::Radio-->
+                                             
+                                                <!--end::Radio-->
+                                            </div>
+                                            <!--end::Radio group-->
+                                        </div>
+                                        <!--end::Row-->
+                                    </div>
+ 
 
                                 </div>
                             </div>

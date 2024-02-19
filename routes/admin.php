@@ -34,7 +34,7 @@ Route::group(
 
         ######################### Start Questions ##########################
         Route::resource('questions', QuestionController::class)->except('show');
-        Route::get('questions/FilterByGame/{game_id}', 'QuestionController@index')->name('questions.FilterByGame');
+        Route::get('questions/FilterByBrand/{brand_id}', 'QuestionController@index')->name('questions.FilterByBrand');
         Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
         Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');
         Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
@@ -62,6 +62,12 @@ Route::group(
 
         ######################### Start Games ##########################
         Route::resource('games', GameController::class)->except('show');
+
+        Route::post('games/AjaxgetQuestionsByBrand', 'GameController@AjaxgetQuestionsByBrand')->name('games.AjaxgetQuestionsByBrand');
+
+
+        
+
         Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
         ######################### End Games ##########################
 

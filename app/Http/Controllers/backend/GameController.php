@@ -3,10 +3,10 @@ namespace App\Http\Controllers\backend;
 use App\Http\Requests\backend\GameRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Game;
 use App\Models\GameTeam;
 use App\Models\Type;
-use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -27,7 +27,7 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $model = Game::select('*')
-            ->with(['type', 'event'])
+            ->with(['type'])
             ->withCount(['questions']);
         if ($request->ajax()) {
             return Datatables::of($model)
@@ -118,7 +118,7 @@ class GameController extends Controller
 
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX).$addQuestion;
                 })
-                ->rawColumns(['image', 'title', 'question_id', 'play_with_team', 'event_id', 'type_id', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image', 'title', 'question_id', 'play_with_team', 'type_id', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
@@ -136,10 +136,8 @@ class GameController extends Controller
     {
         if (view()->exists('backend.games.create')) {
             $compact = [
-                'types' => Type::select('id', 'title')->get(),
-                'events' => Event::select('id', 'title')
-                    ->where('start_date', '>', date('Y-m-d'))
-                    ->get(),
+                'types' => Type::select('id', 'title')->get(),  
+                'brands' => Brand::select('id', 'title')->get(),               
                 'trans' => $this->TRANS,
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
@@ -230,5 +228,11 @@ class GameController extends Controller
             $arr = ['msg' => __($this->TRANS . '.' . 'MiltideleteMessageError'), 'status' => false];
         }
         return response()->json($arr);
+    }
+
+    public function AjaxgetQuestionsByBrand(Request $request){
+        // return $request->brand_id;
+
+        // $view = view('components.fields.fieldfillable')->render();
     }
 }

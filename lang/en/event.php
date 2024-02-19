@@ -1,5 +1,6 @@
 <?php
 return [
+'location'                  => 'Event Location',
 'title'                     => 'Event Title',
 'edit'                      => 'Edit Event',
 'view'                      => 'View Event',

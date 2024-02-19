@@ -16,13 +16,14 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             TeamSeeder::class,
             TypeSeeder::class,
-            EventSeeder::class,
             GameSeeder::class,
+            BrandSeeder::class,
             QuestionSeeder::class,
             AnswerSeeder::class,
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
             QuestionCorrectAnswerSeeder::class,
+            GameQuestionSeeder::class,
             UserTeamSeeder::class,
         ]); 
 

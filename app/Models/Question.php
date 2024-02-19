@@ -8,7 +8,7 @@ class Question extends Model
 
     protected $fillable = [
 		'title',
-		'game_id',
+		'brand_id',
 		'score',
 		'time',
 		// 'difficulty',
@@ -17,8 +17,8 @@ class Question extends Model
 	public $timestamps = true;
 	
 
-	public function game(){
-        return $this->belongsTo(Game::class); 
+	public function brand(){
+        return $this->belongsTo(Brand::class); 
     }
 
 

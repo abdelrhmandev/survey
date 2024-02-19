@@ -21,22 +21,21 @@
                     <!--begin::Card title-->
                     <div class="card-title">
                         <i class="ki-outline ki-joystick fs-1 me-2"></i>
-                        <h2>Filter Questions By Game</h2>
+                        <h2>Filter Questions By brand</h2>
                     </div>
                     <!--end::Card title-->
                 </div>
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
-                    <select id="game_id" name="game_id" class="form-select form-select-solid" data-control="select2"
-                        name="game_id" id="game_id"
-                        data-placeholder="{{ __('site.filter_by') }} {{ __('game.singular') }} " data-allow-clear="false">
+                    <select id="brand_id" name="brand_id" class="form-select form-select-solid" data-control="select2"
+                        data-placeholder="{{ __('site.filter_by') }} {{ __('brand.singular') }} " data-allow-clear="false">
                         <option value="">{{ __('site.none') }}</option>
-                        @if (!empty($games))
-                            @foreach ($games as $game)
-                                <option value="{{ $game->id }}"
-                                    @if (isset($game_id) && $game_id == $game->id) {{ 'selected' }} @endif>
-                                    {{ $game->title }} ({{ $game->questions_count }})
+                        @if (!empty($brands))
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}"
+                                    @if (isset($brand_id) && $brand_id == $brand->id) {{ 'selected' }} @endif>
+                                    {{ $brand->title }} ({{ $brand->questions_count }})
                                 </option>
                             @endforeach
                         @endif
@@ -102,7 +101,7 @@
             </div>
             <div class="card-body pt-0">
                 
-              @if ($game_id && $counter > 0)
+              @if ($brand_id && $counter > 0)
                     <table class="table align-middle table-row-bordered fs-6 gy-5" id="{{ __($trans . '.plural') }}">
                         <thead>
                             <tr class="text-start fw-bold fs-7 text-uppercase gs-0">
@@ -113,7 +112,7 @@
                                     </div>
                                 </th>
                                 <th style="width: 500px;">{{ __('site.title') }}</th>
-                                <th>score</th>
+                                
                                 <th>time (seconds)</th>
                                 <th class="text-primary">{{ __('site.created_at') }}</th>
                                 <th class="text-end w-100px noExport">{{ __('site.actions') }}</th>
@@ -123,7 +122,7 @@
                         </tbody>
                     </table>
 
-              @elseif($game_id && $counter < 1)
+              @elseif($brand_id && $counter < 1)
 
               <div class="notice d-flex bg-light-danger rounded border-danger border border-dashed p-6 mt-5">
                 <i class="ki-outline ki-information fs-2tx text-danger me-4"></i>
@@ -140,7 +139,7 @@
                         <i class="ki-outline ki-information fs-2tx text-warning me-4"></i>
                         <div class="d-flex flex-stack flex-grow-1">
                             <div class="fw-semibold">
-                                <h4 class="text-gray-900 fw-bold">We need select a game for search </h4>
+                                <h4 class="text-gray-900 fw-bold">We need select a brand for search </h4>
                             </div>
                         </div>
                     </div>
@@ -161,17 +160,17 @@
     @include('backend.Questiondatatables')
     <script>
         $(function() {
-            $('#game_id').on('change', function() {
+            $('#brand_id').on('change', function() {
                 var id = $(this).val(); // get selected value
                 if (id) {
-                    var url = "{{ route('admin.questions.FilterByGame', ':id') }}";
+                    var url = "{{ route('admin.questions.FilterByBrand', ':id') }}";
                     url = url.replace(':id', id);
                     location.href = url;
                 }
                 return false;
             });
         });
-        @if ($game_id)
+        @if ($brand_id)
             var dynamicColumns = [ //as an array start from 0
                 {
                     data: 'id',
@@ -182,21 +181,11 @@
                     data: 'title',
                     name: 'title',
                     orderable: false
-                },
-                {
-                    data: 'score',
-                    name: 'score',
-                    orderable: false
-                },
-                {
+                },{
                     data: 'time',
                     name: 'time',
                     orderable: false
-                },
-
-
-
-                {
+                },{
                     data: 'created_at',
                     name: 'created_at',
                     type: 'num',
@@ -216,7 +205,7 @@
             ];
             KTUtil.onDOMContentLoaded(function() {
                 loadDatatable('{{ __($trans . '.plural') }}', '{{ $listingRoute }}', dynamicColumns, '', '1',
-                    '{{ $game_id }}');
+                    '{{ $brand_id }}');
             });
         @endif
     </script>

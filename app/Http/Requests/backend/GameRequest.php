@@ -34,7 +34,17 @@ class GameRequest extends FormRequest
 
         $rules['team_players'] = 'nullable|numeric';
 
-        $rules['event_id'] = 'exists:events,id';
+
+        $rules['event_title'] = 'required|max:255';
+
+        $rules['event_range_date'] = 'required';
+
+        $rules['event_location'] = 'required|max:255';
+
+
+      
+
+
         $rules['type_id'] = 'exists:types,id';
 
         

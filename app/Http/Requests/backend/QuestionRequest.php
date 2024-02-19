@@ -20,7 +20,7 @@ class QuestionRequest extends FormRequest
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
         
-        $rules['game_id'] = 'required|unique:games,title'.$id;
+        $rules['brand_id'] = 'required|unique:brands,title'.$id;
         $rules['title'] = 'required';
         $rules['score'] = 'required';
         $rules['time'] = 'required';

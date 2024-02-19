@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\backend;
 use DataTables;
 use Carbon\Carbon;
-use App\Models\Game;
+use App\Models\Brand;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\QuestionCorrectAnswer;
@@ -23,12 +23,12 @@ class QuestionController extends Controller
         $this->UPLOADFOLDER = 'questions';
     }
 
-    public function index(Request $request,$g_id=null)
+    public function index(Request $request,$b_id=null)
     {
-        (isset($request->game_id)) ? $game_id = $request->game_id : $game_id = $g_id;
+        (isset($request->brand_id)) ? $brand_id = $request->brand_id : $brand_id = $b_id;
 
         // echo ($GID);
-        $model = Question::where('game_id',$game_id)->with(['game', 'answers', 'correctAnswer']);
+        $model = Question::where('brand_id',$brand_id)->with(['brand', 'answers', 'correctAnswer']);
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
@@ -49,9 +49,7 @@ class QuestionController extends Controller
                 })
 
 
-                ->editColumn('score', function ($row) {
-                    return "<span class=\"text-success fw-bolder fs-3\">" . $row->score . '</span>';
-                })
+               
                 ->editColumn('time', function ($row) {
                     return "<span class=\"text-info fw-bolder fs-3\">" . $row->time . '</span>';
                 })
@@ -65,15 +63,15 @@ class QuestionController extends Controller
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
-                ->rawColumns(['title', 'score', 'time', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['title', 'time', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.questions.index')) {
             $compact = [
                 'trans' => $this->TRANS,
-                'game_id' => $game_id ?? 0,
+                'brand_id' => $brand_id ?? 0,
                 'counter'=>$model->count(),
-                'games' => Game::select('id', 'title')->withCount('questions')->get(),
+                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),
                 'createRoute' => route($this->ROUTE_PREFIX . '.create'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
                 'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),
@@ -83,12 +81,12 @@ class QuestionController extends Controller
         }
     }
 
-    public function create($GameId = null)
+    public function create($BrandId = null)
     {
         if (view()->exists('backend.questions.create')) {
             $compact = [
-                'GameId' => $GameId ?? '',
-                'games' => Game::select('id', 'title')->get(),
+                'BrandId' => $BrandId ?? '',
+                'brands' => Brand::select('id', 'title')->get(),
                 'trans' => $this->TRANS,
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
@@ -100,7 +98,7 @@ class QuestionController extends Controller
     {
         if (view()->exists('backend.questions.edit')) {
             $compact = [
-                'games' => Game::select('id', 'title')->get(),
+                'brands' => Brand::select('id', 'title')->get(),
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $question->id),
                 'row' => $question,
                 'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $question->id),
@@ -115,7 +113,7 @@ class QuestionController extends Controller
     {
         $data = [
             'title' => $request->title,
-            'game_id' => $request->game_id,
+            'brand_id' => $request->brand_id,
             'score' => $request->score,
             'time' => $request->time,
         ];
@@ -160,7 +158,7 @@ class QuestionController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['game_id'] = $request->game_id;
+        $validated['brand_id'] = $request->brand_id;
         $validated['title'] = $request->title;
         $validated['score'] = $request->score;
         $validated['time'] = $request->time;

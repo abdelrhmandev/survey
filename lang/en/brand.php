@@ -1,0 +1,23 @@
+<?php
+return [
+'title'                     => 'Brand Title',
+'edit'                      => 'Edit Brand',
+'view'                      => 'View Brand',
+'add'                       => 'Add Brand',
+'delete'                    => 'Delete Brand',
+'select'                    => 'Select Brand',
+'select_multi'              =>' Select Brands',
+'parent'                    => 'Parent Brand',
+'plural'                    => 'Brands',
+'singular'                  => 'Brand',
+'deleteMessageSuccess'      => 'Brand has been deleted successfully',
+'MulideleteMessageSuccess'  => 'Brands has been deleted successfully',
+'delete_selected'           => 'Delete Selected Brand(s)',
+'not_delete_selected'       => 'Brand(s) not deleted',
+'deleteMessageError'        => 'Error in delete Brand',
+'MultideleteMessageError'   => 'Error in delete Brands',
+'updateMessageSuccess'      => 'Brand has been updated successfully',
+'updateMessageError'        => 'Error in update Brand',
+'storeMessageSuccess'       => 'Brand has been created successfully',
+'storeMessageError'         => 'Error in Store Brand',
+];

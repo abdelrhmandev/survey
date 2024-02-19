@@ -8,10 +8,9 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->integer('score');
             $table->integer('time');
-            // $table->string('difficulty');
             $table->timestamps();
         });
     }

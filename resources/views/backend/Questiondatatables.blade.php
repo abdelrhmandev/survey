@@ -1,5 +1,5 @@
 <script>
-function loadDatatable(tableId,RouteListing,dynamicColumns,StatusColumn=null,TitleColumnOrder=null,gid){
+function loadDatatable(tableId,RouteListing,dynamicColumns,StatusColumn=null,TitleColumnOrder=null,bid){
 
 
         var table;
@@ -54,12 +54,12 @@ function loadDatatable(tableId,RouteListing,dynamicColumns,StatusColumn=null,Tit
                 ajax: {                   
                     url: RouteListing,
                     data: function (d) {
-                        if($('#game_id').val() > 0){   
-                            gId = $('#game_id').val();                       
+                        if($('#brand_id').val() > 0){   
+                            bId = $('#brand_id').val();                       
                         }else{
-                            gId = game_id;                              
+                            bId = brand_id;                              
                         }
-                        d.game_id = gId
+                        d.brand_id = bId
                     }
                 },
                 order: sorting,
@@ -407,7 +407,7 @@ function loadDatatable(tableId,RouteListing,dynamicColumns,StatusColumn=null,Tit
                 }                
                 exportButtons();
                 
-                $("#game_id").change(function(){
+                $("#brand_id").change(function(){
                     dt.draw();
                 });          
         
