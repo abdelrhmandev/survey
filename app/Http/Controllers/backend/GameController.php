@@ -4,6 +4,7 @@ use App\Http\Requests\backend\GameRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Question;
 use App\Models\Game;
 use App\Models\GameTeam;
 use App\Models\Type;
@@ -51,9 +52,7 @@ class GameController extends Controller
                         "<span class=\"text-primary fw-bolder fs-3\">" .
                         $row->questions_count .
                         '</span>
-                    </p>
-                   
-
+                    </p>                  
                     ';
                 })
 
@@ -63,7 +62,6 @@ class GameController extends Controller
                 ->editColumn('event_id', function ($row) {
                     return '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
                 })
-
                 ->editColumn('play_with_team', function ($row) {
                     $playWithTeam =
                         '
@@ -151,6 +149,11 @@ class GameController extends Controller
         $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
         $validated['slug'] = Str::slug($request->title);
 
+
+        $EventDateRange = explode(" - ", $request->event_date_range);
+        $validated['event_start_date'] = $EventDateRange[0];
+        $validated['event_end_date'] = $EventDateRange[1];
+        
         //Draw Game Team Records
 
         $query = Game::create($validated);
@@ -166,6 +169,9 @@ class GameController extends Controller
                     $gameTeamInfo[$i]['team_title'] = 'Team ' . $i;
                 }
                 GameTeam::insert($gameTeamInfo);
+            }
+            if(!(empty($request->question_id))){
+                $query->questions()->sync((array) $request->input('question_id'));
             }
 
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
@@ -208,7 +214,7 @@ class GameController extends Controller
         }
         return response()->json($arr);
     }
-    public function destroy(Event $game)
+    public function destroy(Game $game)
     {
         //SET ALL childs to NULL
         if ($game->delete()) {
@@ -231,8 +237,8 @@ class GameController extends Controller
     }
 
     public function AjaxgetQuestionsByBrand(Request $request){
-        // return $request->brand_id;
-
-        // $view = view('components.fields.fieldfillable')->render();
+        $questions = Question::where('brand_id',$request->brand_id)->with('answers','correctAnswer')->get();
+        $view = view('backend.games.AjaxGetQuestions',['questions'=>$questions])->render();
+        return $view; 
     }
 }

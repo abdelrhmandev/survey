@@ -191,7 +191,7 @@
                                             <label class="required form-label"
                                                 for="brand">{{ __('brand.select') }}</label>
                                             <select class="form-select form-select-solid" data-control="select2"
-                                                data-hide-search="false" data-placeholder="{{ __('type.select') }}"
+                                                data-hide-search="false" data-placeholder="{{ __('brand.select') }}"
                                                 name="brand_id">
                                                 <option value="">{{ __('brand.select') }}</option>
                                                 @foreach ($brands as $brand)
@@ -245,24 +245,26 @@
             handleFormSubmitFunc('Add{{ $trans }}');
         });
 
-            //  Start Ajax country and city 
-    $('select[name="brand_id"]').on('change', function() {
-        var brandid = $(this).val();     
-          
-        if(brandid > 0){
-            $.ajax({
-                url: "{{ route('admin.games.AjaxgetQuestionsByBrand') }}",
-                method: "POST",
-                data: {
-                    brand_id: brandid,
-                    '_token': '{{ csrf_token() }}'
-                },
-                success: function(data) {
-                    $("#BrandQuestionResponse").html(data);
-                }
-            });
-      } 
-      });	
-      
+        //  Start Ajax country and city 
+        $('select[name="brand_id"]').on('change', function() {
+            var brandid = $(this).val();
+
+            if (brandid > 0) {
+                $.ajax({
+                    url: "{{ route('admin.games.AjaxgetQuestionsByBrand') }}",
+                    method: "POST",
+                    data: {
+                        brand_id: brandid,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        $("#BrandQuestionResponse").html(data);
+                    }
+                });
+            }
+        });
+
+
+
     </script>
 @stop
