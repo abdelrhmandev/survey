@@ -27,7 +27,7 @@ class GameRequest extends FormRequest
         $rules['title'] = 'required|max:255|unique:events,title' . $id;
         $rules['description'] = 'nullable';
         $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB
-
+        $rules['type_id'] = 'exists:types,id';
         $rules['attendees'] = 'required|numeric';
 
         $rules['play_with_team'] = 'nullable|in:0,1';
@@ -37,7 +37,7 @@ class GameRequest extends FormRequest
 
         $rules['event_title'] = 'required|max:255';
 
-        $rules['event_range_date'] = 'required';
+        $rules['event_date_range'] = 'required';
 
         $rules['event_location'] = 'required|max:255';
 
@@ -45,9 +45,8 @@ class GameRequest extends FormRequest
       
 
 
-        $rules['type_id'] = 'exists:types,id';
+       
 
-        
 
         return $rules;
     }

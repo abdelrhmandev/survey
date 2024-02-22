@@ -90,13 +90,13 @@ class UserSeeder extends Seeder
             ])->assignRole('Coordinator');
 
             \App\Models\User::create([    
-                'username'         =>'kanty Mool',
+                'username'         =>'sandy',
                 'password'         =>Hash::make('12345678'),
-                'email'            =>'kanty@domain.com',
-                'name'             =>'kanty Mool',
+                'email'            =>'sandy@gmail.com',
+                'name'             =>'Sandy GSK',
                 'is_admin'         =>'1',
                 'mobile'           =>'71872971230',
-                'status'           =>'0',
+                'status'           =>'1',
                 'country_id'       =>'20',
                 'mobile'           =>'7787297127',
             ])->assignRole('Coordinator');

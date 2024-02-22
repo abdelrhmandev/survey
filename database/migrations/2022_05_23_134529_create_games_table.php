@@ -11,6 +11,7 @@ class CreateGamesTable extends Migration
             $table->string('slug');
             $table->string('image',150)->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
             $table->integer('attendees');
             $table->enum('play_with_team', ['0','1'])->default(1);
             $table->integer('team_players')->nullable();
@@ -18,9 +19,6 @@ class CreateGamesTable extends Migration
             $table->date('event_start_date');
             $table->date('event_end_date');
             $table->string('event_location');
-
-
-            $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
             $table->timestamps();
         });
     }

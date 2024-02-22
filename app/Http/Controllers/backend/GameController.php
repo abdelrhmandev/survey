@@ -135,7 +135,7 @@ class GameController extends Controller
         if (view()->exists('backend.games.create')) {
             $compact = [
                 'types' => Type::select('id', 'title')->get(),  
-                'brands' => Brand::select('id', 'title')->get(),               
+                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),               
                 'trans' => $this->TRANS,
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
@@ -146,20 +146,34 @@ class GameController extends Controller
     public function store(GameRequest $request)
     {
         $validated = $request->validated();
-        $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
-        $validated['slug'] = Str::slug($request->title);
+        // $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
+        // $validated['slug'] = Str::slug($request->title);
 
 
         $EventDateRange = explode(" - ", $request->event_date_range);
-        $validated['event_start_date'] = $EventDateRange[0];
-        $validated['event_end_date'] = $EventDateRange[1];
-        
+ 
+        $GameArr = [
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'image' => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
+            'description' => $validated['description'],
+            'attendees' => $validated['attendees'], 
+            'type_id' => $validated['type_id'],
+            'play_with_team' => $validated['play_with_team'] ?? '0',
+            'team_players' => $validated['team_players'] ?? NULL,
+            'event_title' => $validated['event_title'],
+            
+            'event_start_date' => $EventDateRange[0],
+            'event_end_date' => $EventDateRange[1],
+            'event_location' => $validated['event_location'],
+        ];
+     
         //Draw Game Team Records
-
-        $query = Game::create($validated);
-
+        
+        $query = Game::create($GameArr);
+     
         if ($query) {
-            if ($request->play_with_team && $request->play_with_team == '1') {
+            /*if ($request->play_with_team && $request->play_with_team == '1') {
                 $TeamRecords = ceil($validated['attendees'] / $validated['team_players']);
                 $gameTeamInfo = [];
                 for ($i = 1; $i <= $TeamRecords; $i++) {
@@ -169,10 +183,18 @@ class GameController extends Controller
                     $gameTeamInfo[$i]['team_title'] = 'Team ' . $i;
                 }
                 GameTeam::insert($gameTeamInfo);
-            }
+            }*/
             if(!(empty($request->question_id))){
-                $query->questions()->sync((array) $request->input('question_id'));
+              
+
+                $query->questions()->sync([
+                    "brand_id" => $request->input('brand_id'),
+                    "game_id" => $request->input('game_id'),
+                    "question_id" => $request->input('question_id'),                    
+                    
+                ]);
             }
+            dd();
 
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
@@ -237,7 +259,7 @@ class GameController extends Controller
     }
 
     public function AjaxgetQuestionsByBrand(Request $request){
-        $questions = Question::where('brand_id',$request->brand_id)->with('answers','correctAnswer')->get();
+        $questions = Question::where('brand_id',$request->brand_id)->get();
         $view = view('backend.games.AjaxGetQuestions',['questions'=>$questions])->render();
         return $view; 
     }

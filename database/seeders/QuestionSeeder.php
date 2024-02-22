@@ -89,7 +89,7 @@ class QuestionSeeder extends Seeder
             ],
 
             [
-                'title' => 'Which character is the mascot of Nintendo ?',
+                'title' => 'Which Medical Encyclopedia ?',
                 'score' => '5',
                 'brand_id' => '1',
                 'time' => '30',

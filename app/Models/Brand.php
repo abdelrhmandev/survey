@@ -15,7 +15,7 @@ class Brand extends Model
 	public $timestamps = true;
 	
 	public function questions(){
-        return $this->belongsTo(Question::class,'id','brand_id'); 
+        return $this->hasMany(Question::class); 
     }
 
 	

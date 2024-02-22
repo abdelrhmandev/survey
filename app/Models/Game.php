@@ -25,11 +25,9 @@ class Game extends Model
 	
 
 	public function questions(){
-        return $this->hasMany(Question::class); 
+	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('order');  
     }
-	public function event(){
-        return $this->belongsTo(Event::class); 
-    }
+ 
 	public function type(){
         return $this->belongsTo(Type::class); 
     }

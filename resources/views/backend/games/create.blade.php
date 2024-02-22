@@ -195,7 +195,7 @@
                                                 name="brand_id">
                                                 <option value="">{{ __('brand.select') }}</option>
                                                 @foreach ($brands as $brand)
-                                                    <option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                                                    <option value="{{ $brand->id }}">{{ $brand->title }} ({{ $brand->questions_count }}) Questions</option>
                                                 @endforeach
                                             </select>
                                         </div>
