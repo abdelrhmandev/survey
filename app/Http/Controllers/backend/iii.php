@@ -35,8 +35,6 @@ class GameController extends Controller
             return Datatables::of($model)
                 ->addIndexColumn()
                 ->editColumn('title', function ($row) {
-                    $type = 'Type : <a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
-
                     return '<a href=' .
                         route($this->ROUTE_PREFIX . '.edit', $row->id) .
                         " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" .
@@ -44,49 +42,58 @@ class GameController extends Controller
                         "=\"item\">" .
                         $row->title .
                         '</a>
-                        <div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
-                        $type .
-                        '</div>
+                    <p>
+                    Attendees
+                    ' .
+                        "<span class=\"text-success fw-bolder fs-3\">" .
+                        $row->attendees .
+                        '</span>
+                    | Questions
+                    ' .
+                        "<span class=\"text-primary fw-bolder fs-3\">" .
+                        $row->questions_count .
+                        '</span>
+                    </p>                  
                     ';
                 })
 
                 ->editColumn('image', function ($row) {
                     return $this->dataTableGetImage($row, $this->ROUTE_PREFIX . '.edit');
                 })
+                ->editColumn('event_id', function ($row) {
+                    return '<a href=' . route('admin.events.edit', $row->event_id) . " class=\"text-hover-success\"  title=" . $row->event->title . '>' . $row->event->title . '</a>';
+                })
+                ->editColumn('play_with_team', function ($row) {
+                    $playWithTeam =
+                        '
+                    <p>
+                    ' .
+                        "<span class=\"badge py-3 px-4 fs-7 badge-light-danger\"><span class=\"text-danger\">No</span></span>" .
+                        '
+                    </p>';
 
-                ->editColumn('event_title', function ($row) {
-                    // $row->event_title
+                    if ($row->play_with_team == '1') {
+                        $playWithTeam =
+                            '
+                    <p>
+                    ' .
+                            "<span class=\"badge py-3 px-4 fs-7 badge-light-success\"><span class=\"text-success\">Yes</span></span><br>" .
+                            '
+                    ' .
+                            __('game.team_players') .
+                            '
+                    ' .
+                            "<span class=\"text-info fw-bolder fs-3\">" .
+                            $row->team_players .
+                            '</span>
+                    </p>';
+                    }
 
-                    $info =
-                        "<span
-                         class=\"text-gray-800 fs-5 fw-bold mb-1\">" .
-                        $row->event_title .
-                        "
-                        </span>
-                       
-                        <div class=\"d-flex\">
+                    return $playWithTeam;
+                })
 
-    <div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-2 me-6\">
-        <span class=\"font-weight-bolder text-success
-            mb-0\">" .
-                        Carbon::parse($row->event_start_date)->format('d/m/Y') .
-                        "</span>
-    </div>
-
-                    <div class=\"\w-60 py-2 px-2 me-4\">To</div>
-    <div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-2 me-6\">
-        <span class=\"font-weight-bolder text-info
-            mb-0\">" .
-                        Carbon::parse($row->event_end_date)->format('d/m/Y') .
-                        "</span>
-    </div>
-
-</div>
-
-
-                    " .
-                        ($row->event_end_date < date('Y-m-d') ? "<div class=\"text-danger\">Expired</div>" : '');
-                    return $info;
+                ->editColumn('type_id', function ($row) {
+                    return '<a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
                 })
 
                 ->editColumn('created_at', function ($row) {
@@ -95,18 +102,22 @@ class GameController extends Controller
 
                 ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
-                })
-                ->editColumn('questions', function ($row) {
-                    $ReorderListings = '<a href=' . route('admin.GetQuestions', $row->id) . " class=\"btn btn-sm btn-light-primary\"><i class=\"ki-outline ki-arrows-circle fs-3\"></i>Reorder</a>";
-                    return "<span class=\"text-dark fw-bolder fs-3\">" . $row->questions_count . '</span>&nbsp;' . ($row->questions_count > 0 ? $ReorderListings : '');
                 })
                 ->editColumn('actions', function ($row) {
+                    $addQuestion =
+                        '<br/><br/><a href=' .
+                        route('admin.Q', $row->id) .
+                        " class=\"btn btn-sm btn-light-primary\">
+                <i class=\"ki-outline ki-plus-square fs-3\"></i>" .
+                        __('question.add') .
+                        "</a>
+            ";
+
                     // "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
 
-                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX).$addQuestion;
                 })
-
-                ->rawColumns(['image', 'title', 'event_title', 'questions', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image', 'title', 'question_id', 'play_with_team', 'type_id', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
@@ -124,8 +135,8 @@ class GameController extends Controller
     {
         if (view()->exists('backend.games.create')) {
             $compact = [
-                'types' => Type::select('id', 'title')->get(),
-                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),
+                'types' => Type::select('id', 'title')->get(),  
+                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),               
                 'trans' => $this->TRANS,
                 'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
                 'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
@@ -136,24 +147,25 @@ class GameController extends Controller
     public function store(GameRequest $request)
     {
         $validated = $request->validated();
-        $EventDateRange = explode(' - ', $request->event_date_range);
+        $EventDateRange = explode(" - ", $request->event_date_range);
+
         $GameArr = [
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'image' => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
             'description' => $validated['description'],
-            'color' => $validated['color'] ?? null,
-            'attendees' => $validated['attendees'],
+            'color' => $validated['color'] ?? NULL,
+            'attendees' => $validated['attendees'], 
             'type_id' => $validated['type_id'],
             'play_with_team' => $validated['play_with_team'] ?? '0',
-            'team_players' => $validated['team_players'] ?? null,
-            'event_title' => $validated['event_title'],
+            'team_players' => $validated['team_players'] ?? NULL,
+            'event_title' => $validated['event_title'],            
             'event_start_date' => $EventDateRange[0],
             'event_end_date' => $EventDateRange[1],
             'event_location' => $validated['event_location'],
-        ];
-        //Draw Game Team Records
-        $query = Game::create($GameArr);
+        ];     
+        //Draw Game Team Records        
+        $query = Game::create($GameArr);     
         if ($query) {
             if ($request->play_with_team && $request->play_with_team == '1') {
                 $TeamRecords = ceil($validated['attendees'] / $validated['team_players']);
@@ -164,8 +176,16 @@ class GameController extends Controller
                     $gameTeamInfo[$i]['team_title'] = 'Team ' . $i;
                 }
                 GameTeam::insert($gameTeamInfo);
+            } 
+            if(!(empty($request->question_id))){
+               $GameQuestion = [];
+                foreach($request->input('question_id') as $k =>$v) {
+                    $GameQuestion[$k]['question_id'] = $v;
+                    $GameQuestion[$k]['game_id'] = $query->id;
+                    $GameQuestion[$k]['brand_id'] = $request->brand_id;
+               }
+               GameQuestion::insert($GameQuestion);
             }
-            $query->questions()->syncWithPivotValues($request->input('question_id'), ['brand_id' => $request->brand_id, 'order' => null]);
 
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
@@ -174,14 +194,16 @@ class GameController extends Controller
         return response()->json($arr);
     }
 
-    public function edit(Game $game){
-      
+    public function edit(Game $game)
+    {
         if (view()->exists('backend.games.edit')) {
             $compact = [
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $game->id),
                 'row' => $game,
-                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),
                 'types' => Type::select('id', 'title')->get(),
+                'events' => Event::select('id', 'title')
+                    ->where('start_date', '>', date('Y-m-d'))
+                    ->get(),
                 'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $game->id),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
                 'trans' => $this->TRANS,
@@ -226,18 +248,9 @@ class GameController extends Controller
         return response()->json($arr);
     }
 
-    
-    public  function GetQuestions($game_id){
-
-        if (view()->exists('backend.games.edit')) {
-            $compact = [
-            ];
-            return view('backend.games.ReorderQuestions', $compact);
-        }
-    }
     public function AjaxgetQuestionsByBrand(Request $request){
-        $questions = Question::where('brand_id', $request->brand_id)->get();
-        $view = view('backend.games.AjaxGetQuestions', ['questions' => $questions])->render();
-        return $view;
+        $questions = Question::where('brand_id',$request->brand_id)->get();
+        $view = view('backend.games.AjaxGetQuestions',['questions'=>$questions])->render();
+        return $view; 
     }
 }

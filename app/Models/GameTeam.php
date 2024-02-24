@@ -9,7 +9,6 @@ class GameTeam extends Model
     protected $fillable = [
 		'game_id',
 		'team_title',
-		'event_id',
 		'type_id',
 	];
 	

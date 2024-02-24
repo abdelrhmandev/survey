@@ -34,6 +34,7 @@ class GameRequest extends FormRequest
 
         $rules['team_players'] = 'nullable|numeric';
 
+        $rules['color'] = 'required';
 
         $rules['event_title'] = 'required|max:255';
 

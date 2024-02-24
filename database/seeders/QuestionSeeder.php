@@ -18,7 +18,7 @@ class QuestionSeeder extends Seeder
             [
                 'title' => 'Which Nintendo character appears alongside Donkey Kong in the title the 2013 game "Minis on the Move"?',
                 'score' => '5',
-                'brand_id' => '1',
+                'brand_id' => '2',
                 'time' => '45',
                 'created_at' => Carbon::now(),
             ],
@@ -27,7 +27,7 @@ class QuestionSeeder extends Seeder
             [
                 'title' => 'Brave New World" was a 2013 expansion to what popular strategy video game?',
                 'score' => '5',
-                'brand_id' => '1',
+                'brand_id' => '2',
                 'time' => '45',
                 'created_at' => Carbon::now(),
             ],
@@ -41,14 +41,14 @@ class QuestionSeeder extends Seeder
             [
                 'title' => '"Prehistoric Party" was a 2013 video game adaptation of what movie?',
                 'score' => '5',
-                'brand_id' => '1',
+                'brand_id' => '2',
                 'time' => '30',
                 'created_at' => Carbon::now(),
             ],
             [
                 'title' => '"Hearthstone" was a 2014 card-collecting video game based on what franchise?',
                 'score' => '5',
-                'brand_id' => '1',
+                'brand_id' => '2',
                 'time' => '30',
                 'created_at' => Carbon::now(),
             ],

@@ -8,7 +8,6 @@ class CreateGameTeamTable extends Migration
         Schema::create('game_team', function (Blueprint $table) {
             $table->id();
             $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
-            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
             $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
             $table->string('team_title');
         });

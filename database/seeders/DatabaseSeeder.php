@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
             QuestionCorrectAnswerSeeder::class,
-            GameQuestionSeeder::class,
             UserTeamSeeder::class,
         ]); 
 

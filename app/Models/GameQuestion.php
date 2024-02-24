@@ -1,10 +1,11 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 class GameQuestion extends Model
 {
 
-	protected $table = 'game_qustion';
+	protected $table = 'game_question';
 
     protected $fillable = [
 		'brand_id',
@@ -16,7 +17,9 @@ class GameQuestion extends Model
 	
 	public $timestamps = false;
 	
-
+    public function question(){
+        return $this->belongsTo(Game::class, 'question_id');
+    }
 	 
 	
 }

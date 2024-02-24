@@ -108,10 +108,18 @@
 
 
                                         <div class="fv-row fl">
+                                            <label class="form-label" for="color">Color Picker</label>
+                                            <input placeholder="{{ __('site.color') }}" type="color" id="color"
+                                                name="color" value="#e86824" class="form-control mb-2" readonly />
+                                        </div>
+
+
+                                        <div class="fv-row fl">
                                             <label class="required form-label"
                                                 for="attendees">{{ __('game.attendees') }}</label>
-                                            <input placeholder="{{ __('game.attendees') }}" id="attendees" name="attendees"
-                                                class="form-control mb-2" required data-fv-numeric="true" type="textbox"
+                                            <input placeholder="{{ __('game.attendees') }}" id="attendees"
+                                                name="attendees" class="form-control mb-2" required
+                                                data-fv-numeric="true" type="textbox"
                                                 data-fv-numeric___message="attendees must be a number"
                                                 data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'attendees' . '&nbsp;']) }}" />
                                         </div>
@@ -195,7 +203,8 @@
                                                 name="brand_id">
                                                 <option value="">{{ __('brand.select') }}</option>
                                                 @foreach ($brands as $brand)
-                                                    <option value="{{ $brand->id }}">{{ $brand->title }} ({{ $brand->questions_count }}) Questions</option>
+                                                    <option value="{{ $brand->id }}">{{ $brand->title }}
+                                                        ({{ $brand->questions_count }}) Questions</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -263,8 +272,5 @@
                 });
             }
         });
-
-
-
     </script>
 @stop

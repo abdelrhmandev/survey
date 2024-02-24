@@ -29,7 +29,7 @@
                         <td>
                             <div class="form-check form-check-solid form-check-custom form-switch">
                                 <input class="form-check-input w-30px h-20px check" type="checkbox" name="question_id[]"
-                                    id="question{{ $question->id }}">
+                                    id="question{{ $question->id }}" value="{{ $question->id }}">
                                 <label class="form-check-label" for="question{{ $question->id }}"></label>
                             </div>
                         </td>                      

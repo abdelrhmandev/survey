@@ -14,6 +14,11 @@ Route::group(
 
         ######################### Start Update Status #################################
         Route::post('/UpdateStatus', 'BaseController@UpdateStatus')->name('UpdateStatus');
+
+        Route::get('/GameQuestions/{game_id}','GameController@GetQuestions')->name('GetQuestions'); 
+
+        Route::post('/ReorderLisings','BaseController@ReorderLisings')->name('ReorderLisings'); 
+
         ######################### End Update Status #################################
 
         Route::resource('users', UserController::class)->except('show');
@@ -36,7 +41,7 @@ Route::group(
         Route::resource('questions', QuestionController::class)->except('show');
         Route::get('questions/FilterByBrand/{brand_id}', 'QuestionController@index')->name('questions.FilterByBrand');
         Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
-        Route::get('questions/create/event/{id}', 'QuestionController@create')->name('Q');
+        Route::get('questions/create/brand/{id}', 'QuestionController@create')->name('Q');
         Route::delete('questions/destroy/all', 'QuestionController@destroyMultiple')->name('questions.destroyMultiple');
         ######################### End Questions ##########################
 
@@ -55,10 +60,6 @@ Route::group(
         Route::delete('types/destroy/all', 'TypeController@destroyMultiple')->name('types.destroyMultiple');
         ######################### End Types ##########################
 
-        ######################### Start Events ##########################
-        Route::resource('events', EventController::class)->except('show');
-        Route::delete('events/destroy/all', 'EventController@destroyMultiple')->name('events.destroyMultiple');
-        ######################### End Events ##########################
 
         ######################### Start Games ##########################
         Route::resource('games', GameController::class)->except('show');

@@ -11,6 +11,7 @@ class Game extends Model
 		'slug',
 		'image',
 		'description',
+		'color',
 		'attendees',
 		'play_with_team',
 		'team_players',
@@ -25,7 +26,7 @@ class Game extends Model
 	
 
 	public function questions(){
-	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('order');  
+	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','order');  
     }
  
 	public function type(){
