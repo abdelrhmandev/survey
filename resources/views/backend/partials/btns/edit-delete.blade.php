@@ -22,6 +22,7 @@
 
   <div class="menu-item px-3">
       <a id="delete_item" data-destroy-route="{{ $destroyRoute}}" class="menu-link px-3"  data-kt-table-filter="delete_row"      
+      data-id="{{ $id }}"
       data-back-list-text="{{ __('site.back_to_list') }}"        
       data-confirm-message = "{{ __('site.confirmDeleteMessage',['item'=>__($trans.'.singular')]) }}"
       data-confirm-button-text = "{{ __('site.confirmButtonText') }}"

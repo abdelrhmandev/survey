@@ -59,7 +59,7 @@ trait Functions
         return view('backend.partials.btns.edit-delete', [
             'trans' => $this->TRANS,
             'editRoute' => $editRoute,
-            'destroyRoute' => route($route . '.destroy', $row->id),
+            'destroyRoute' => route($route . '.destroy', ":id"),
             'id' => $row->id,
         ]);
     }
