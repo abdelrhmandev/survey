@@ -28,6 +28,7 @@ class GameRequest extends FormRequest
         $rules['description'] = 'nullable';
         $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB
         $rules['type_id'] = 'exists:types,id';
+        $rules['brand_id'] = 'exists:brands,id';
         $rules['attendees'] = 'required|numeric';
 
         $rules['play_with_team'] = 'nullable|in:0,1';

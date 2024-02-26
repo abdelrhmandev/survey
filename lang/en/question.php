@@ -1,5 +1,6 @@
 <?php
 return [
+'reorder_updated'           => 'Reorder updated successfully',
 'title'                     => 'Question Title',
 'edit'                      => 'Edit Question',
 'view'                      => 'View Question',

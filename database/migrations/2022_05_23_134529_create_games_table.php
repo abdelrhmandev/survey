@@ -12,7 +12,8 @@ class CreateGamesTable extends Migration
             $table->string('image',150)->nullable();
             $table->text('description')->nullable();
             $table->string('color',20)->nullable();
-            $table->foreignId('type_id')->constrained('types')->onDelete('cascade');
+            $table->foreignId('type_id');
+            $table->foreignId('brand_id');
             $table->integer('attendees');
             $table->enum('play_with_team', ['0','1'])->default(1);
             $table->integer('team_players')->nullable();

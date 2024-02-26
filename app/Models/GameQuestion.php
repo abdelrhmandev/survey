@@ -20,6 +20,8 @@ class GameQuestion extends Model
     public function question(){
         return $this->belongsTo(Game::class, 'question_id');
     }
-	 
+	public function ReorderQuestion(){
+        return $this->belongsTo(Question::class, 'id');
+    }
 	
 }

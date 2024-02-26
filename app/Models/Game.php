@@ -20,6 +20,7 @@ class Game extends Model
 		'event_end_date',
 		'event_location',		
 		'type_id',
+		'brand_id',
 	];
 	
 	public $timestamps = true;
@@ -29,6 +30,10 @@ class Game extends Model
 	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','order');  
     }
  
+	public function brand(){
+        return $this->belongsTo(Brand::class); 
+    }
+
 	public function type(){
         return $this->belongsTo(Type::class); 
     }

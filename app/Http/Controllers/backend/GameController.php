@@ -145,6 +145,7 @@ class GameController extends Controller
             'color' => $validated['color'] ?? null,
             'attendees' => $validated['attendees'],
             'type_id' => $validated['type_id'],
+            'brand_id' => $validated['brand_id'],
             'play_with_team' => $validated['play_with_team'] ?? '0',
             'team_players' => $validated['team_players'] ?? null,
             'event_title' => $validated['event_title'],
@@ -179,7 +180,8 @@ class GameController extends Controller
         if (view()->exists('backend.games.edit')) {
             $compact = [
                 'updateRoute' => route($this->ROUTE_PREFIX . '.update', $game->id),
-                'row' => $game,
+                'row' => $game,                
+                'questions' => Question::where('brand_id', $game->brand_id)->get(),
                 'brands' => Brand::select('id', 'title')->withCount('questions')->get(),
                 'types' => Type::select('id', 'title')->get(),
                 'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $game->id),
@@ -194,10 +196,32 @@ class GameController extends Controller
     public function update(GameRequest $request, Game $game)
     {
         $validated = $request->validated();
-        $validated['image'] = !empty($request->file('image')) ? $this->uploadFile($request->file('image'), $this->UPLOADFOLDER) : null;
-        $validated['slug'] = Str::slug($request->title);
 
-        if (Game::findOrFail($game->id)->update($validated)) {
+        $EventDateRange = explode(' - ', $request->event_date_range);
+        $GameArr = [
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'image' => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
+            'description' => $validated['description'],
+            'color' => $validated['color'] ?? null,
+            'attendees' => $validated['attendees'],
+            'type_id' => $validated['type_id'],
+            'brand_id' => $game->brand_id,
+            'play_with_team' => $validated['play_with_team'] ?? '0',
+            'team_players' => $validated['team_players'] ?? null,
+            'event_title' => $validated['event_title'],
+            'event_start_date' => $EventDateRange[0],
+            'event_end_date' => $EventDateRange[1],
+            'event_location' => $validated['event_location'],
+        ];
+
+
+
+        if (Game::findOrFail($game->id)->update($GameArr)) {
+
+
+            $game->questions()->syncWithPivotValues($request->input('question_id'), ['brand_id' => $game->brand_id, 'order' => null]);
+
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
@@ -231,6 +255,8 @@ class GameController extends Controller
 
         if (view()->exists('backend.games.edit')) {
             $compact = [
+                'trans' => 'question',
+                'Gamequestions' => GameQuestion::with('ReorderQuestion')->where('game_id', $game_id)->get(),
             ];
             return view('backend.games.ReorderQuestions', $compact);
         }
