@@ -93,7 +93,7 @@
 
 <script type="text/javascript">
     $(function () {  
-      $("#tablecontents" ).sortable({
+      $("#tablecontents").sortable({
         items: "tr",
         cursor: 'move',
         opacity: 0.6,
