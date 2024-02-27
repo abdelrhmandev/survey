@@ -37,6 +37,8 @@ class GameController extends Controller
                 ->editColumn('title', function ($row) {
                     $type = 'Type : <a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
 
+                    $brand = 'Brand : <span style="color:blue">'.$row->brand->title."</span>";
+
                     return '<a href=' .
                         route($this->ROUTE_PREFIX . '.edit', $row->id) .
                         " class=\"text-gray-800 text-hover-primary fs-5 fw-bold mb-1\" data-kt-item-filter" .
@@ -46,6 +48,8 @@ class GameController extends Controller
                         '</a>
                         <div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
                         $type .
+                        '</div><div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
+                        $brand .
                         '</div>
                     ';
                 })
