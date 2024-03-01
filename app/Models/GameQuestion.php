@@ -21,7 +21,7 @@ class GameQuestion extends Model
         return $this->belongsTo(Game::class, 'question_id');
     }
 	public function ReorderQuestion(){
-        return $this->belongsTo(Question::class, 'id');
+        return $this->belongsTo(Question::class, 'question_id');
     }
 	
 }

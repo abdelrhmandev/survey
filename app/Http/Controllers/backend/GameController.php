@@ -218,12 +218,7 @@ class GameController extends Controller
             'event_end_date' => $EventDateRange[1],
             'event_location' => $validated['event_location'],
         ];
-
-
-
         if (Game::findOrFail($game->id)->update($GameArr)) {
-
-
             $game->questions()->syncWithPivotValues($request->input('question_id'), ['brand_id' => $game->brand_id, 'order' => null]);
 
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
@@ -262,6 +257,7 @@ class GameController extends Controller
                 'trans' => 'question',
                 'Gamequestions' => GameQuestion::with('ReorderQuestion')->where('game_id', $game_id)->get(),
             ];
+           
             return view('backend.games.ReorderQuestions', $compact);
         }
     }

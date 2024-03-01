@@ -1,5 +1,6 @@
 <?php
 return [
+    'reorder'               =>'Reorder Listing',
     'country'               =>'Country',
     'career'                =>'Career',
     'change'                =>'Change',

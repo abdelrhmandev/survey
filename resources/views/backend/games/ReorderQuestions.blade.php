@@ -15,12 +15,6 @@
 @stop
 @section('content')
 <div id="kt_content_container" class="container-xxl">
- 
-  
- 
-  
- 
-  
     <div class="col-xl-12 mb-5 mb-xl-10">
       <!--begin::Tables widget 16-->
       <div class="card card-flush h-xl-100">
@@ -52,15 +46,13 @@
                       <th class="p-0 pb-3 w-125px pe-7">Reorder</th>
                       <th class="p-0 pb-3 min-w-150px text-start">Question</th>
                       <th class="p-0 pb-3 min-w-100px text-end pe-13">Time (by seconds)</th>
-                      
-                      
                     </tr>
                   </thead>
                 
                   <tbody id="tablecontents" class="fw-bold">
                     @foreach ($Gamequestions as $Gamequestion)
                     <tr class="row1" data-id="{{ $Gamequestion->id }}">  
-                      <td><a class="btn btn-default" href="#" title="{{ trans('site.reorder') }}" style="padding: 1px 7px;"><i class="fa fa-ellipsis-v"></i> <i class="fa fa-ellipsis-v"></i></a></td>
+                      <td><a class="btn btn-default" href="#" title="{{ trans('site.reorder') }}" style="padding: 1px 7px;"><i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i> <i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i></a></td>
                       <td>{{ $Gamequestion->ReorderQuestion->title }}</td>
                       <td class="text-end pe-13"><span class="text-gray-600 fw-bold fs-6">{{ $Gamequestion->ReorderQuestion->time }}</span></td>
                     </tr>
