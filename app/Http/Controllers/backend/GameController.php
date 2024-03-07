@@ -29,7 +29,7 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $model = Game::select('*')
-            ->with(['type'])
+            ->with(['type','brand'])
             ->withCount(['questions']);
         if ($request->ajax()) {
             return Datatables::of($model)
@@ -37,7 +37,9 @@ class GameController extends Controller
                 ->editColumn('title', function ($row) {
                     $type = 'Type : <a href=' . route('admin.types.edit', $row->type_id) . " class=\"text-hover-success\"  title=" . $row->type->title . '>' . $row->type->title . '</a>';
 
-                    $brand = 'Brand : <span style="color:blue">'.$row->brand->title."</span>";
+                    $brand = 'Brand : <span style="color:#322ebb">'.$row->brand->title."</span>";
+
+                    $attendees = 'Attendees : <span style="color:#ec55b8">'.$row->attendees."</span>";
 
                     return '<a href=' .
                         route($this->ROUTE_PREFIX . '.edit', $row->id) .
@@ -50,6 +52,8 @@ class GameController extends Controller
                         $type .
                         '</div><div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
                         $brand .
+                        '</div><div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
+                        $attendees .
                         '</div>
                     ';
                 })
@@ -142,20 +146,21 @@ class GameController extends Controller
         $validated = $request->validated();
         $EventDateRange = explode(' - ', $request->event_date_range);
         $GameArr = [
-            'title' => $validated['title'],
-            'slug' => Str::slug($validated['title']),
-            'image' => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
-            'description' => $validated['description'],
-            'color' => $validated['color'] ?? null,
-            'attendees' => $validated['attendees'],
-            'type_id' => $validated['type_id'],
-            'brand_id' => $validated['brand_id'],
-            'play_with_team' => $validated['play_with_team'] ?? '0',
-            'team_players' => $validated['team_players'] ?? null,
-            'event_title' => $validated['event_title'],
+            'title'            => $validated['title'],
+            'slug'             => Str::slug($validated['title']),
+            'image'            => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
+            'description'      => $validated['description'],
+            'color'            => $validated['color'] ?? null,
+            'attendees'        => $validated['attendees'],
+            'type_id'          => $validated['type_id'],
+            'brand_id'         => $validated['brand_id'],
+            'play_with_team'   => $validated['play_with_team'] ?? '0',
+            'team_players'     => $validated['team_players'] ?? null,
+            'event_title'      => $validated['event_title'],
             'event_start_date' => $EventDateRange[0],
-            'event_end_date' => $EventDateRange[1],
-            'event_location' => $validated['event_location'],
+            'event_end_date'   => $EventDateRange[1],
+            'event_location'   => $validated['event_location'],
+            'pin'              =>\Str::random(10),
         ];
         //Draw Game Team Records
         $query = Game::create($GameArr);
@@ -165,8 +170,8 @@ class GameController extends Controller
                 $gameTeamInfo = [];
                 for ($i = 1; $i <= $TeamRecords; $i++) {
                     $gameTeamInfo[$i]['game_id'] = $query->id;
-                    $gameTeamInfo[$i]['type_id'] = $validated['type_id'];
                     $gameTeamInfo[$i]['team_title'] = 'Team ' . $i;
+                    $gameTeamInfo[$i]['capacity'] = $TeamRecords;
                 }
                 GameTeam::insert($gameTeamInfo);
             }

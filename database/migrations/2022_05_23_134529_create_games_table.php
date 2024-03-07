@@ -16,11 +16,17 @@ class CreateGamesTable extends Migration
             $table->foreignId('brand_id');
             $table->integer('attendees');
             $table->enum('play_with_team', ['0','1'])->default(1);
+
+            $table->enum('status', ['pending','opened','closed'])->default('pending');
+
             $table->integer('team_players')->nullable();
             $table->string('event_title');
             $table->date('event_start_date');
             $table->date('event_end_date');
             $table->string('event_location');
+
+            $table->string('pin',10)->unique();
+            
             $table->timestamps();
         });
     }

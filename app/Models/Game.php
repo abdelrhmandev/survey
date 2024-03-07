@@ -20,6 +20,8 @@ class Game extends Model
 		'event_end_date',
 		'event_location',		
 		'type_id',
+		'pin',
+		'status',		
 		'brand_id',
 	];
 	
@@ -38,5 +40,8 @@ class Game extends Model
         return $this->belongsTo(Type::class); 
     }
  
+	public function teams(){
+        return $this->hasMany(GameTeam::class); 
+    }
 	
 }

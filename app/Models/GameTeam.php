@@ -9,9 +9,13 @@ class GameTeam extends Model
     protected $fillable = [
 		'game_id',
 		'team_title',
-		'type_id',
+		'capacity',
 	];
 	
 	public $timestamps = false;
+
+	public function game(){
+       return $this->belongsTo(Game::class,'game_id','id');
+    }
 	
 }

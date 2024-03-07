@@ -14,6 +14,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+Route::group(
+    [
+        'namespace' => 'Api',
+        'middleware' => 'api',
+    ],
+    function () {
+        Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');
+        Route::post('/gameCheckPin', 'GameController@gameCheckPin');
+
+        Route::get('/getTeamsByGameId/{game_id}', 'GameController@getTeamsByGameId');
+
+        Route::post('/playerTeam', 'GameController@playerTeam');
+        
+    },
+);
+

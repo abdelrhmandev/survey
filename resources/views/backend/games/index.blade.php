@@ -67,8 +67,11 @@
             </th>            
             <th>{{ __('site.image') }}</th>  
             <th>{{ __('site.title') }}</th>
-            <th>{{ __('game.attendees') }}</th>
-         
+            <th>{{ __('site.slug') }}</th>
+            <th>{{ __('game.pin') }}</th>
+            
+
+            
             <th>{{ __('event.singular') }}</th>
 
             <th>{{ __('question.singular') }}</th>
@@ -98,7 +101,8 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'image', name: 'image',orderable: false}, 
 { data: 'title', name: 'title',orderable: false}, 
-{ data: 'attendees', name: 'attendees',orderable: false}, 
+{ data: 'slug', name: 'slug',orderable: false}, 
+{ data: 'pin', name: 'pin',orderable: false}, 
 
  
 { data: 'event_title', name: 'event_title',orderable: false}, 

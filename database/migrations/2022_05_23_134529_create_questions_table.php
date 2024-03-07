@@ -11,6 +11,11 @@ class CreateQuestionsTable extends Migration
             $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->integer('score');
             $table->integer('time');
+
+            $table->enum('status', ['pending','opened','closed'])->default('pending');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+
             $table->timestamps();
         });
     }

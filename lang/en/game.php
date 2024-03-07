@@ -9,6 +9,7 @@ return [
 'select_multi'              =>' Select Games',
 'parent'                    => 'Parent Game',
 'plural'                    => 'Games',
+'pin'                       =>'PIN',
 'teams'                     =>'Teams',
 'attendees'                 => 'Attendees',
 'team_players'              =>'Team Players',
