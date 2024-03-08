@@ -6,10 +6,10 @@ use App\Models\GameTeam;
 use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Http\Resources\TeamResource;
-use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Resources\PlayerResource;
 use App\Http\Resources\GameSlugResource;
 use Illuminate\Support\Facades\Validator;
@@ -55,8 +55,6 @@ class GameController extends Controller
                 'name' => $request->name,
                 'game_id' => $query->id,
             ]);
-            
-
             if ($player) {
                 return $this->returnData('PlayerGameInfo', new PlayerResource($player), 201, 'player has been created successfully');
             }
@@ -65,7 +63,27 @@ class GameController extends Controller
         }
     }
 
-    public function getTeamsByGameId($game_id){
+
+    
+    public function getTeamsByGameId(Request $request){
+
+
+        $token = $request->player_token;
+
+
+
+
+        // $token = "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwidXNlcm5hbWUiOiJqYWdhZHVAaHViaWktbmV0d29yay5jb20iLCJleHAiOjE1MzYxNTI0MDAsImlhdCI6MTUzNTU0NzYwMH0.B7gnfGdW1ijAIlo9xUI0DwkGaajQAQPBkRx4ChILXRNtpLdwgEl_9gvWdiidFbSXJseS8jslOfuAFUIWATmbNBoWVa3nc8SxkIrKI29xZuN6hB7R-63RH2BKsAVPsEjgTIJoqkkCrfrSum-_d3LEf36jcXqZb8M-GRKI477IwSDDwG_7YK5v0mu8N4TATXhN0tZGNYxp8Y27EI-g0Gmj9BIiobxnqVVoBWHN5J8d-UCrXRq94ifhEiQBxkG9r_eacMscB80n1VsiN2ouKH2kX-HRxRJmcgmydxvR7RcEW-P6koTxkaZJGO6mv7auSudTFlDENpwD4OD7gtn_wMUDS_OuN8WT7rZp8lwKY9f8J9fiGyq5J-8C_HmyjW-h8WhuJmTUaKhCZ-eLgDm4Vs2IQGYkHJEDFumnIZ607MAa1CW1ChAvurqvUqJ3G4TTN4wYqAHpSKz4y8SAMLjO91cedBPH6K5i9lh5htF-mW_htem7e5ornicU_djSccgHbxfXHQYTHCnqLp7-ONfl_p4nmhIEK0wcF0gkBXbIitzeTjy7C_uf_FV1sLPE5cY3PUP42DmHrG4PuXHLv_L1EjErkrpna7pChKA_TPeiZjqMcQoE70sZw8rr8KnRF2hpABdU_M2ZXOt_vF5-T8mLmKqs0LHxE089vVC3xsAh0mUr4FE";
+
+        $tokenParts = explode(".", $token);  
+        $tokenHeader = base64_decode($tokenParts[0]);
+        $tokenPayload = base64_decode($tokenParts[1]);
+        $jwtHeader = json_decode($tokenHeader);
+        $jwtPayload = json_decode($tokenPayload);
+        $game_id = $jwtPayload->game_id;
+        
+          
+
         $query = GameTeam::with([
             'game' => function ($query) {
                 $query->select('id', 'title');

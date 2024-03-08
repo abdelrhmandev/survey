@@ -25,7 +25,7 @@ Route::group(
         Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');
         Route::post('/gameCheckPin', 'GameController@gameCheckPin');
 
-        Route::get('/getTeamsByGameId/{game_id}', 'GameController@getTeamsByGameId');
+        Route::post('/getTeamsByGameId', 'GameController@getTeamsByGameId');
 
         Route::post('/playerTeam', 'GameController@playerTeam');
         
