@@ -55,6 +55,7 @@ class GameController extends Controller
                 'name' => $request->name,
                 'game_id' => $query->id,
             ]);
+            
 
             if ($player) {
                 return $this->returnData('PlayerGameInfo', new PlayerResource($player), 201, 'player has been created successfully');

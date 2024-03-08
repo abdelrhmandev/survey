@@ -16,7 +16,7 @@ class PlayerResource extends JsonResource
             'player_name'        => $request->name,
             'game_id'            =>$this->game->id,
             'game_type_slug'     =>$this->game->type->slug,
-            'play_with_team'     =>$this->game->play_with_team,
+            'isteam'             =>$this->game->play_with_team,
             'color'              =>$this->game->color,
             'exp'                => strtotime('+ 1 days'), // One Day From creation
         ];
@@ -29,7 +29,7 @@ class PlayerResource extends JsonResource
             'token_type'         => 'bearer',
             'game_id'            =>$this->game->id,
             'game_type_slug'     =>$this->game->type->slug,
-            'play_with_team'     =>$this->game->play_with_team,
+            'isteam'             =>$this->game->play_with_team,
             'color'              =>$this->game->color,
         ];
     }
