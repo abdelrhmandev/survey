@@ -31,7 +31,7 @@ class GameController extends Controller
             return $this->returnError('404', 'No game match this slug');
         }
         $data = new GameResource($query);
-        return $this->returnData('game', $data, 200, 'Game Info '.$query->title);
+        return $this->returnData('data', $data, 200, 'Game Info '.$query->title);
     }
 
     public function gameCheckPin(Request $request){
@@ -56,7 +56,7 @@ class GameController extends Controller
                 'game_id' => $query->id,
             ]);
             if ($player) {
-                return $this->returnData('PlayerGameInfo', new PlayerResource($player), 201, 'player has been created successfully');
+                return $this->returnData('data', new PlayerResource($player), 201, 'player has been created successfully');
             }
         } else {
             return $this->returnError('400', 'this game is not played with a team , try other game');
@@ -91,7 +91,7 @@ class GameController extends Controller
         $gameTeams = GameTeam::select(['id','game_id', 'team_title', 'capacity'])->where('game_id', $game_id);
         $data = TeamResource::collection($gameTeams->get());
 
-        return $this->returnMultiData('teams', $data, 200, 'Team listings in Game ' . $query->game->title . '');
+        return $this->returnMultiData('data', $data, 200, 'Team listings in Game ' . $query->game->title . '');
     }
     /////////////////////////////////////////////////////////////
 
@@ -123,7 +123,7 @@ class GameController extends Controller
         if($this->checkJoinTeam($game_team_id,$game_team_id) < $query->capacity){           
             Player::where(['name'=>$player_name,'game_id'=>$game_id])->update(['game_team_id'=>$game_team_id]);
         }
-        return $this->returnData('team_player', $data, 200, 'Game Team Info');
+        return $this->returnData('data', $data, 200, 'Game Team Info');
     }
 
     ///////

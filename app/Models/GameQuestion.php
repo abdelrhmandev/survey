@@ -17,7 +17,11 @@ class GameQuestion extends Model
 	
 	public $timestamps = false;
 	
-    public function question(){
+    public function GetPlayerOpenedQuestion(){
+        return $this->belongsTo(Question::class, 'question_id')->where('status','opened');
+    }
+
+	public function question(){
         return $this->belongsTo(Game::class, 'question_id');
     }
 	public function ReorderQuestion(){

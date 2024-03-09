@@ -15,67 +15,79 @@ use Tymon\JWTAuth\Exceptions\TokenInvalidException;
  */
 trait ApiFunctions
 {
-
-
-
-
-    function checkJoinTeam($game_team_id,$game_id) {
-
-        return $query = Player::where(['game_id'=>$game_id,'game_team_id'=>$game_team_id])->count();
-
+    function checkJoinTeam($game_team_id, $game_id)
+    {
+        return $query = Player::where(['game_id' => $game_id, 'game_team_id' => $game_team_id])->count();
     }
 
-
-    function validateJwtToken($token) {
+    function validateJwtToken($token)
+    {
         // split the jwt
-       
-       
-        // $tokenParts   = explode(".", $token);  
+
+        // $tokenParts   = explode(".", $token);
         // $tokenHeader  = base64_decode($tokenParts[0]);
         // $tokenPayload = base64_decode($tokenParts[1]);
         // $jwtHeader    = json_decode($tokenHeader);
         // $jwtPayload   = json_decode($tokenPayload);
-        // $game_id      = $jwtPayload->game_id;        
+        // $game_id      = $jwtPayload->game_id;
         // $expDate = $jwtPayload->exp;
-
     }
 
-    public function returnError($errNum, $msg){
+    public function returnError($errNum, $msg)
+    {
         return response()->json([
             'status' => false,
-            'code'  => $errNum,
-            'msg'    => $msg
+            'code' => $errNum,
+            'msg' => $msg,
         ]);
     }
 
-    public function ValidToken($token, $expire_date){
+    public function ValidToken($token, $expire_date)
+    {
         return response()->json([
             'status' => false,
-            'code'  => '500',
-            'msg'    => 'Token Expired'
+            'code' => '500',
+            'msg' => 'Token Expired',
         ]);
     }
 
-
-    public function returnData($key, $value,$response_code, $msg = ""){
+    public function returnQData($key, $value, $response_code, $msg = '')
+    {
         return response()->json([
             'status' => true,
-            'code' => $response_code ?? "S000",
+            'code' => $response_code ?? 'S000',
             'msg' => $msg,
-            $key => $value
+            'question_status' => $value->GetPlayerOpenedQuestion->status,
+            $key => $value,
         ]);
     }
-    public function returnMultiData($key, $value,$response_code, $msg = ""){
+
+    public function returnNoQData($value)
+    {
+        return response()->json([
+            'status' => false,
+            'code' => '404',
+            'question_status' => 'Question is may be pending or closed now',
+        ]);
+    }
+
+    public function returnData($key, $value, $response_code, $msg = '')
+    {
         return response()->json([
             'status' => true,
-            'code' => $response_code ?? "S000",
+            'code' => $response_code ?? 'S000',
             'msg' => $msg,
-            'counter' => ($value->count()),
-            $key => $value
+            $key => $value,
         ]);
     }
-
-   
-
-
+    public function returnMultiData($key, $value, $response_code, $msg = '')
+    {
+        return response()->json([
+            'status' => true,
+            'code' => $response_code ?? 'S000',
+            'msg' => $msg,
+            'counter' => $value->count(),
+            $key => $value,
+        ]);
+    }
 }

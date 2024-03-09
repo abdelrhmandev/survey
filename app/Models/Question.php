@@ -8,9 +8,11 @@ class Question extends Model
 
     protected $fillable = [
 		'title',
+		'status',
 		'brand_id',
 		'score',
-		'time',
+		'start_time',
+		'end_time',
 		// 'difficulty',
 	];
 	

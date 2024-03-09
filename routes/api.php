@@ -28,6 +28,9 @@ Route::group(
         Route::post('/getTeamsByGameId', 'GameController@getTeamsByGameId');
 
         Route::post('/playerTeam', 'GameController@playerTeam');
+
+
+        Route::post('/playerQestion', 'QuestionController@playerQuestion');
         
     },
 );
