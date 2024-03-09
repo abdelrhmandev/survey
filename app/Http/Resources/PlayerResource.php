@@ -13,6 +13,7 @@ class PlayerResource extends JsonResource
        
         $customClaims = [
             'sub'                => 'PlayerGameInfo',
+            // 'player_id'          => '1',
             'player_name'        => $request->name,
             'game_id'            =>$this->game->id,
             'game_type_slug'     =>$this->game->type->slug,
@@ -25,7 +26,7 @@ class PlayerResource extends JsonResource
 
 
         return [
-            '_token'       => $token->get(),
+            '_token'             => $token->get(),
             'token_type'         => 'bearer',
             'game_id'            =>$this->game->id,
             'game_type_slug'     =>$this->game->type->slug,

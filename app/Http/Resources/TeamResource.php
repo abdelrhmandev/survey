@@ -2,14 +2,18 @@
 
 namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Traits\ApiFunctions;
+
 class TeamResource extends JsonResource
 {
+    use ApiFunctions;
     public function toArray($request)
     {
         return [
-            'team_id'             => $this->id,
+            'game_team_id'        => $this->id,
             'team_title'          => $this->team_title,
-            'is_enabled'          => $this->capacity == 0 ? false:true,
+            'is_enabled_to_join'  => $this->capacity > $this->checkJoinTeam($this->id,$this->game_id) ? 'true':'false',                      
+
         ];
     }
 }
