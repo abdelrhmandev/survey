@@ -2,10 +2,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-class CreatePlayerSubmittedAnswerTable extends Migration
+class CreatePlayerSubmittedAnswersTable extends Migration
 {
     public function up(){
-        Schema::create('player_submitted_answer', function (Blueprint $table) {
+        Schema::create('player_submitted_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('player_id');
             $table->foreignId('question_id');            
@@ -21,6 +21,6 @@ class CreatePlayerSubmittedAnswerTable extends Migration
         });
     }
     public function down(){
-        Schema::dropIfExists('player_submitted_answer');
+        Schema::dropIfExists('player_submitted_answers');
     }
 }
