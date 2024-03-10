@@ -13,7 +13,6 @@ class TeamResource extends JsonResource
             'game_team_id'        => $this->id,
             'team_title'          => $this->team_title,
             'is_enabled_to_join'  => $this->capacity > $this->checkJoinTeam($this->id,$this->game_id) ? 'true':'false',                      
-
         ];
     }
 }

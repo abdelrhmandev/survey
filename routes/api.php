@@ -30,7 +30,8 @@ Route::group(
         Route::post('/playerTeam', 'GameController@playerTeam');
 
 
-        Route::post('/playerQestion', 'QuestionController@playerQuestion');
+        Route::post('/playerQuestion', 'QuestionController@playerQuestion');
+        Route::post('/playerPostAnswer', 'QuestionController@playerPostAnswer');
         
     },
 );

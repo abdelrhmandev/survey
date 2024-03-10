@@ -13,9 +13,11 @@ class PlayerResource extends JsonResource
        
         $customClaims = [
             'sub'                => 'PlayerGameInfo',
-            // 'player_id'          => '1',
+            'player_id'          => $this->id,
             'player_name'        => $request->name,
             'game_id'            =>$this->game->id,
+            'game_title'         =>$this->game->title,
+            'game_type_id'       =>$this->game->type->id,
             'game_type_slug'     =>$this->game->type->slug,
             'isteam'             =>$this->game->play_with_team,
             'color'              =>$this->game->color,
@@ -23,8 +25,6 @@ class PlayerResource extends JsonResource
         ];
         $payload = JWTFactory::customClaims($customClaims)->make();
         $token = JWTAuth::encode($payload, 'HS256');
-
-
         return [
             '_token'             => $token->get(),
             'token_type'         => 'bearer',

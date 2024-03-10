@@ -20,6 +20,7 @@ class GameQuestion extends Model
     public function GetPlayerOpenedQuestion(){
         return $this->belongsTo(Question::class, 'question_id')->where('status','opened');
     }
+   
 
 	public function question(){
         return $this->belongsTo(Game::class, 'question_id');

@@ -51,6 +51,18 @@ trait ApiFunctions
         ]);
     }
 
+    public function decodeToken($token,$key)
+    {
+
+        $tokenParts   = explode(".", $token);  
+        $tokenHeader  = base64_decode($tokenParts[0]);
+        $tokenPayload = base64_decode($tokenParts[1]);
+        $jwtHeader    = json_decode($tokenHeader);
+        $jwtPayload   = json_decode($tokenPayload);
+
+        return $jwtPayload->{$key};
+    }
+
     public function returnQData($key, $value, $response_code, $msg = '')
     {
         return response()->json([
@@ -80,6 +92,7 @@ trait ApiFunctions
             $key => $value,
         ]);
     }
+
     public function returnMultiData($key, $value, $response_code, $msg = '')
     {
         return response()->json([
@@ -87,6 +100,18 @@ trait ApiFunctions
             'code' => $response_code ?? 'S000',
             'msg' => $msg,
             'counter' => $value->count(),
+            $key => $value,
+        ]);
+    }
+
+    public function returnMultiTeamsData($key, $value, $response_code, $msg = '',$has_team)
+    {
+        return response()->json([
+            'status' => true,
+            'code' => $response_code ?? 'S000',
+            'msg' => $msg,
+            'counter' => $value->count(),
+            'has_team'=> $has_team,
             $key => $value,
         ]);
     }

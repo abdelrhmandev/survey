@@ -16,5 +16,16 @@ class Player extends Model
 	public function game(){
         return $this->belongsTo(Game::class); 
     }
+
+	public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+	public function getJWTCustomClaims()
+    {
+        return [
+			
+		];
+    }
 	 
 }

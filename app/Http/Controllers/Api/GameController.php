@@ -18,6 +18,8 @@ use App\Http\Resources\TeamPlayerResource;
 class GameController extends Controller
 {
     use ApiFunctions;
+
+    ///////////////////API 1 ////////////////////////////////////////////////////////////
     public function gameInfoBySlug($slug){
         $query = Game::select(['id', 'title', 'type_id', 'status', 'image', 'color', 'play_with_team', 'event_start_date', 'event_end_date'])
             ->whereSlug($slug)
@@ -33,6 +35,8 @@ class GameController extends Controller
         $data = new GameResource($query);
         return $this->returnData('data', $data, 200, 'Game Info '.$query->title);
     }
+
+    ///////////////////API 2 ////////////////////////////////////////////////////////////
 
     public function gameCheckPin(Request $request){
         $validator = Validator::make($request->all(), [
@@ -67,31 +71,23 @@ class GameController extends Controller
 
     /////////////////// API 3 ///////////////////////////////////////
     public function getTeamsByGameId(Request $request){
-        $token        = $request->player_token;        
-        $tokenParts   = explode(".", $token);  
-        $tokenHeader  = base64_decode($tokenParts[0]);
-        $tokenPayload = base64_decode($tokenParts[1]);
-        $jwtHeader    = json_decode($tokenHeader);
-        $jwtPayload   = json_decode($tokenPayload);
-        $game_id      = $jwtPayload->game_id;        
-        $expDate      = $jwtPayload->exp;
+      
+        
+        $game_id = ($this->decodeToken($request->player_token,'game_id'));
+        $game_title = ($this->decodeToken($request->player_token,'game_title'));
+        $player_id = ($this->decodeToken($request->player_token,'player_id'));
+       
+         if(Player::where('id',$player_id)->first()->game_team_id){
+            $has_team = 'true';
+         }else{
+            $has_team = 'false';
+         }
 
-        $query = GameTeam::with([
-            'game' => function ($query) {
-                $query->select('id', 'title');
-            },
-        ])
-            ->select(['game_id', 'team_title'])
-            ->where('game_id', $game_id)
-            ->first();
-        if (!$query) {
-            return $this->returnError('404', 'No game match this id');
-        }
 
         $gameTeams = GameTeam::select(['id','game_id', 'team_title', 'capacity'])->where('game_id', $game_id);
         $data = TeamResource::collection($gameTeams->get());
 
-        return $this->returnMultiData('data', $data, 200, 'Team listings in Game ' . $query->game->title . '');
+        return $this->returnMultiTeamsData('data', $data, 200, 'Team listings in Game ' . $game_title . '', $has_team);
     }
     /////////////////////////////////////////////////////////////
 
