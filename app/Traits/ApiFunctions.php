@@ -93,6 +93,20 @@ trait ApiFunctions
         ]);
     }
 
+    public function returnPlayerSubmitData($key, $value, $response_code, $msg = '',$remaining_questions)
+    {
+        return response()->json([
+            'status' => true,
+            'code' => $response_code ?? 'S000',
+            'msg' => $msg,
+            'remaining_questions'=>$remaining_questions,
+            $key => $value,
+        ]);
+    }
+
+
+    
+
     public function returnMultiData($key, $value, $response_code, $msg = '')
     {
         return response()->json([

@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 
+use App\Models\PlayerSubmittedAnswer;
 use App\Models\QuestionCorrectAnswer;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Resources\QuestionResource;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\PlayerSubmittedAnswerResource;
 
 class QuestionController extends Controller
 {
@@ -47,10 +49,12 @@ class QuestionController extends Controller
         $player_id = ($this->decodeToken($request->player_token,'player_id'));
 
 
+
+       
         $question_id = $request->question_id;
         $answer_id = $request->answer_id;
 
-        
+
 
         $validator = Validator::make($request->all(), [
             'question_id' => 'required|exists:questions,id',
@@ -59,22 +63,28 @@ class QuestionController extends Controller
         if ($validator->fails()) {
             return $this->returnError('400', $validator->errors());
         }
-
+        
+       
 
             $data = [
+            'game_id'     => $game_id,
             'player_id'   => $player_id,
             'question_id' => $question_id,
             'answer_id'   => $answer_id,    
             ];
          
-            $question_correct_answer = QuestionCorrectAnswer::
-            select('question_id','correct_answer_id')->where('question_id',$question_id)->first->correct_answer_id;
            
-            $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
+            
+           
+           
+
+        $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
+
+            $remaining_questions = GameQuestion::where('game_id',$game_id)->where('question_id','<>',$question_id)->count();
             if($PlayerSubmittedAnswer){
-                return $this->returnData('data', new PlayerSubmittedAnswerResource($PlayerSubmittedAnswer), 201, 'player has been created successfully');
+                return $this->returnPlayerSubmitData('data', new PlayerSubmittedAnswerResource($PlayerSubmittedAnswer), 201, 'answer has been submitted successfully',$remaining_questions);
              }else{
-                // return $this->returnData('400', $validator->errors());
+                return $this->returnError('400', 'erro save answer');
              }
 
 
