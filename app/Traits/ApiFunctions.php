@@ -77,9 +77,8 @@ trait ApiFunctions
     public function returnNoQData($value)
     {
         return response()->json([
-            'status' => 'pending',
             'code' => '404',
-            'question_status' => 'Question is pending',
+            'question_status' => 'pending',
         ]);
     }
 
