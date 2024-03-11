@@ -65,7 +65,7 @@ class GameSeeder extends Seeder
                 'event_location' => 'Aswan',
                 'attendees' => '80',
                 'type_id' => '3',
-                'brand_id' =>'3',
+                'brand_id' =>'2',
                 'play_with_team' => '0',
                 'team_players' => null,
                 'image' => 'uploads/games/3.jpg',
