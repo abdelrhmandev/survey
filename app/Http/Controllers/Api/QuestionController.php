@@ -33,7 +33,7 @@ class QuestionController extends Controller
         $player_name = $jwtPayload->player_name;
         $expDate = $jwtPayload->exp;
         $question = GameQuestion::whereHas('GetPlayerOpenedQuestion')->where('game_id', $game_id)->first();        
-        if ($question) {        
+        if ($question) {       
             return $this->returnQData('data', new QuestionResource($question), 200, 'Game Question');
         } else {
             return $this->returnNoQData(new QuestionResource($question));
