@@ -20,6 +20,13 @@ trait ApiFunctions
         return $query = Player::where(['game_id' => $game_id, 'game_team_id' => $game_team_id])->count();
     }
 
+    public function bearerToken(){
+       $header = $this->header('Authorization', '');
+       if (Str::startsWith($header, 'Bearer ')) {
+           return Str::substr($header, 7);
+       }
+  }
+
     function validateJwtToken($token)
     {
         // split the jwt
@@ -63,14 +70,15 @@ trait ApiFunctions
         return $jwtPayload->{$key};
     }
 
-    public function returnQData($key, $value, $response_code, $msg = '')
+    public function returnQData($key, $value, $response_code, $msg = '',$isSubmitted)
     {
         return response()->json([
-            'status' => true,
-            'code' => $response_code ?? 'S000',
-            'msg' => $msg,
+            'status'          => true,
+            'code'            => $response_code ?? 'S000',
+            'msg'             => $msg,
             'question_status' => $value->GetPlayerOpenedQuestion->status,
-            $key => $value,
+            'isSubmitted'     =>$isSubmitted,
+            $key              => $value,
         ]);
     }
 

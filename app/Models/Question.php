@@ -11,9 +11,7 @@ class Question extends Model
 		'status',
 		'brand_id',
 		'score',
-		'start_time',
-		'end_time',
-		// 'difficulty',
+		'time',
 	];
 	
 	public $timestamps = true;

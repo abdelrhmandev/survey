@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -42,14 +41,14 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'jwt',
+            'provider' => 'players',
             'hash' => false,
         ],
-		'admin' => [
-			'driver' => 'session',
-			'provider' => 'users',
-		],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -117,5 +116,4 @@ return [
     */
 
     'password_timeout' => 10800,
-
 ];

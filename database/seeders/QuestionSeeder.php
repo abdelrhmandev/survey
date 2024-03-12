@@ -96,39 +96,6 @@ class QuestionSeeder extends Seeder
                 'created_at' => Carbon::now(),
             ],
 
-            [
-                'title' => 'Which character is the mascot of Nintendo ?',
-                'score' => '5',
-                'brand_id' => '1',
-                'time' => '30',
-                'created_at' => Carbon::now(),
-            ],
-
-
-            [
-                'title' => 'Which Color do u like ?',
-                'score' => '5',
-                'brand_id' => '1',
-                'time' => '30',
-                'created_at' => Carbon::now(),
-            ],
-
-
-            [
-                'title' => 'Which character is Good ?',
-                'score' => '5',
-                'brand_id' => '1',
-                'time' => '30',
-                'created_at' => Carbon::now(),
-            ],
-
-            [
-                'title' => 'Which Hand is strong ?',
-                'score' => '5',
-                'brand_id' => '1',
-                'time' => '30',
-                'created_at' => Carbon::now(),
-            ],
 
 
         ];

@@ -1,38 +1,26 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-
+Route::group(
+    [
+        'namespace' => 'Api',
+        'middleware' => 'api',
+    ],
+    function () {
+        Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');
+        Route::post('/gameCheckPin', 'GameController@gameCheckPin');
+    },
+);
 
 Route::group(
     [
         'namespace' => 'Api',
         'middleware' => 'jwt.verify',
     ],
-    function () {
-        Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');
-        Route::post('/gameCheckPin', 'GameController@gameCheckPin');
-
-        Route::post('/getTeamsByGameId', 'GameController@getTeamsByGameId');
-
-        Route::post('/playerTeam', 'GameController@playerTeam');
-
-
+    function () { 
+        Route::post('/getTeamsByGameId', 'GameTeamController@getTeamsByGameId');
+        Route::post('/playerTeam', 'PlayerTeamController@playerTeam');
         Route::post('/playerQuestion', 'QuestionController@playerQuestion');
-        Route::post('/playerPostAnswer', 'QuestionController@playerPostAnswer');
-        
+        Route::post('/playerPostAnswer', 'AnswerController@playerPostAnswer');    
     },
 );
-

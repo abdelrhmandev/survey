@@ -11,6 +11,9 @@ class CreateGameQuestionTable extends Migration
             $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
             $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
             $table->tinyInteger('order')->nullable();
+            $table->enum('status', ['pending','opened','closed'])->default('pending');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
         });
     }
     public function down(){
