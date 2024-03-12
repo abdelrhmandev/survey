@@ -27,7 +27,7 @@ class QuestionResource extends JsonResource
             'question_start_time' => $this->start_time,
             'question_end_time'   => $this->end_time,
             'question_brand'      => $this->getQuestion->brand->title,
-            'correct_answer_id'   => $this->getQuestion->correctAnswer->id,
+            'correct_answer_id'   => $this->getQuestion->correctAnswer->correct_answer_id,
             'answers'             => $this->getQuestion->answers->select('id','title')
         ];
     }
