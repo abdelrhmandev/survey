@@ -6,9 +6,21 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuestionResource extends JsonResource
 {
+
+    public function __construct($resource, $isSubmitted)
+    {
+        // Ensure you call the parent constructor
+        parent::__construct($resource);
+        $this->resource = $resource;
+        
+        $this->isSubmitted = $isSubmitted;
+    }
+
+
     public function toArray($request)
     {
         return [
+            'isSubmitted'         => $this->isSubmitted,
             'question_id'         => $this->getQuestion->id,
             'remaining_questions' => GameQuestion::where('status','pending')->where('game_id',$this->game_id)->where('id','<>',$this->question_id)->count(),
             'question_title'      => $this->getQuestion->title,            
