@@ -10,7 +10,7 @@ class QuestionResource extends JsonResource
     {
         return [
             'question_id'         => $this->getQuestion->id,
-            'remaining_questions' => GameQuestion::where('game_id',$this->game_id)->where('id','<>',$this->question_id)->count(),
+            'remaining_questions' => GameQuestion::where('status','pending','game_id',$this->game_id)->where('id','<>',$this->question_id)->count(),
             'question_title'      => $this->getQuestion->title,            
             'question_start_time' => $this->start_time,
             'question_end_time'   => $this->end_time,

@@ -1,19 +1,20 @@
 <?php
 namespace App\Http\Controllers\Api;
+use App\Models\Game;
+
 use App\Models\Question;
-
 use App\Models\GameQuestion;
-use App\Traits\ApiFunctions;
 
+use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\PlayerSubmittedAnswer;
 use App\Models\QuestionCorrectAnswer;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Resources\QuestionResource;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Resources\PlayerSubmittedAnswerResource;
 
 class AnswerController extends Controller
@@ -47,7 +48,7 @@ class AnswerController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-            'game_team_id' => 'required|exists:game_team,id',
+            'game_team_id' => 'nullable|exists:game_team,id',
             'question_id'  => 'required|exists:questions,id',            
             'answer_id'    => 'required|exists:answers,id',
         ]);
@@ -62,14 +63,26 @@ class AnswerController extends Controller
                 'answer_id'   => $answer_id,    
             ];
 
+            
+
+            $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'answer_id'=>$answer_id])->with('correctanswer')->first();
+            
+            dd($getScore);
+
             $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
 
+
+
+
+
             $remaining_questions = GameQuestion::where('game_id',$game_id)->where('question_id','<>',$question_id)->count();
+
+
             if($PlayerSubmittedAnswer){
                 return $this->returnPlayerSubmitData('data', new PlayerSubmittedAnswerResource($PlayerSubmittedAnswer), 201, 'answer has been submitted successfully',$remaining_questions);
              }else{
                 return $this->returnError('400', 'erro save answer');
-             }
+             }  
 
 
     }
