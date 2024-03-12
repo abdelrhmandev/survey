@@ -76,7 +76,7 @@ trait ApiFunctions
             'status'          => true,
             'code'            => $response_code ?? 'S000',
             'msg'             => $msg,
-            'question_status' => $value->GetPlayerOpenedQuestion->status,
+            'question_status' => $value->status,
             'isSubmitted'     =>$isSubmitted,
             $key              => $value,
         ]);

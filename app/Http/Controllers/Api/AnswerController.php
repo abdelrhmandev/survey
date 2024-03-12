@@ -16,7 +16,7 @@ use App\Http\Resources\QuestionResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PlayerSubmittedAnswerResource;
 
-class QuestionController extends Controller
+class AnswerController extends Controller
 {
 
 
@@ -47,7 +47,7 @@ class QuestionController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-            'game_team_id' => 'required|exists:game_teams,id',
+            'game_team_id' => 'required|exists:game_team,id',
             'question_id'  => 'required|exists:questions,id',            
             'answer_id'    => 'required|exists:answers,id',
         ]);

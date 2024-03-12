@@ -53,8 +53,8 @@
                     @foreach ($Gamequestions as $Gamequestion)
                     <tr class="row1" data-id="{{ $Gamequestion->id }}">  
                       <td><a class="btn btn-default" href="#" title="{{ trans('site.reorder') }}" style="padding: 1px 7px;"><i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i> <i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i></a></td>
-                      <td>{{ $Gamequestion->ReorderQuestion->title }}</td>
-                      <td class="text-end pe-13"><span class="text-gray-600 fw-bold fs-6">{{ $Gamequestion->ReorderQuestion->time }}</span></td>
+                      <td>{{ $Gamequestion->getQuestion->title }}</td>
+                      <td class="text-end pe-13"><span class="text-gray-600 fw-bold fs-6">{{ $Gamequestion->getQuestion->time }}</span></td>
                     </tr>
                     @endforeach   
                   </tbody>

@@ -19,15 +19,13 @@ class GameQuestion extends Model
 	
 	public $timestamps = false;
 	
-    public function GetPlayerOpenedQuestion(){
-        return $this->belongsTo(Question::class, 'question_id');
-    }
+ 
    
 
 	public function question(){
         return $this->belongsTo(Game::class, 'question_id');
     }
-	public function ReorderQuestion(){
+	public function getQuestion(){
         return $this->belongsTo(Question::class, 'question_id');
     }
 	
