@@ -56,18 +56,23 @@ class AnswerController extends Controller
             return $this->returnError('400', $validator->errors());
         }
 
+
+            
+
+            $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'correct_answer_id'=>$answer_id])->exists();
+
+            $getScore ? $score = Question::where('id',$game_id)->first()->score : $score = 0;
+            
+
+        
             $data = [
                 'game_id'     => $game_id,
                 'player_id'   => $player_id,
                 'question_id' => $question_id,
                 'answer_id'   => $answer_id,    
+                'score'       => $score,    
             ];
 
-            
-
-            $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'answer_id'=>$answer_id])->with('correctanswer')->first();
-            
-            dd($getScore);
 
             $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
 
