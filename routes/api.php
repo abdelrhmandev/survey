@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'namespace' => 'Api',
-        'middleware' => 'api',
+        'middleware' => 'jwt.verify',
     ],
     function () {
         Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');

@@ -13,6 +13,11 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
+    protected $routeMiddleware = [
+                'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+                'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
+                'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
+            ];
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
