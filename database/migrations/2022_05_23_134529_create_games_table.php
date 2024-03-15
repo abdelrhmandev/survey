@@ -24,7 +24,7 @@ class CreateGamesTable extends Migration
             $table->date('event_start_date');
             $table->date('event_end_date');
             $table->string('event_location');
-
+            $table->foreignId('user_id');
             $table->string('pin',10)->unique();
             
             $table->timestamps();

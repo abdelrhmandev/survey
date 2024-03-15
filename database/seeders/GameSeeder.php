@@ -32,6 +32,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/1.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'1',
                 'created_at' => Carbon::now(),
             ],
             ///// 2///////
@@ -51,6 +52,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/2.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'1',
                 'created_at' => Carbon::now(),
             ],
 
@@ -71,6 +73,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/3.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'1',
                 'created_at' => Carbon::now(),
             ],
 
@@ -91,6 +94,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/4.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'1',
                 'created_at' => Carbon::now(),
             ],
 
@@ -111,6 +115,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/5.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'2',
                 'created_at' => Carbon::now(),
             ],
 
@@ -131,6 +136,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/6.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'2',
                 'created_at' => Carbon::now(),
             ],
 
@@ -151,6 +157,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/7.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'2',
                 'created_at' => Carbon::now(),
             ],
 
@@ -171,6 +178,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/8.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'3',
                 'created_at' => Carbon::now(),
             ],
 
@@ -191,6 +199,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/9.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'4',
                 'created_at' => Carbon::now(),
             ],
 
@@ -211,6 +220,7 @@ class GameSeeder extends Seeder
                 'image' => 'uploads/games/10.jpg',
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'3',
                 'created_at' => Carbon::now(),
             ],
 
@@ -231,6 +241,7 @@ class GameSeeder extends Seeder
                 'image' => null,
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'3',
                 'created_at' => Carbon::now(),
             ],
            
@@ -251,6 +262,7 @@ class GameSeeder extends Seeder
                 'image' => null,
                 'pin'=>\Str::random(10),
                 'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                'user_id'=>'3',
                 'created_at' => Carbon::now(),
             ],
         ];

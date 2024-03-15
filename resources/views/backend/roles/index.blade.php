@@ -67,8 +67,8 @@
               </div>
             </th>            
             <th class="w-200px">{{ __('site.title') }}</th>  
-            <th class="w-500px">{{ __('permission.plural') }}</th>                                
-            {{--  <th class="w-300px">{{ __('role.associated_users') }}</th>  --}}
+            {{-- <th class="w-500px">{{ __('permission.plural') }}</th>                                 --}}
+             <th class="w-300px">{{ __('role.associated_users') }}</th> 
             <th class="text-primary w-100px">{{ __('site.created_at') }}</th>
             <th class="text-end min-w-100px noExport">{{ __('site.actions') }}</th>  
           </tr>

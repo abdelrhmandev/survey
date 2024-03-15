@@ -16,7 +16,7 @@ return [
     'project_name' => 'GSK',
 
 
-    'project_description' => '“Milion Game” is a fun and engaging game that challenges players to answer a series of questions correctly to win. The game is designed to test your knowledge in various categories.',
+    'project_description' => 'We have policies in place across GSK to ensure we meet the high standards we set ourselves as a company, and those that are expected of us externally.',
 
   
     /*

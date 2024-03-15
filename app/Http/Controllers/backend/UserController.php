@@ -89,6 +89,9 @@ class UserController extends Controller
                     'teams' => function ($query) {
                         $query->select('teams.id', 'teams.title'); # Many to many
                     },
+                    'country' => function ($query) {
+                        $query->select('countries.id', 'countries.name'); # Many to many
+                    },
                 ])
                 ->withCount(['roles','teams']);
             return Datatables::of($model)

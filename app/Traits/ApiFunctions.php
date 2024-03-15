@@ -104,6 +104,21 @@ trait ApiFunctions
         ]);
     }
 
+
+    public function returnAnswersData($key, $value, $response_code, $msg = '',$Qtitle,$correct_answer_id,$remaining_questions)
+    {
+        return response()->json([
+            'status'                => true,
+            'code'                  => $response_code ?? 'S000',
+            'msg'                   => $msg,
+            'counter'               => $value->count(),
+            'question_title'        => $Qtitle,
+            'correct_answer_id'     =>$correct_answer_id,
+            'remaining_questions'   =>$remaining_questions,
+            $key                    => $value,
+        ]);
+    }
+
     public function returnMultiTeamsData($key, $value, $response_code, $msg = '',$has_team)
     {
         return response()->json([

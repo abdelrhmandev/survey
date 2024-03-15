@@ -1,21 +1,23 @@
 <?php
 namespace App\Http\Controllers\backend;
-use App\Http\Requests\backend\GameRequest;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Question;
-use App\Models\GameQuestion;
-use App\Models\Game;
-use App\Models\GameTeam;
-use App\Models\Type;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
+use DataTables;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
+use App\Models\Game;
+use App\Models\Type;
+use App\Models\Brand;
+use App\Models\GameTeam;
+use App\Models\Question;
 use App\Traits\Functions;
 use App\Traits\UploadAble;
-use DataTables;
+use Illuminate\Support\Str;
+use App\Models\GameQuestion;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\backend\GameRequest;
+
 class GameController extends Controller
 {
     use UploadAble, Functions;
@@ -29,8 +31,9 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $model = Game::select('*')
-            ->with(['type', 'brand'])
+            ->with(['type', 'brand','user'])
             ->withCount(['questions']);
+            
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
@@ -40,6 +43,9 @@ class GameController extends Controller
                     $brand = 'Brand : <span style="color:#322ebb">' . $row->brand->title . '</span>';
 
                     $attendees = 'Attendees : <span style="color:#ec55b8">' . $row->attendees . '</span>';
+
+                    $user = 'Added By : <span style="color:#729cbd">' . $row->user->name . '</span>';
+
 
                     return '<a href=' .
                         route($this->ROUTE_PREFIX . '.edit', $row->id) .
@@ -54,6 +60,9 @@ class GameController extends Controller
                         $brand .
                         '</div><div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
                         $attendees .
+                        '</div>
+                        <div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
+                        $user .
                         '</div>
                     ';
                 })
@@ -104,17 +113,16 @@ class GameController extends Controller
                 ->editColumn('created_at', function ($row) {
                     return $this->dataTableGetCreatedat($row->created_at);
                 })
-                ->editColumn('questions', function ($row) {
+                ->AddColumn('questions_count', function ($row) {
                     $ReorderListings = '<a href=' . route('admin.GetQuestions', $row->id) . " class=\"btn btn-sm btn-light-primary\"><i class=\"ki-outline ki-arrows-circle fs-3\"></i>Reorder</a>";
                     return "<span class=\"text-dark fw-bolder fs-3\">" . $row->questions_count . '</span>&nbsp;' . ($row->questions_count > 0 ? $ReorderListings : '');
                 })
                 ->editColumn('actions', function ($row) {
                     // "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
-
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
 
-                ->rawColumns(['image', 'title', 'event_title', 'questions', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['image', 'title', 'event_title', 'questions_count', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.games.index')) {
@@ -160,6 +168,7 @@ class GameController extends Controller
             'event_start_date' => $EventDateRange[0],
             'event_end_date' => $EventDateRange[1],
             'event_location' => $validated['event_location'],
+            'user_id'=>Auth::guard('admin')->user()->id,
             'pin' => \Str::random(10),
         ];
         //Draw Game Team Records

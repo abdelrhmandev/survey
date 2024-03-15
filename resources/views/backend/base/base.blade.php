@@ -14,7 +14,7 @@
 		<meta property="og:url" content="https://game.invent.solutions" />
 		<meta property="og:site_name" content="GSK" />
 		<link rel="canonical" href="https://game.invent.solutions" />
-		<link rel="shortcut icon" href="{{ asset('assets/backend/media/logos/favicon.ico')}}" />
+		<link rel="shortcut icon" href="{{ asset('assets/backend/media/logos/favicon.png')}}" />
 		@yield('style')
 		<script>
 			window.Laravel = {!! json_encode([

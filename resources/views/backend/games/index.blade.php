@@ -103,14 +103,8 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'title', name: 'title',orderable: false}, 
 { data: 'slug', name: 'slug',orderable: false}, 
 { data: 'pin', name: 'pin',orderable: false}, 
-
- 
 { data: 'event_title', name: 'event_title',orderable: false}, 
-
-
-{ data: 'questions', name: 'questions',orderable: false}, 
- 
-
+{ data: 'questions_count', name: 'questions_count',orderable: false}, 
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

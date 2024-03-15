@@ -4,7 +4,7 @@
 					<div class="aside-logo py-8" id="kt_aside_logo">
 						<!--begin::Logo-->
 						<a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
-							<img alt="Logo" src="{{ asset('assets/backend/media/logos/logo.svg')}}" class="h-45px logo" />
+							<img alt="Logo" src="{{ asset('assets/backend/media/auth/MenuGSK_logo.b95f3cb2.svg')}}" class="h-45px logo" />
 						</a>
 						<!--end::Logo-->
 					</div>

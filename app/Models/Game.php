@@ -21,15 +21,28 @@ class Game extends Model
 		'event_location',		
 		'type_id',
 		'pin',
-		'status',		
+		'status',
+		'user_id',		
 		'brand_id',
 	];
 	
 	public $timestamps = true;
 	
 
+
+	public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+	public function nextQuestion() {
+			return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')
+			->withPivot('order','status','start_time','end_time')
+			->orderByPivot('order', 'asc');
+	}
+
+
 	public function questions(){
-	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','order');  
+	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','order','status','start_time','end_time');  
     }
  
 	public function brand(){

@@ -22,7 +22,13 @@ class PlayerSubmittedAnswer extends Model
 	public $timestamps = true;
 	
 
+	public function team(){
+		return $this->belongsTo(GameTeam::class,'game_team_id','id');
+	 }
  
+	 public function player(){
+		return $this->belongsTo(Player::class,'player_id','id');
+	 }
  
 	
 }

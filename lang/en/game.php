@@ -10,6 +10,7 @@ return [
 'parent'                    => 'Parent Game',
 'plural'                    => 'Games',
 'pin'                       =>'PIN',
+'author'                    => 'Game Added By',
 'teams'                     =>'Teams',
 'attendees'                 => 'Attendees',
 'team_players'              =>'Team Players',

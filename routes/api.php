@@ -9,6 +9,18 @@ Route::group(
     function () {
         Route::get('/gameInfoBySlug/{slug}', 'GameController@gameInfoBySlug');
         Route::post('/gameCheckPin', 'GameController@gameCheckPin');
+
+
+        
+
+        Route::post('/Admin/StartPlay/{slug}', 'backend\ManageController@CheckgameAuthor')->name('CheckgameAuthor');
+
+        Route::get('/Admin/NextQuestion', 'backend\ManageController@NextQuestion');
+
+        Route::get('/Admin/Winnerslist', 'backend\ManageController@Winnerslist');
+
+
+
     },
 );
 
