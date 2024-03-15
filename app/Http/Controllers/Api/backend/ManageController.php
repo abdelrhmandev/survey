@@ -116,15 +116,17 @@ class ManageController extends Controller
             if($query->play_with_team == 1){
                 $TeamPlayers = PlayerSubmittedAnswer::with('team')->groupBy('game_team_id')->where('game_id',$query->id)->select('game_team_id', DB::raw('SUM(score) as total_team_score'))->orderBy('total_team_score','DESC');
                 $data = WinnerTeamResource::collection($TeamPlayers->get());
+            
+                $k = 'Winners Teams';
             }else{
 
                 $Players = PlayerSubmittedAnswer::with('player')->groupBy('player_id')->where('game_id',$query->id)->select('player_id', DB::raw('SUM(score) as total_player_score'))->orderBy('total_player_score','DESC');
                 $data = WinnerPlayerResource::collection($Players->get());
-                
+                $k = 'Winners Players';
             }
                 
 
-                return $this->returnData('data', $data, 200, 'Winners Teams');
+                return $this->returnData('data', $data, 200, $k);
         
                 
 
