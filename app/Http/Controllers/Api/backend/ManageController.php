@@ -117,14 +117,17 @@ class ManageController extends Controller
                 ->count() > 0
         ) {
             
-            $OpenedQuestionId = GameQuestion::where('game_id', $query->id)->where('status', 'opened')->orderBy('order', 'asc')->first()->question_id;
+            $OpenedQuestion= GameQuestion::where('game_id', $query->id)->where('status', 'opened')->orderBy('order', 'asc')->first();
+            
+            
+              $Qtitle = $OpenedQuestion->question->title;
+        
 
-            echo ($OpenedQuestionId);
-
-
-
-            GameQuestion::where(['question_id' => $question_id, 'game_id' => $query->id])
-            ->update(['status' => 'closed']);
+            if(GameQuestion::where(['question_id' => $OpenedQuestion->question_id, 'game_id' => $query->id])
+            ->update(['status' => 'closed'])){
+        
+                dd('OK');
+            }
 
             $NextQuestion = GameQuestion::where('status', 'pending')
                 ->where('game_id', '=', $query->id)
