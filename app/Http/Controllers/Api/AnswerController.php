@@ -57,7 +57,7 @@ class AnswerController extends Controller
         }
 
             $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'correct_answer_id'=>$answer_id])->exists();
-            $getScore ? $score = GaneQuestion::where('game_id',$game_id)->first()->score : $score = 0;                
+            $getScore ? $score = GameQuestion::where('game_id',$game_id)->first()->score : $score = 0;                
             $data = [
                 'game_id'     => $game_id,
                 'player_id'   => $player_id,
