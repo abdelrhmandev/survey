@@ -54,7 +54,7 @@ class GameController extends Controller
                 },
             ])
             ->first();
-        if ($query->play_with_team == 1) {
+        // if ($query->play_with_team == 1) {
             $player = Player::create([
                 'name' => $request->name,
                 'game_id' => $query->id,
@@ -62,8 +62,9 @@ class GameController extends Controller
             if ($player) {
                 return $this->returnData('data', new PlayerResource($player), 201, 'player has been created successfully');
             }
-        } else {
-            return $this->returnError('400', 'this game is not played with a team , try other game');
-        }
+        // } 
+        // else {
+        //     return $this->returnError('400', 'this game is not played with a team , try other game');
+        // }
     }
 }

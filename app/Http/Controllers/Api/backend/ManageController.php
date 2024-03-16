@@ -59,24 +59,27 @@ class ManageController extends Controller
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
                 } else {
+                    // Open Game
+                    $game_id = $game->id;
+                    $OpenGame = Game::where(['id'=>$game_id])->update(['status'=>'opened']);
                     $customClaims = [
-                        'sub' => 'Admininfo',
-                        'name' => $AdminUserInfo->user()->name,
-                        'email' => $AdminUserInfo->user()->email,
+                        'sub'     => 'Admininfo',
+                        'name'    => $AdminUserInfo->user()->name,
+                        'email'   => $AdminUserInfo->user()->email,
                         'game_id' => $game->id,
                         'user_id' => $user_id,
-                        'exp' => strtotime('+ 1 days'), // One Day From creation
+                        'exp'     => strtotime('+ 1 days'), // One Day From creation
                     ];
                     $payload = JWTFactory::customClaims($customClaims)->make();
                     $token = JWTAuth::encode($payload, 'HS256');
                     $data = [
-                        'game_url' => 'https://game.invent.solutions/playergame/' . $game->slug,
+                        'game_url'       => 'https://game.invent.solutions/playergame/' . $game->slug,
                         'game_type_slug' => $game->type->slug,
-                        'event_logo' => $game->image ? url(asset($game->image)) : '',
-                        'pin_code' => $game->pin,
-                        'event_color' => $game->color,
-                        '_token' => $token->get(),
-                        'token_type' => 'bearer',
+                        'event_logo'     => $game->image ? url(asset($game->image)) : '',
+                        'pin_code'       => $game->pin,
+                        'event_color'    => $game->color,
+                        '_token'         => $token->get(),
+                        'token_type'     => 'bearer',
                     ];
                     return $this->returnData('data', $data, 200, 'Game Info' . $game->title);
                 }
@@ -89,7 +92,7 @@ class ManageController extends Controller
     public function NextQuestion(Request $request)
     {
         $token = request()->bearerToken();
-        $user_id = $this->decodeToken($token, 'user_id');
+        $game_id = $this->decodeToken($token, 'game_id');
 
         $query = Game::select(['id', 'user_id', 'type_id'])
             ->with([
@@ -97,7 +100,7 @@ class ManageController extends Controller
                     $query->select('id', 'slug');
                 },
             ])
-            ->where('user_id', $user_id)
+            ->where('id', $game_id)
             ->first();
 
         /////////////////////////////////////////TRUE CASE //////////////////////////////////////////////////
@@ -145,8 +148,11 @@ class ManageController extends Controller
 
                     $date = date_create(date('H:i:s'));
                     date_add($date, date_interval_create_from_date_string($question_time . ' seconds'));
-                    $end_time = date_format($date, 'H:i:s');
+
+                    
                     $end_time = date('H:i:s', strtotime("+$question_time sec"));
+                 
+
                     if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
                         'status' => 'opened',
                         'start_time' => date('H:i:s'),
@@ -183,7 +189,7 @@ class ManageController extends Controller
   
                 $question_time = $PendingQ->question->time;
                 $date = date_create(date('H:i:s'));
-                $end_time = date_format($date, 'H:i:s');
+                
                 $end_time = date('H:i:s', strtotime("+$question_time sec"));
 
                 if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
@@ -195,11 +201,6 @@ class ManageController extends Controller
                     return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
 
                 }
- 
-
-
-
-
             }
 
 
@@ -227,14 +228,16 @@ class ManageController extends Controller
 
     public function Winnerslist()
     {
-        $user_id = 1;
+        $token = request()->bearerToken();
+        $game_id = $this->decodeToken($token, 'game_id');
+        // $user_id = 1;
         $query = Game::select(['id', 'user_id', 'play_with_team'])
             ->with([
                 'type' => function ($query) {
                     $query->select('id', 'slug');
                 },
             ])
-            ->where('user_id', $user_id)
+            ->where('id', $game_id)
             ->first();
 
         if ($query->play_with_team == 1) {
@@ -256,6 +259,7 @@ class ManageController extends Controller
             $k = 'Winners Players';
         }
 
+        Game::where(['id'=>$game_id])->update(['status'=>'closed']);
         return $this->returnData('data', $data, 200, $k);
     }
 }
