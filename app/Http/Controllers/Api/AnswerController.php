@@ -44,6 +44,7 @@ class AnswerController extends Controller
 
         $question_id    = $request->question_id;
         $answer_id      = $request->answer_id;
+        $game_team_id   = $request->game_team_id; 
 
 
 
@@ -59,11 +60,12 @@ class AnswerController extends Controller
             $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'correct_answer_id'=>$answer_id])->exists();
             $getScore ? $score = GameQuestion::where('game_id',$game_id)->first()->score : $score = 0;                
             $data = [
-                'game_id'     => $game_id,
-                'player_id'   => $player_id,
-                'question_id' => $question_id,
-                'answer_id'   => $answer_id,    
-                'score'       => $score,    
+                'game_id'       => $game_id,
+                'player_id'     => $player_id,
+                'question_id'   => $question_id,
+                'answer_id'     => $answer_id,
+                'game_team_id'  => $game_team_id ?? NULL,    
+                'score'         => $score,    
             ];
             $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
             $remaining_questions = GameQuestion::where('game_id',$game_id)->where('status','pending')->count();

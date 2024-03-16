@@ -229,7 +229,7 @@ class ManageController extends Controller
     public function Winnerslist()
     {
         $token = request()->bearerToken();
-        $game_id = $this->decodeToken($token, 'game_id');
+        $game_id = $this->decodeToken($token,'game_id');
         // $user_id = 1;
         $query = Game::select(['id', 'user_id', 'play_with_team'])
             ->with([
@@ -247,7 +247,6 @@ class ManageController extends Controller
                 ->select('game_team_id', DB::raw('SUM(score) as total_team_score'))
                 ->orderBy('total_team_score', 'DESC');
             $data = WinnerTeamResource::collection($TeamPlayers->get());
-
             $k = 'Winners Teams';
         } else {
             $Players = PlayerSubmittedAnswer::with('player')
