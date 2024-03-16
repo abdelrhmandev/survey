@@ -45,6 +45,13 @@ return [
             'provider' => 'players',
             'hash' => false,
         ],
+
+        'Adminapi' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'users',

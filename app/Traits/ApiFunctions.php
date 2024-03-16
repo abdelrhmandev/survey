@@ -105,17 +105,13 @@ trait ApiFunctions
     }
 
 
-    public function returnAnswersData($key, $value, $response_code, $msg = '',$Qtitle,$correct_answer_id,$remaining_questions)
+    public function returnAnswersData($response_code, $msg = '',$data)
     {
         return response()->json([
             'status'                => true,
             'code'                  => $response_code ?? 'S000',
             'msg'                   => $msg,
-            'counter'               => $value->count(),
-            'question_title'        => $Qtitle,
-            'correct_answer_id'     =>$correct_answer_id,
-            'remaining_questions'   =>$remaining_questions,
-            $key                    => $value,
+            'data'                  =>$data,
         ]);
     }
 

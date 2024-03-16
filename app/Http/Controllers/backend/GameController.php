@@ -119,7 +119,7 @@ class GameController extends Controller
                 })
                 ->editColumn('actions', function ($row) {
                     // "<span class=\"text-dark fw-bolder fs-3\">".$row->questions_count."</span>&nbsp;".$addQestion;
-                    return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
+                    return $this->dataTableEditRecordAction2($row, $this->ROUTE_PREFIX);
                 })
 
                 ->rawColumns(['image', 'title', 'event_title', 'questions_count', 'actions', 'created_at', 'created_at.display'])

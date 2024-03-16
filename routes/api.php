@@ -13,11 +13,11 @@ Route::group(
 
         
 
-        Route::post('/Admin/StartPlay/{slug}', 'backend\ManageController@CheckgameAuthor')->name('CheckgameAuthor');
+        Route::post('/Admin/StartPlay', 'backend\ManageController@CheckgameAuthor');
 
-        Route::get('/Admin/NextQuestion', 'backend\ManageController@NextQuestion');
+        Route::post('/Admin/NextQuestion', 'backend\ManageController@NextQuestion');
 
-        Route::get('/Admin/Winnerslist', 'backend\ManageController@Winnerslist');
+        Route::post('/Admin/Winnerslist', 'backend\ManageController@Winnerslist');
 
 
 
