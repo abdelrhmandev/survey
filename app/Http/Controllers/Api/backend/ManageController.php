@@ -100,57 +100,85 @@ class ManageController extends Controller
             ->where('user_id', $user_id)
             ->first();
 
-        $question_id = $query->nextQuestion->first()->pivot->question_id;
-        $question_time = $query->nextQuestion->first()->time;
-        $correct_answer_id = $query->nextQuestion->first()->answers->first()->id;
-        $Qtitle = $query->nextQuestion->first()->title;
+        ///////////////////////////////////////////////////////////////////////////////////////////////
 
-        $answers = Answer::where('question_id', $question_id);
-
-        $remaining_questions = GameQuestion::where('game_id', $query->id)
-            ->where('question_id', '<>', $question_id)
-            ->count();
-
-        if (
-            GameQuestion::where('game_id', $query->id)
+        if ($request->get_next_question == 'true') {
+            $checkIfOpenedQuestion = GameQuestion::where('game_id', $query->id)
                 ->where('status', 'opened')
-                ->count() > 0
-        ) {
-            
-            $OpenedQuestion= GameQuestion::where('game_id', $query->id)->where('status', 'opened')->orderBy('order', 'asc')->first();
-            
-            
-              $Qtitle = $OpenedQuestion->question->title;
-        
+                ->count();
 
-            if(GameQuestion::where(['question_id' => $OpenedQuestion->question_id, 'game_id' => $query->id])
-            ->update(['status' => 'closed'])){
-        
-                dd('OK');
+            if ($checkIfOpenedQuestion > 0) {
+                $OpenedQuestion = GameQuestion::with(['question'])
+                    ->where('game_id', $query->id)
+                    ->where('status', 'opened')
+                    ->orderBy('order', 'asc')
+                    ->first();
+                if (isset($OpenedQuestion->question_id)) {
+                    $clsoeCurrentQuestion = GameQuestion::where(['question_id' => $OpenedQuestion->question_id, 'game_id' => $query->id])->update(['status' => 'closed']);
+                    // handle Next Question
+                    $getNextQuestion = GameQuestion::where('status', 'pending')
+                        ->where('game_id', $query->id)
+                        ->orderBy('order', 'asc')
+                        ->first();
+                    if (isset($getNextQuestion->question_id)) {
+                        $OpenNextQuestion = GameQuestion::where(['question_id' => $getNextQuestion->question_id, 'game_id' => $query->id])->update(['status' => 'opened']);
+                        $getNextQuestiondata = GameQuestion::where(['question_id' => $getNextQuestion->question_id, 'game_id' => $query->id])->first();
+                    } else {
+                        return $this->returnError('there is no next question available',404);
+                        
+                    }
+
+                    // Respose variables
+
+                    $QID = $getNextQuestiondata->question->id;
+                    
+                    $Q_title = $getNextQuestiondata->question->title;
+
+                    $correct_answer_id = $getNextQuestiondata->question->correctAnswer->correct_answer_id;
+                    
+                    $answers = Answer::where('question_id', $QID)->get();
+                    $remaining_questions = GameQuestion::where('game_id', $query->id)
+                            ->where('status', 'pending')
+                            ->count();
+
+                    $question_time = $getNextQuestiondata->question->time;
+
+                    $date = date_create(date('H:i:s'));
+                    date_add($date, date_interval_create_from_date_string($question_time . ' seconds'));
+                    $end_time = date_format($date, 'H:i:s');
+                    $end_time = date('H:i:s', strtotime("+$question_time sec"));
+                    if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
+                        'status' => 'opened',
+                        'start_time' => date('H:i:s'),
+                        'end_time' => $end_time,
+                    ])){
+                        $data = NextQuestionResource::collection($answers->get());
+                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
+                    }                   
+                } else {               
+                    return $this->returnError('no opened questions',404);
+                }
+            } else {
+                return $this->returnError('there is no question here',404);
             }
-
-            $NextQuestion = GameQuestion::where('status', 'pending')
-                ->where('game_id', '=', $query->id)
+        } elseif ($request->get_next_question == 'false') {
+            $OQ = GameQuestion::where('game_id', $query->id)
+                ->where('status', 'opened')
                 ->orderBy('order', 'asc')
                 ->first();
 
-             
+            if ($OQ) {
+                $QID = $OQ->question->id;
+                $Q_title = $OQ->question->title;
+                $correct_answer_id = $OQ->question->correctAnswer->correct_answer_id;
+                $answers = Answer::where('question_id', $QID);
+                $remaining_questions = GameQuestion::where('game_id', $query->id)->where('status', 'pending')->count();
+                $data = NextQuestionResource::collection($answers->get());
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+            } else {
+                return $this->returnError('there is no question here',404);
+            }
         }
-
-        $date = date_create(date('H:i:s')); //create a date/time variable (with the specified format - create your format, see (1))
-        date_add($date, date_interval_create_from_date_string($question_time . ' seconds')); //add dynamic quantity of seconds to data/time variable
-        $end_time = date_format($date, 'H:i:s'); //shows the new data/time value
-        $end_time = date('H:i:s', strtotime("+$question_time sec"));
-
-        GameQuestion::where(['question_id' => $question_id, 'game_id' => $query->id])->update([
-            'status' => 'opened',
-            'start_time' => date('H:i:s'),
-            'end_time' => $end_time,
-        ]);
-
-        $data = NextQuestionResource::collection($answers->get());
-
-        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Qtitle, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
     }
 
     public function Winnerslist()

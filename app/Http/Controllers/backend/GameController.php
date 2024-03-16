@@ -282,7 +282,7 @@ class GameController extends Controller
         if (view()->exists('backend.games.edit')) {
             $compact = [
                 'trans' => 'question',
-                'Gamequestions' => GameQuestion::with('getQuestion')->where('game_id', $game_id)->get(),
+                'Gamequestions' => GameQuestion::with('question')->where('game_id', $game_id)->get(),
             ];
 
             return view('backend.games.ReorderQuestions', $compact);

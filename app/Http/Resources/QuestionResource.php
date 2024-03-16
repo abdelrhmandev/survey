@@ -21,14 +21,14 @@ class QuestionResource extends JsonResource
     {
         return [
             'isSubmitted'         => $this->isSubmitted,
-            'question_id'         => $this->getQuestion->id,
+            'question_id'         => $this->question->id,
             'remaining_questions' => GameQuestion::where('status','pending')->where('game_id',$this->game_id)->where('id','<>',$this->question_id)->count(),
-            'question_title'      => $this->getQuestion->title,            
+            'question_title'      => $this->question->title,            
             'question_start_time' => $this->start_time,
             'question_end_time'   => $this->end_time,
-            'question_brand'      => $this->getQuestion->brand->title,
-            'correct_answer_id'   => $this->getQuestion->correctAnswer->correct_answer_id,
-            'answers'             => $this->getQuestion->answers->select('id','title')
+            'question_brand'      => $this->question->brand->title,
+            'correct_answer_id'   => $this->question->correctAnswer->correct_answer_id,
+            'answers'             => $this->question->answers->select('id','title')
         ];
     }
 }
