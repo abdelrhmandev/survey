@@ -57,7 +57,7 @@ class AnswerController extends Controller
         }
 
             $getScore = QuestionCorrectAnswer::where(['question_id'=>$question_id,'correct_answer_id'=>$answer_id])->exists();
-            $getScore ? $score = Question::where('id',$game_id)->first()->score : $score = 0;                
+            $getScore ? $score = GaneQuestion::where('game_id',$game_id)->first()->score : $score = 0;                
             $data = [
                 'game_id'     => $game_id,
                 'player_id'   => $player_id,
@@ -66,7 +66,9 @@ class AnswerController extends Controller
                 'score'       => $score,    
             ];
             $PlayerSubmittedAnswer = PlayerSubmittedAnswer::create($data);
-            $remaining_questions = GameQuestion::where('game_id',$game_id)->where('question_id','<>',$question_id)->count();
+            $remaining_questions = GameQuestion::where('game_id',$game_id)->where('status','pending')->count();
+
+
             if($PlayerSubmittedAnswer){
                 return $this->returnPlayerSubmitData('data', new PlayerSubmittedAnswerResource($PlayerSubmittedAnswer), 201, 'answer has been submitted successfully',$remaining_questions);
              }else{
