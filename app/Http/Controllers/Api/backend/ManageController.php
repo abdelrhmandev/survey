@@ -100,7 +100,7 @@ class ManageController extends Controller
             ->where('user_id', $user_id)
             ->first();
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////TRUE CASE //////////////////////////////////////////////////
 
         if ($request->get_next_question == 'true') {
             $checkIfOpenedQuestion = GameQuestion::where('game_id', $query->id)
@@ -159,8 +159,48 @@ class ManageController extends Controller
                     return $this->returnError('no opened questions',404);
                 }
             } else {
-                return $this->returnError('there is no question here',404);
+
+
+
+                $PendingQ = GameQuestion::where('game_id', $query->id)
+                ->where('status', 'pending')
+                ->orderBy('order', 'asc')
+                ->first();
+
+
+
+                
+
+                $QID = $PendingQ->question->id;
+                $Q_title = $PendingQ->question->title;
+                $correct_answer_id = $PendingQ->question->correctAnswer->correct_answer_id;
+                $answers = Answer::where('question_id', $QID);
+                $remaining_questions = GameQuestion::where('game_id', $query->id)->where('status', 'pending')->count();
+  
+                $question_time = $PendingQ->question->time;
+                $date = date_create(date('H:i:s'));
+                $end_time = date_format($date, 'H:i:s');
+                $end_time = date('H:i:s', strtotime("+$question_time sec"));
+
+                if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
+                    'status' => 'opened',
+                    'start_time' => date('H:i:s'),
+                    'end_time' => $end_time,
+                ])){
+                    $data = NextQuestionResource::collection($answers->get());                    
+                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
+
+                }
+ 
+
+
+
+
             }
+
+
+            /////////////////////////////////FALSE CASE /////////////////////////////////////////
+
         } elseif ($request->get_next_question == 'false') {
             $OQ = GameQuestion::where('game_id', $query->id)
                 ->where('status', 'opened')
