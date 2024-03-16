@@ -136,7 +136,7 @@ class ManageController extends Controller
 
                     $correct_answer_id = $getNextQuestiondata->question->correctAnswer->correct_answer_id;
                     
-                    $answers = Answer::where('question_id', $QID)->get();
+                    $answers = Answer::where('question_id', $QID);
                     $remaining_questions = GameQuestion::where('game_id', $query->id)
                             ->where('status', 'pending')
                             ->count();
@@ -152,7 +152,11 @@ class ManageController extends Controller
                         'start_time' => date('H:i:s'),
                         'end_time' => $end_time,
                     ])){
+
+                    
                         $data = NextQuestionResource::collection($answers->get());
+
+                        
                         return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
                     }                   
                 } else {               
