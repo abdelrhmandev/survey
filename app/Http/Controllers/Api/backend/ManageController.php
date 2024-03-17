@@ -58,30 +58,32 @@ class ManageController extends Controller
 
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
-                } else {
+                } elseif ($game->status == 'pending') {
                     // Open Game
                     $game_id = $game->id;
-                    $OpenGame = Game::where(['id'=>$game_id])->update(['status'=>'opened']);
+                    $OpenGame = Game::where(['id' => $game_id])->update(['status' => 'opened']);
                     $customClaims = [
-                        'sub'     => 'Admininfo',
-                        'name'    => $AdminUserInfo->user()->name,
-                        'email'   => $AdminUserInfo->user()->email,
+                        'sub' => 'Admininfo',
+                        'name' => $AdminUserInfo->user()->name,
+                        'email' => $AdminUserInfo->user()->email,
                         'game_id' => $game->id,
                         'user_id' => $user_id,
-                        'exp'     => strtotime('+ 1 days'), // One Day From creation
+                        'exp' => strtotime('+ 1 days'), // One Day From creation
                     ];
                     $payload = JWTFactory::customClaims($customClaims)->make();
                     $token = JWTAuth::encode($payload, 'HS256');
                     $data = [
-                        'game_url'       => 'https://game.invent.solutions/playergame/' . $game->slug,
+                        'game_url' => 'https://game.invent.solutions/playergame/' . $game->slug,
                         'game_type_slug' => $game->type->slug,
-                        'event_logo'     => $game->image ? url(asset($game->image)) : '',
-                        'pin_code'       => $game->pin,
-                        'event_color'    => $game->color,
-                        '_token'         => $token->get(),
-                        'token_type'     => 'bearer',
+                        'event_logo' => $game->image ? url(asset($game->image)) : '',
+                        'pin_code' => $game->pin,
+                        'event_color' => $game->color,
+                        '_token' => $token->get(),
+                        'token_type' => 'bearer',
                     ];
                     return $this->returnData('data', $data, 200, 'Game Info' . $game->title);
+                } else {
+                    return $this->returnError('401', 'Game Maybe Closed or not applicable to play');
                 }
             } else {
                 return $this->returnError('401', 'Unauthorized Game Owner');
@@ -127,85 +129,75 @@ class ManageController extends Controller
                         $OpenNextQuestion = GameQuestion::where(['question_id' => $getNextQuestion->question_id, 'game_id' => $query->id])->update(['status' => 'opened']);
                         $getNextQuestiondata = GameQuestion::where(['question_id' => $getNextQuestion->question_id, 'game_id' => $query->id])->first();
                     } else {
-                        return $this->returnError('there is no next question available',404);
-                        
+                        return $this->returnError('there is no next question available', 404);
                     }
 
                     // Respose variables
 
                     $QID = $getNextQuestiondata->question->id;
-                    
+
                     $Q_title = $getNextQuestiondata->question->title;
 
                     $correct_answer_id = $getNextQuestiondata->question->correctAnswer->correct_answer_id;
-                    
+
                     $answers = Answer::where('question_id', $QID);
                     $remaining_questions = GameQuestion::where('game_id', $query->id)
-                            ->where('status', 'pending')
-                            ->count();
+                        ->where('status', 'pending')
+                        ->count();
 
                     $question_time = $getNextQuestiondata->question->time;
 
                     $date = date_create(date('H:i:s'));
                     date_add($date, date_interval_create_from_date_string($question_time . ' seconds'));
 
-                    
                     $end_time = date('H:i:s', strtotime("+$question_time sec"));
-                 
 
-                    if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
-                        'status' => 'opened',
-                        'start_time' => date('H:i:s'),
-                        'end_time' => $end_time,
-                    ])){
-
-                    
+                    if (
+                        GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
+                            'status' => 'opened',
+                            'start_time' => date('H:i:s'),
+                            'end_time' => $end_time,
+                        ])
+                    ) {
                         $data = NextQuestionResource::collection($answers->get());
 
-                        
-                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
-                    }                   
-                } else {               
-                    return $this->returnError('no opened questions',404);
+                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                    }
+                } else {
+                    return $this->returnError('no opened questions', 404);
                 }
             } else {
-
-
-
                 $PendingQ = GameQuestion::where('game_id', $query->id)
-                ->where('status', 'pending')
-                ->orderBy('order', 'asc')
-                ->first();
-
-
-
-                
+                    ->where('status', 'pending')
+                    ->orderBy('order', 'asc')
+                    ->first();
 
                 $QID = $PendingQ->question->id;
                 $Q_title = $PendingQ->question->title;
                 $correct_answer_id = $PendingQ->question->correctAnswer->correct_answer_id;
                 $answers = Answer::where('question_id', $QID);
-                $remaining_questions = GameQuestion::where('game_id', $query->id)->where('status', 'pending')->count();
-  
+                $remaining_questions = GameQuestion::where('game_id', $query->id)
+                    ->where('status', 'pending')
+                    ->count();
+
                 $question_time = $PendingQ->question->time;
                 $date = date_create(date('H:i:s'));
-                
+
                 $end_time = date('H:i:s', strtotime("+$question_time sec"));
 
-                if(GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
-                    'status' => 'opened',
-                    'start_time' => date('H:i:s'),
-                    'end_time' => $end_time,
-                ])){
-                    $data = NextQuestionResource::collection($answers->get());                    
-                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);        
-
+                if (
+                    GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
+                        'status' => 'opened',
+                        'start_time' => date('H:i:s'),
+                        'end_time' => $end_time,
+                    ])
+                ) {
+                    $data = NextQuestionResource::collection($answers->get());
+                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                 }
             }
 
-
             /////////////////////////////////FALSE CASE /////////////////////////////////////////
-
         } elseif ($request->get_next_question == 'false') {
             $OQ = GameQuestion::where('game_id', $query->id)
                 ->where('status', 'opened')
@@ -217,11 +209,13 @@ class ManageController extends Controller
                 $Q_title = $OQ->question->title;
                 $correct_answer_id = $OQ->question->correctAnswer->correct_answer_id;
                 $answers = Answer::where('question_id', $QID);
-                $remaining_questions = GameQuestion::where('game_id', $query->id)->where('status', 'pending')->count();
+                $remaining_questions = GameQuestion::where('game_id', $query->id)
+                    ->where('status', 'pending')
+                    ->count();
                 $data = NextQuestionResource::collection($answers->get());
                 return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
             } else {
-                return $this->returnError('there is no question here',404);
+                return $this->returnError('there is no question here', 404);
             }
         }
     }
@@ -229,7 +223,7 @@ class ManageController extends Controller
     public function Winnerslist()
     {
         $token = request()->bearerToken();
-        $game_id = $this->decodeToken($token,'game_id');
+        $game_id = $this->decodeToken($token, 'game_id');
         // $user_id = 1;
         $query = Game::select(['id', 'user_id', 'play_with_team'])
             ->with([
@@ -258,7 +252,7 @@ class ManageController extends Controller
             $k = 'Winners Players';
         }
 
-        Game::where(['id'=>$game_id])->update(['status'=>'closed']);
+        Game::where(['id' => $game_id])->update(['status' => 'closed']);
         return $this->returnData('data', $data, 200, $k);
     }
 }
