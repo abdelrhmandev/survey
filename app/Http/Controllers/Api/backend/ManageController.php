@@ -58,7 +58,7 @@ class ManageController extends Controller
 
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
-                } else if ($game->status == 'pending') {
+                } else if ($game->status !== 'closed') {
                     // Open Game
                     $game_id = $game->id;
                     $OpenGame = Game::where(['id' => $game_id])->update(['status' => 'opened']);
