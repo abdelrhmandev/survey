@@ -44,7 +44,7 @@ class ManageController extends Controller
             $AdminUserInfo = Auth::guard('admin');
             $user_id = $AdminUserInfo->user()->id;
             $game_slug = $request->game_slug;
-            $query = Game::select(['id', 'user_id', 'slug', 'type_id', 'pin', 'image', 'color', 'event_end_date'])
+            $query = Game::select(['id', 'user_id','status', 'slug', 'type_id', 'pin', 'image', 'color', 'event_end_date'])
                 ->with([
                     'type' => function ($query) {
                         $query->select('id', 'slug');
@@ -58,7 +58,7 @@ class ManageController extends Controller
 
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
-                } elseif ($game->status == 'pending') {
+                } else if ($game->status == 'pending') {
                     // Open Game
                     $game_id = $game->id;
                     $OpenGame = Game::where(['id' => $game_id])->update(['status' => 'opened']);
