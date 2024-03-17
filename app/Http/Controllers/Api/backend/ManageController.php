@@ -58,9 +58,7 @@ class ManageController extends Controller
 
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
-                }elseif ($game->event_start_date > date('Y-m-d')) {
-                    return $this->returnError('400', 'Game Event is not opened yet');
-                }elseif($game->status == 'pending') {
+                } else {
                     // Open Game
                     $game_id = $game->id;
                     $OpenGame = Game::where(['id'=>$game_id])->update(['status'=>'opened']);
@@ -86,7 +84,7 @@ class ManageController extends Controller
                     return $this->returnData('data', $data, 200, 'Game Info' . $game->title);
                 }
             } else {
-                return $this->returnError('401', 'Unauthorized Game Owner or game was closed');
+                return $this->returnError('401', 'Unauthorized Game Owner');
             }
         }
     }
