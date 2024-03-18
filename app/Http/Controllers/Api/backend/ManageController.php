@@ -112,7 +112,11 @@ class ManageController extends Controller
                 ->where('status', 'opened')
                 ->count();
 
-            if ($checkIfOpenedQuestion > 0) {
+            $remaining_questions_master = GameQuestion::where('game_id', $query->id)
+                    ->where('status', 'pending')
+                    ->count();
+                    
+            if ($checkIfOpenedQuestion > 0 ){
                 $OpenedQuestion = GameQuestion::with(['question'])
                     ->where('game_id', $query->id)
                     ->where('status', 'opened')
@@ -120,6 +124,10 @@ class ManageController extends Controller
                     ->first();
                 if (isset($OpenedQuestion->question_id)) {
                     $clsoeCurrentQuestion = GameQuestion::where(['question_id' => $OpenedQuestion->question_id, 'game_id' => $query->id])->update(['status' => 'closed']);
+                    
+                    }
+                
+                if ($remaining_questions_master > 0) {
                     // handle Next Question
                     $getNextQuestion = GameQuestion::where('status', 'pending')
                         ->where('game_id', $query->id)
@@ -163,10 +171,12 @@ class ManageController extends Controller
 
                         return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                     }
-                } else {
-                    return $this->returnError('no opened questions', 404);
-                }
-            } else {
+                    
+            }else{
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available', 'remaining_questions' => $remaining_questions_master]);
+            }
+                
+            } else if($remaining_questions_master > 0) {
                 $PendingQ = GameQuestion::where('game_id', $query->id)
                     ->where('status', 'pending')
                     ->orderBy('order', 'asc')
@@ -195,6 +205,8 @@ class ManageController extends Controller
                     $data = NextQuestionResource::collection($answers->get());
                     return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                 }
+            }else{
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available','remaining_questions' => $remaining_questions_master]);
             }
 
             /////////////////////////////////FALSE CASE /////////////////////////////////////////
