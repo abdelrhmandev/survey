@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers\Api\backend;
-
 use App\Models\Game;
 use App\Models\Answer;
 use App\Models\Player;
@@ -146,6 +145,8 @@ class ManageController extends Controller
 
                     $Q_title = $getNextQuestiondata->question->title;
 
+                    $Q_time = $getNextQuestiondata->question->time;
+
                     $correct_answer_id = $getNextQuestiondata->question->correctAnswer->correct_answer_id;
 
                     $answers = Answer::where('question_id', $QID);
@@ -162,14 +163,14 @@ class ManageController extends Controller
 
                     if (
                         GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
-                            'status' => 'opened',
+                            'status'     => 'opened',
                             'start_time' => date('H:i:s'),
-                            'end_time' => $end_time,
+                            'end_time'   => $end_time,
                         ])
                     ) {
                         $data = NextQuestionResource::collection($answers->get());
 
-                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                     }
                     
             }else{
@@ -184,6 +185,7 @@ class ManageController extends Controller
 
                 $QID = $PendingQ->question->id;
                 $Q_title = $PendingQ->question->title;
+                $Q_time = $PendingQ->question->time;
                 $correct_answer_id = $PendingQ->question->correctAnswer->correct_answer_id;
                 $answers = Answer::where('question_id', $QID);
                 $remaining_questions = GameQuestion::where('game_id', $query->id)
@@ -203,7 +205,7 @@ class ManageController extends Controller
                     ])
                 ) {
                     $data = NextQuestionResource::collection($answers->get());
-                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                 }
             }else{
                 return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available','remaining_questions' => $remaining_questions_master]);
@@ -219,13 +221,14 @@ class ManageController extends Controller
             if ($OQ) {
                 $QID = $OQ->question->id;
                 $Q_title = $OQ->question->title;
+                $Q_time = $OQ->question->time;
                 $correct_answer_id = $OQ->question->correctAnswer->correct_answer_id;
                 $answers = Answer::where('question_id', $QID);
                 $remaining_questions = GameQuestion::where('game_id', $query->id)
                     ->where('status', 'pending')
                     ->count();
                 $data = NextQuestionResource::collection($answers->get());
-                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time,'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
             } else {
                 return $this->returnError('there is no question here', 404);
             }
