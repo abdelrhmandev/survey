@@ -4,16 +4,17 @@ use App\Models\Game;
 use App\Models\Answer;
 use App\Models\Player;
 use App\Models\GameTeam;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Models\GameQuestion;
 use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
+use App\Events\AdminNextQuestion;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\PlayerSubmittedAnswer;
 use Illuminate\Support\Facades\Route;
+use Tymon\JWTAuth\Facades\JWTFactory;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\WinnerTeamResource;
 use App\Http\Resources\NextQuestionResource;
@@ -62,25 +63,26 @@ class ManageController extends Controller
                     $game_id = $game->id;
                     $OpenGame = Game::where(['id' => $game_id])->update(['status' => 'opened']);
                     $customClaims = [
-                        'sub' => 'Admininfo',
-                        'name' => $AdminUserInfo->user()->name,
-                        'email' => $AdminUserInfo->user()->email,
+                        'sub'     => 'Admininfo',
+                        'name'    => $AdminUserInfo->user()->name,
+                        'email'   => $AdminUserInfo->user()->email,
                         'game_id' => $game->id,
                         'user_id' => $user_id,
-                        'exp' => strtotime('+ 1 days'), // One Day From creation
+                        'exp'    => strtotime('+ 1 days'), // One Day From creation
                     ];
                     $payload = JWTFactory::customClaims($customClaims)->make();
                     $token = JWTAuth::encode($payload, 'HS256');
                     $data = [
-                        'game_url' => 'https://game.invent.solutions/playergame/' . $game->slug,
+                        'game_url'       => 'https://game.invent.solutions/playergame/' . $game->slug,
                         'game_type_slug' => $game->type->slug,
-                        'event_logo' => $game->image ? url(asset($game->image)) : '',
-                        'pin_code' => $game->pin,
-                        'event_color' => $game->color,
-                        '_token' => $token->get(),
-                        'token_type' => 'bearer',
+                        'event_logo'     => $game->image ? url(asset($game->image)) : '',
+                        'pin_code'       => $game->pin,
+                        'event_color'    => $game->color,
+                        '_token'         => $token->get(),
+                        'token_type'     => 'bearer',
                     ];
                     return $this->returnData('data', $data, 200, 'Game Info' . $game->title);
+                    
                 } else {
                     return $this->returnError('401', 'Game Maybe Closed or not applicable to play');
                 }
@@ -169,6 +171,13 @@ class ManageController extends Controller
                         ])
                     ) {
                         $data = NextQuestionResource::collection($answers->get());
+
+                        // Start Pusher
+                        $EventArr = [
+                            'question_id' =>$QID,
+                            'game_id'    =>$query->id,
+                        ];
+                        event(new AdminNextQuestion($EventArr));
 
                         return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                     }
