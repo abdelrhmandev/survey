@@ -46,7 +46,7 @@ return [
             'hash' => false,
         ],
 
-        'Adminapi' => [
+        'admin-api' => [
             'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,

@@ -214,6 +214,13 @@ class ManageController extends Controller
                     ])
                 ) {
                     $data = NextQuestionResource::collection($answers->get());
+                    // Start Pusher
+                    $EventArr = [
+                        'question_id' =>$QID,
+                        'game_id'    =>$query->id,
+                    ];
+                    event(new AdminNextQuestion($EventArr));
+                    
                     return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                 }
             }else{
@@ -237,6 +244,13 @@ class ManageController extends Controller
                     ->where('status', 'pending')
                     ->count();
                 $data = NextQuestionResource::collection($answers->get());
+                    // Start Pusher
+                    $EventArr = [
+                        'question_id' =>$QID,
+                        'game_id'    =>$query->id,
+                    ];
+                    event(new AdminNextQuestion($EventArr));
+                
                 return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time,'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
             } else {
                 return $this->returnError('there is no question here', 404);
