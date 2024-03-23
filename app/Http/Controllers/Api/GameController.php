@@ -5,7 +5,7 @@ use App\Models\Player;
 use App\Models\GameTeam;
 use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
-use App\Events\AdminPlayerJoined;
+use App\Events\PlayerJoined;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
@@ -66,7 +66,7 @@ class GameController extends Controller
                     'game_slug'      =>$query-slug,
                     'player_name'    =>$request->name,                    
                 ];
-                event(new AdminPlayerJoined($EventArr));
+                event(new PlayerJoined($EventArr));
                 
                 return $this->returnData('data', new PlayerResource($player), 201, 'player has been created successfully');
             }
