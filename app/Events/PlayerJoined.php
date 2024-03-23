@@ -13,24 +13,22 @@ use Illuminate\Queue\SerializesModels;
 class PlayerJoined implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $game_slug;
     public $player_name;
 
     public function __construct($data)
     {
-        $this->game_slug   = $data['game_slug'];
         $this->player_name = $data['player_name'];
     }
 
     public function broadcastOn()
     {
-        return new Channel('gsk-playerjoined'.$this->game_slug.'|'.$this->player_name);
+            return new Channel('gsk-playerjoined.'.$this->player_name);
+
     }
 
     public function broadcastAs()
     {
-        return 'gsk-playerjoined';
+        return 'gsk-event-playerjoined';
     }
         
   
