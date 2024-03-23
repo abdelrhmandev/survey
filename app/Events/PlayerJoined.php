@@ -28,7 +28,7 @@ class PlayerJoined implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'gsk-event-playerjoined';
+        return 'gsk-playerjoined';
     }
         
   
