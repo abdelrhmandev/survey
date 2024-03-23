@@ -5,11 +5,12 @@ use App\Models\Player;
 use App\Models\GameTeam;
 use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
+use App\Events\AdminPlayerJoined;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GameResource;
 use App\Http\Resources\TeamResource;
+use Tymon\JWTAuth\Facades\JWTFactory;
 use App\Http\Resources\PlayerResource;
 use App\Http\Resources\GameSlugResource;
 use Illuminate\Support\Facades\Validator;
@@ -60,6 +61,13 @@ class GameController extends Controller
                 'game_id' => $query->id,
             ]);
             if ($player) {
+
+                $EventArr = [
+                    'game_slug'      =>$query-slug,
+                    'player_name'    =>$request->name,                    
+                ];
+                event(new AdminPlayerJoined($EventArr));
+                
                 return $this->returnData('data', new PlayerResource($player), 201, 'player has been created successfully');
             }
         // } 
