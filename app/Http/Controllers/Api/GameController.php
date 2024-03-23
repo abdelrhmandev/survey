@@ -64,7 +64,8 @@ class GameController extends Controller
 
                 $EventArr = [
                     'game_slug'    =>$query->slug,
-                    'player_name'  =>str_replace(' ','-', $request->name),                    
+                    'player_name'  =>$request->name,
+                    // 'player_name'  =>str_replace(' ','-', $request->name),                    
                 ];
                 event(new PlayerJoined($EventArr));
                 
