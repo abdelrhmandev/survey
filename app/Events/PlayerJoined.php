@@ -14,15 +14,17 @@ class PlayerJoined implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $player_name;
+    public $game_slug;
 
     public function __construct($data)
     {
         $this->player_name = $data['player_name'];
+        $this->game_slug = $data['game_slug'];
     }
 
     public function broadcastOn()
     {
-            return new Channel('gsk-playerjoined.'.$this->player_name);
+            return new Channel($this->game_slug);
 
     }
 
