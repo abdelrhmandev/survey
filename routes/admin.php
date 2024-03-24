@@ -90,7 +90,7 @@ Route::group(
 Route::group(
     [
         'prefix' => config('custom.route_prefix'),
-        'namespace' => 'backend',
+        'namespace' => 'Backend',
         'middleware' => 'guest:admin',
         'as' => 'admin.',
     ],
