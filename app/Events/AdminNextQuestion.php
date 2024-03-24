@@ -14,18 +14,17 @@ class AdminNextQuestion implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $question_id;
-    public $game_id;
+    public $game_slug;
 
     public function __construct($data)
     {
-        $this->question_id = $data['question_id'];
-        $this->game_id = $data['game_id'];
+        $this->game_slug = $data['game_slug'];
     }
 
     public function broadcastOn()
     {
-        return new Channel('admin-next-question');
+            return new Channel($this->game_slug);
+
     }
 
     public function broadcastAs()
