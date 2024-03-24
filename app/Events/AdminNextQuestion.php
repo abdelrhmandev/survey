@@ -23,7 +23,7 @@ class AdminNextQuestion implements ShouldBroadcast
 
     public function broadcastOn()
     {
-            return new Channel($this->game_slug);
+            return new Channel('gsk-refresh-question-'.$this->game_slug);
 
     }
 

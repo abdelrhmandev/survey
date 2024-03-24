@@ -22,6 +22,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 // });
 
 
-Broadcast::channel('{game_slug}', function ($game_slug) {
-    return 'bla bla';
-});
+// Broadcast::channel('{game_slug}', function ($game_slug) {
+//     return true;
+// });
