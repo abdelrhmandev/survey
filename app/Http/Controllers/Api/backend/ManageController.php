@@ -97,7 +97,7 @@ class ManageController extends Controller
         $token = request()->bearerToken();
         $game_id = $this->decodeToken($token, 'game_id');
 
-        $query = Game::select(['id', 'user_id', 'type_id'])
+        $query = Game::select(['id','slug', 'user_id', 'type_id'])
             ->with([
                 'type' => function ($query) {
                     $query->select('id', 'slug');
