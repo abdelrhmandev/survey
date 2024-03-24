@@ -17,11 +17,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('{game_slug}', function ($player_name) {
-    return $player_name;
-});
+// Broadcast::channel('{game_slug}', function ($player_name) {
+//     return $player_name;
+// });
 
 
 Broadcast::channel('{game_slug}', function ($game_slug) {
-    return true;
+    return 'bla bla';
 });
