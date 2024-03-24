@@ -216,8 +216,7 @@ class ManageController extends Controller
                     $data = NextQuestionResource::collection($answers->get());
                     // Start Pusher
                     $EventArr = [
-                        'question_id' =>$QID,
-                        'game_id'    =>$query->id,
+                        'game_slug'=>$query->slug
                     ];
                     event(new AdminNextQuestion($EventArr));
                     
