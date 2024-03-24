@@ -21,7 +21,7 @@ class NextQuestionResource extends JsonResource
     {
         return [
             'answer_id'            => $this->id,
-            'answer_title'         =>$this->title,
+            'answer_title'         => $this->title,
         ];
     }
 }

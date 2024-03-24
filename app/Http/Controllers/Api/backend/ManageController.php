@@ -174,7 +174,8 @@ class ManageController extends Controller
 
                         // Start Pusher
                         $EventArr = [
-                            'game_slug'=>$query->slug
+                            'game_slug'=>$query->slug,
+                            'refresh' => true
                         ];
                         event(new AdminNextQuestion($EventArr));
 
@@ -215,7 +216,8 @@ class ManageController extends Controller
                     $data = NextQuestionResource::collection($answers->get());
                     // Start Pusher
                     $EventArr = [
-                        'game_slug'=>$query->slug
+                        'game_slug'=>$query->slug,
+                        'refresh' => true
                     ];
                     event(new AdminNextQuestion($EventArr));
                     
@@ -242,11 +244,12 @@ class ManageController extends Controller
                     ->where('status', 'pending')
                     ->count();
                 $data = NextQuestionResource::collection($answers->get());
-                    // Start Pusher
-                    $EventArr = [
-                        'game_slug'=>$query->slug
-                    ];
-                    event(new AdminNextQuestion($EventArr));
+                    // // Start Pusher
+                    // $EventArr = [
+                    //     'game_slug'=>$query->slug,
+                    //     'message' => 'message 3'
+                    // ];
+                    // event(new AdminNextQuestion($EventArr));
                 
                 return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time,'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
             } else {

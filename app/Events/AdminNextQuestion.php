@@ -15,15 +15,17 @@ class AdminNextQuestion implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $game_slug;
+    public $message;
 
     public function __construct($data)
     {
         $this->game_slug = $data['game_slug'];
+        $this->message = $data['message'];
     }
 
     public function broadcastOn()
     {
-            return new Channel('gsk-refresh-question-'.$this->game_slug);
+            return new Channel($this->game_slug);
 
     }
 
