@@ -16,11 +16,13 @@ class AdminNextQuestion implements ShouldBroadcast
 
     public $game_slug;
     public $message;
+    public $isFinished;
 
     public function __construct($data)
     {
         $this->game_slug = $data['game_slug'];
-        $this->message = $data['message'];
+        $this->message = $data['refresh'];
+        $this->isFinished = $data['isFinished'];
     }
 
     public function broadcastOn()

@@ -172,10 +172,11 @@ class ManageController extends Controller
                     ) {
                         $data = NextQuestionResource::collection($answers->get());
 
-                        // Start Pusher
+                        // Start Pusher Modified By Marwan
                         $EventArr = [
                             'game_slug'=>$query->slug,
-                            'refresh' => true
+                            'refresh' => true,
+                            'isFinished' => false
                         ];
                         event(new AdminNextQuestion($EventArr));
 
@@ -214,10 +215,11 @@ class ManageController extends Controller
                     ])
                 ) {
                     $data = NextQuestionResource::collection($answers->get());
-                    // Start Pusher
+                    // Start Pusher Modified By Marwan
                     $EventArr = [
                         'game_slug'=>$query->slug,
-                        'refresh' => true
+                        'refresh' => true,
+                        'isFinished' => false
                     ];
                     event(new AdminNextQuestion($EventArr));
                     
@@ -263,7 +265,8 @@ class ManageController extends Controller
         $token = request()->bearerToken();
         $game_id = $this->decodeToken($token, 'game_id');
         // $user_id = 1;
-        $query = Game::select(['id', 'user_id', 'play_with_team'])
+        // Modified By Marwan
+        $query = Game::select(['id', 'slug', 'user_id', 'play_with_team'])
             ->with([
                 'type' => function ($query) {
                     $query->select('id', 'slug');
@@ -291,6 +294,21 @@ class ManageController extends Controller
         }
 
         Game::where(['id' => $game_id])->update(['status' => 'closed']);
+        
+        // Added By Marwan
+        if (isset($game_id)) {
+                    $clsoeCurrentQuestion = GameQuestion::where(['game_id' => $game_id])->update(['status' => 'closed']);
+                    
+                    // Start Pusher 
+                    $EventArr = [
+                        'game_slug'=>$query->slug,
+                        'refresh' => true,
+                        'isFinished' => true
+                    ];
+                    event(new AdminNextQuestion($EventArr));
+                    
+        }
+        
         return $this->returnData('data', $data, 200, $k);
     }
 }
