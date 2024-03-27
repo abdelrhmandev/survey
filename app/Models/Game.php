@@ -23,7 +23,7 @@ class Game extends Model
 		'pin',
 		'status',
 		'user_id',		
-		'brand_id',
+		'group_id',
 	];
 	
 	public $timestamps = true;

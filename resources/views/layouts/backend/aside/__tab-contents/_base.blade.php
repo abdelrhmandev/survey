@@ -29,7 +29,7 @@
 
         {{-- @include('layouts.backend.aside.__tab-contents.includes.type') --}}
 
-        {{--  @include('layouts.backend.aside.__tab-contents.includes.team')  --}}
+         @include('layouts.backend.aside.__tab-contents.includes.brand') 
 
 
         {{-- @include('layouts.backend.aside.__tab-contents.includes.event') --}}

@@ -50,6 +50,16 @@ Route::group(
         Route::delete('answers/destroy/all', 'AnswerController@destroyMultiple')->name('answers.destroyMultiple');
         ######################### End Answers ##########################
 
+        ######################### Start Brands ##########################
+        Route::resource('brands', BrandController::class)->except('show');
+        Route::delete('brands/destroy/all', 'BrandController@destroyMultiple')->name('brands.destroyMultiple');
+        ######################### End Brands ##########################
+
+        ######################### Start Groups ##########################
+        Route::resource('groups', GroupController::class)->except('show');
+        Route::delete('groups/destroy/all', 'GroupController@destroyMultiple')->name('groups.destroyMultiple');
+        ######################### End Brands ##########################
+        
         ######################### Start teams ##########################
         Route::resource('teams', TeamController::class)->except('show');
         Route::delete('teams/destroy/all', 'TeamController@destroyMultiple')->name('teams.destroyMultiple');

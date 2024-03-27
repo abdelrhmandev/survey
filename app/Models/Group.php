@@ -1,20 +1,21 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-class Brand extends Model
+class Group extends Model
 {
 
-	protected $table = 'brands';
+	protected $table = 'groups';
 
 
     protected $fillable = [
 		'title',
+		'brand_id',
 	];
 	
 	public $timestamps = true;
 	
-	public function groups(){
-        return $this->hasMany(Group::class); 
+	public function brand(){
+        return $this->belongsTo(Brand::class); 
     }
 
 	
