@@ -32,7 +32,7 @@
          @include('layouts.backend.aside.__tab-contents.includes.brand') 
 
 
-        {{-- @include('layouts.backend.aside.__tab-contents.includes.event') --}}
+        @include('layouts.backend.aside.__tab-contents.includes.group')
 
         @include('layouts.backend.aside.__tab-contents.includes.game')
         

@@ -3,7 +3,7 @@ namespace App\Http\Requests\backend;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class EventRequest extends FormRequest
+class BrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,10 +20,8 @@ class EventRequest extends FormRequest
     {
         ///MULTI Languages Inputs Validation///////////
         $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
-        $rules['title'] = 'required|max:255|unique:events,title'.$id;
-        $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB
-        $rules['event_date_range'] = 'required|max:255';
-        $rules['description'] = 'nullable';
+        $rules['title'] = 'required|max:255|unique:brands,title'.$id;
+ 
         return $rules; 
 
     }

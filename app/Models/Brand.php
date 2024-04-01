@@ -16,6 +16,7 @@ class Brand extends Model
 	public function groups(){
         return $this->hasMany(Group::class); 
     }
-
-	
+	public function questions(){
+        return $this->hasMany(Question::class); 
+    }
 }

@@ -15,7 +15,7 @@ Route::group(
         ######################### Start Update Status #################################
         Route::post('/UpdateStatus', 'BaseController@UpdateStatus')->name('UpdateStatus');
 
-        Route::get('/GameQuestions/{game_id}','GameController@GetQuestions')->name('GetQuestions'); 
+        Route::get('/groups/ReorderGroupQestions/{group_id}','GroupController@ReorderGroupQestions')->name('group.qestions'); 
 
         Route::post('/ReorderLisings','BaseController@ReorderLisings')->name('ReorderLisings'); 
 
@@ -39,6 +39,7 @@ Route::group(
 
         ######################### Start Questions ##########################
         Route::resource('questions', QuestionController::class)->except('show');
+        Route::get('/questions/getAjaxGroups/{country_id}','QuestionController@getAjaxGroups')->name('brands.getAjaxGroups');
         Route::get('questions/FilterByBrand/{brand_id}', 'QuestionController@index')->name('questions.FilterByBrand');
         Route::post('questions/saveQCAnswer', 'QuestionController@saveQCAnswer')->name('saveQCAnswer');
         Route::get('questions/create/brand/{id}', 'QuestionController@create')->name('Q');
@@ -52,11 +53,12 @@ Route::group(
 
         ######################### Start Brands ##########################
         Route::resource('brands', BrandController::class)->except('show');
-        Route::delete('brands/destroy/all', 'BrandController@destroyMultiple')->name('brands.destroyMultiple');
+        Route::delete('brands/destroy/all', 'BrandController@destroyMultiple')->name('brands.destroyMultiple');        
         ######################### End Brands ##########################
 
         ######################### Start Groups ##########################
         Route::resource('groups', GroupController::class)->except('show');
+        Route::post('groups/AjaxgetQuestionsByBrand', 'GroupController@AjaxgetQuestionsByBrand')->name('groups.AjaxgetQuestionsByBrand');
         Route::delete('groups/destroy/all', 'GroupController@destroyMultiple')->name('groups.destroyMultiple');
         ######################### End Brands ##########################
         
@@ -73,11 +75,9 @@ Route::group(
 
         ######################### Start Games ##########################
         Route::resource('games', GameController::class)->except('show');
+ 
+        Route::post('games/AjaxgetGroupsByBrand', 'GameController@AjaxgetGroupsByBrand')->name('games.AjaxgetGroupsByBrand');
 
-        Route::post('games/AjaxgetQuestionsByBrand', 'GameController@AjaxgetQuestionsByBrand')->name('games.AjaxgetQuestionsByBrand');
-
-
-        
 
         Route::delete('games/destroy/all', 'GameController@destroyMultiple')->name('games.destroyMultiple');
         ######################### End Games ##########################

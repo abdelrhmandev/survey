@@ -37,9 +37,9 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-calendar fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Event Information
-                                        </h3>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="separator separator-solid separator-white opacity-20"></div>
@@ -87,9 +87,9 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-joystick fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Game Information
-                                        </h3>
+                                        </span>
                                     </div>
 
                                 </div>
@@ -185,9 +185,6 @@
                             </div>
                         </div>
 
-
-
-
                         <div class="d-flex flex-column gap-5">
                             <div class="card card-custom">
                                 <div class="card-header border-0 bg-primary">
@@ -195,7 +192,7 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-message-question fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Question Information
                                         </h3>
                                     </div>
@@ -207,69 +204,54 @@
 
 
                                         <div class="fv-row fl">
+                                            <input type="hidden" name="brand_id" value="{{ $row->brand_id}}">
                                             <label class="form-label" for="brand">{{ __('brand.singular') }}</label>
-                                            <div class="text-dark">{{ $row->brand->title }} <span
-                                                    class="badge badge-circle badge-primary">{{ $questions->count() }}
-                                                </span> Questions | you have select
-                                                <span class="badge badge-circle badge-success">
-                                                    {{ $row->questions->count() }} </span> questions
+                                            <div class="text-success">{{ $row->brand->title }}                                                
                                             </div>
                                         </div>
+
+
                                         <div class="fv-row fl">
-                                            <div class="card card-flush h-xl-100">
-                                                @if ($questions->count())
-                                                    <span class="text-success">Max Selection Questions is 10</span>
-                                                    <table class="table align-middle table-row-dashed fs-6 gy-3"
-                                                        id="kt_table_widget_5_table">
-                                                        <!--begin::Table head-->
-                                                        <thead>
-                                                            <tr
-                                                                class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                                                <th class="w-4">Select</th>
-                                                                <th class="w-400px">Question</th>
-                                                                <th>Time (by seconds)</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="fw-bold text-gray-600">
-                                                            @foreach ($questions as $question)
-                                                                <tr>
-                                                                    <td>
-                                                                        <div
-                                                                            class="form-check form-check-solid form-check-custom form-switch">
-                                                                            <input
-                                                                                class="form-check-input w-30px h-20px check"
-                                                                                type="checkbox" name="question_id[]"
-                                                                                id="question{{ $question->id }}"
-                                                                                value="{{ $question->id }}"
-                                                                                {{ in_array($question->id, $row->questions->pluck('id')->toArray()) ? 'checked' : '' }}>
-                                                                            <label class="form-check-label"
-                                                                                for="question{{ $question->id }}"></label>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td class="text">{{ $question->title }}</td>
-                                                                    <td class="text-center">
-                                                                        <span
-                                                                            class="text-gray-900 fw-bold">{{ $question->time }}</span>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                @else
-                                                    <span class="text-danger">No Questions Founds</span>
-                                                @endif
-
-
-
-
+                                            <label class="required form-label" for="group">{{ __('group.select') }}</label>
+                                            <div class="row mb-8">
+                                                <div class="col-xl-12">
+                                                    <div class="row g-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
+                                
+                                                        @forelse ($groups as $group)
+                                                            <div class="col-md-4 col-lg-12 col-xxl-4"> 
+                                                                <label
+                                                                    class="btn btn-outline btn-outline-dashed btn-{{ $group->id == $row->group_id ? 'active' : '' }}-light-primary {{ $group->id == $row->group_id ? 'active' : '' }} d-flex text-start p-6"
+                                                                    data-kt-button="true">
+                                                                    <span
+                                                                        class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                                                        <input class="form-check-input" type="radio" name="group_id" value="{{ $group->id}}"
+                                                                        {{ $group->id == $row->group_id ? 'checked' : '' }}/>
+                                                                    </span>
+                                                                    <span class="ms-5">
+                                                                        <span class="fs-4 fw-bold mb-1 d-block text-dark">{{ $group->title }}</span>
+                                                                        <span class="fw-semibold fs-7 text-gray-600">Questions ({{ $group->questions_count }}) </span>
+                                                                    </span>
+                                                                </label>
+                                                            </div>
+                                                        @empty
+                                                        <div class="col-md-4 col-lg-12 col-xxl-4">       
+                                                        no groups
+                                                        </div>
+                                                        @endforelse
+                                
+                                                    </div>
+                                                </div>
                                             </div>
-
-
                                         </div>
+                                        
+                                        
+                                         
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+ 
                     </div>
                 </div>
                 <x-backend.btns.button :destroyRoute="$destroyRoute" :redirectRoute="$redirect_after_destroy" :row="$row" :trans="$trans" />
@@ -293,31 +275,7 @@
         for (var i = 0; i < checks.length; i++)
             checks[i].onclick = selectiveCheck;
 
-        function selectiveCheck(event) {
-            var checkedChecks = document.querySelectorAll(".check:checked");
-            if (checkedChecks.length >= max + 1) {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-center",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-                toastr.error('Max Selection Questions is ' + max);
-                return false;
-            }
-        }
-
+ 
         var event_start_date = '{{ $row->event_start_date }}';
         var event_end_date = '{{ $row->event_end_date }}';
         $('#event_date_range').daterangepicker({

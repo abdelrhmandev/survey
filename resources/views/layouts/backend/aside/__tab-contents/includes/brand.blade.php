@@ -36,18 +36,7 @@
                         <span class="menu-title">{{ __('brand.add') }}</span>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a class="menu-link" href="{{ route('admin.groups.index') }}">
-                        <span class="menu-bullet">
-                            <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title">{{ __('group.plural') }}</span>
-                    </a>
-                </div> 
-
-           
-
-
+    
             </div>
         </div>
  

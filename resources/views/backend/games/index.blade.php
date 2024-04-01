@@ -67,14 +67,10 @@
             </th>            
             <th>{{ __('site.image') }}</th>  
             <th>{{ __('site.title') }}</th>
-            <th>{{ __('site.slug') }}</th>
-            <th>{{ __('game.pin') }}</th>
-            
-
-            
+            <th>{{ __('type.singular') }}</th>
             <th>{{ __('event.singular') }}</th>
-
-            <th>{{ __('question.singular') }}</th>
+            <th>{{ __('brand.singular') }}</th>
+            <th>{{ __('group.singular') }}</th>
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-120px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -101,10 +97,10 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'id', name: 'id',exportable:false}, 
 { data: 'image', name: 'image',orderable: false}, 
 { data: 'title', name: 'title',orderable: false}, 
-{ data: 'slug', name: 'slug',orderable: false}, 
-{ data: 'pin', name: 'pin',orderable: false}, 
+{ data: 'type', name: 'type',orderable: false}, 
 { data: 'event_title', name: 'event_title',orderable: false}, 
-{ data: 'questions_count', name: 'questions_count',orderable: false}, 
+{ data: 'brand', name: 'brand',orderable: false}, 
+{ data: 'group', name: 'group',orderable: false}, 
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

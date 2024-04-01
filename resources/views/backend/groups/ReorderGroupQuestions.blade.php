@@ -22,7 +22,7 @@
         <div class="card-header pt-5">
           <!--begin::Title-->
           <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold text-gray-800">Questions ({{  $Gamequestions->count() }})</span>
+            <span class="card-label fw-bold text-gray-800">Questions ({{  $GroupQuestions->count() }})</span>
           </h3>
        
         </div>
@@ -50,11 +50,13 @@
                   </thead>
                 
                   <tbody id="tablecontents" class="fw-bold">
-                    @foreach ($Gamequestions as $Gamequestion)
-                    <tr class="row1" data-id="{{ $Gamequestion->id }}">  
+                    @foreach ($GroupQuestions as $GroupQuestion)
+                    <tr class="row1" data-id="{{ $GroupQuestion->id }}">  
                       <td><a class="btn btn-default" href="#" title="{{ trans('site.reorder') }}" style="padding: 1px 7px;"><i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i> <i style="color:rgb(27, 173, 125) !important" class="fa fa-ellipsis-v"></i></a></td>
-                      <td>{{ $Gamequestion->question->title }}</td>
-                      <td class="text-end pe-13"><span class="text-gray-600 fw-bold fs-6">{{ $Gamequestion->question->time }}</span></td>
+                      <td>{{ $GroupQuestion->question->title }}</td>
+                      <td class="text-end pe-13"><span class="text-gray-600 fw-bold fs-6">
+                        {{ $GroupQuestion->question->time }}
+                      </span></td>
                     </tr>
                     @endforeach   
                   </tbody>
@@ -110,7 +112,7 @@
           url: "{!! route('admin.ReorderLisings') !!}",
            data: {
                order:order,
-               table_name: 'game_question', 
+               table_name: 'group_question', 
                _token: '{{csrf_token()}}'
               }, 
               success: function(data) {

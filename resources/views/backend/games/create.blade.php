@@ -33,9 +33,9 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-calendar fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Event Information
-                                        </h3>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="separator separator-solid separator-white opacity-20"></div>
@@ -82,7 +82,7 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-joystick fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Game Information
                                         </h3>
                                     </div>
@@ -184,7 +184,7 @@
                                         <span class="card-icon">
                                             <i class="ki-outline ki-message-question fs-2x text-white"></i>
                                         </span>
-                                        <h3 class="card-label text-white">
+                                        <span class="text-white">
                                             Question Information
                                         </h3>
                                     </div>
@@ -204,12 +204,12 @@
                                                 <option value="">{{ __('brand.select') }}</option>
                                                 @foreach ($brands as $brand)
                                                     <option value="{{ $brand->id }}">{{ $brand->title }}
-                                                        ({{ $brand->questions_count }}) Questions</option>
+                                                        ({{ $brand->groups_count }}) groups</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="fv-row fl">
-                                            <div id="BrandQuestionResponse" class="card-label text-black">
+                                            <div id="BrandGroupsResponse" class="card-label text-black">
                                             </div>
                                         </div>
                                     </div>
@@ -253,21 +253,20 @@
         KTUtil.onDOMContentLoaded(function() {
             handleFormSubmitFunc('Add{{ $trans }}');
         });
-
-        //  Start Ajax country and city 
+ 
         $('select[name="brand_id"]').on('change', function() {
             var brandid = $(this).val();
 
             if (brandid > 0) {
                 $.ajax({
-                    url: "{{ route('admin.games.AjaxgetQuestionsByBrand') }}",
+                    url: "{{ route('admin.games.AjaxgetGroupsByBrand') }}",
                     method: "POST",
                     data: {
                         brand_id: brandid,
                         '_token': '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        $("#BrandQuestionResponse").html(data);
+                        $("#BrandGroupsResponse").html(data);
                     }
                 });
             }

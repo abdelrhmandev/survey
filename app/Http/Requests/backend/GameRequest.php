@@ -24,35 +24,19 @@ class GameRequest extends FormRequest
         // $game = request()->route('game');
         // $id = $game->id;
 
-        $rules['title'] = 'required|max:255|unique:events,title' . $id;
-        $rules['description'] = 'nullable';
-        $rules['image'] = 'nullable|max:1000|mimes:jpeg,bmp,png,gif'; // max size 1 MB
-
-
-                // $rules['image'] = 'required_without:id|max:1000'; // max size 1 MB
-                
-        $rules['type_id'] = 'exists:types,id';
-        $rules['brand_id'] = 'exists:brands,id';
-        $rules['attendees'] = 'required|numeric';
-
-        $rules['play_with_team'] = 'nullable|in:0,1';
-
-        $rules['team_players'] = 'nullable|numeric';
-
-        $rules['color'] = 'required';
-
-        $rules['event_title'] = 'required|max:255';
-
-        $rules['event_date_range'] = 'required';
-
-        $rules['event_location'] = 'required|max:255';
-
-
-      
-
-
-       
-
+        $rules['title']              = 'required|max:255|unique:games,title' . $id;
+        $rules['description']        = 'nullable';
+        $rules['image']              = 'required_without:id|max:1000|mimes:jpeg,bmp,png,gif|max:1000'; // max size 1 MB                
+        $rules['type_id']            = 'required|exists:types,id';
+        $rules['brand_id']           = 'required|exists:brands,id';
+        $rules['group_id']           = 'required|exists:groups,id';
+        $rules['attendees']          = 'required|numeric';
+        $rules['play_with_team']     = 'nullable|in:0,1';
+        $rules['team_players']       = 'nullable|numeric';
+        $rules['color']              = 'required';
+        $rules['event_title']        = 'required|max:255';
+        $rules['event_date_range']   = 'required';
+        $rules['event_location']     = 'required|max:255';
 
         return $rules;
     }

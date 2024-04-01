@@ -10,7 +10,6 @@ class CreateGameTeamTable extends Migration
             $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
             $table->string('team_title');
             $table->integer('capacity');
-
         });
     }
     public function down(){

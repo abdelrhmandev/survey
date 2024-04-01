@@ -3,14 +3,15 @@ namespace App\Http\Controllers\Backend;
 use DataTables;
 use Carbon\Carbon;
 use App\Models\Brand;
+use App\Models\Group;
 use App\Models\Answer;
 use App\Models\Question;
-use App\Models\QuestionCorrectAnswer;
 use App\Traits\Functions;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\QuestionCorrectAnswer;
 use App\Http\Requests\backend\QuestionRequest;
 
 class QuestionController extends Controller
@@ -21,6 +22,19 @@ class QuestionController extends Controller
         $this->ROUTE_PREFIX = 'admin.questions';
         $this->TRANS = 'question';
         $this->UPLOADFOLDER = 'questions';
+    }
+
+    public function getAjaxGroups($brand_id)
+    {
+        $query = Group::select('id','title', 'brand_id')
+            ->where('brand_id', $brand_id)
+            ->get();
+        $queryArr = [];
+        foreach ($query as $value) {
+            $queryArr[$value->id] = $value->title;
+        }
+      
+        return response()->json($queryArr);
     }
 
     public function index(Request $request,$b_id=null)
@@ -68,14 +82,14 @@ class QuestionController extends Controller
         }
         if (view()->exists('backend.questions.index')) {
             $compact = [
-                'trans' => $this->TRANS,
-                'brand_id' => $brand_id ?? 0,
-                'counter'=>$model->count(),
-                'brands' => Brand::select('id', 'title')->withCount('questions')->get(),
-                'createRoute' => route($this->ROUTE_PREFIX . '.create'),
-                'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
-                'destroyMultipleRoute' => route($this->ROUTE_PREFIX . '.destroyMultiple'),
-                'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
+                'trans'                 => $this->TRANS,
+                'brand_id'              => $brand_id ?? 0,
+                'counter'               =>$model->count(),
+                'brands'                => Brand::select('id', 'title')->withCount('questions')->get(),
+                'createRoute'           => route($this->ROUTE_PREFIX . '.create'),
+                'storeRoute'            => route($this->ROUTE_PREFIX . '.store'),
+                'destroyMultipleRoute'  => route($this->ROUTE_PREFIX . '.destroyMultiple'),
+                'listingRoute'          => route($this->ROUTE_PREFIX . '.index'),
             ];
             return view('backend.questions.index', $compact);
         }
@@ -85,11 +99,11 @@ class QuestionController extends Controller
     {
         if (view()->exists('backend.questions.create')) {
             $compact = [
-                'BrandId' => $BrandId ?? '',
-                'brands' => Brand::select('id', 'title')->get(),
-                'trans' => $this->TRANS,
-                'listingRoute' => route($this->ROUTE_PREFIX . '.index'),
-                'storeRoute' => route($this->ROUTE_PREFIX . '.store'),
+                'BrandId'       => $BrandId ?? '',
+                'brands'        => Brand::select('id', 'title')->get(),
+                'trans'         => $this->TRANS,
+                'listingRoute'  => route($this->ROUTE_PREFIX . '.index'),
+                'storeRoute'    => route($this->ROUTE_PREFIX . '.store'),
             ];
             return view('backend.questions.create', $compact);
         }
@@ -98,26 +112,22 @@ class QuestionController extends Controller
     {
         if (view()->exists('backend.questions.edit')) {
             $compact = [
-                'brands' => Brand::select('id', 'title')->get(),
-                'updateRoute' => route($this->ROUTE_PREFIX . '.update', $question->id),
-                'row' => $question,
-                'destroyRoute' => route($this->ROUTE_PREFIX . '.destroy', $question->id),
+                'brands'                 => Brand::select('id', 'title')->get(),
+                'updateRoute'            => route($this->ROUTE_PREFIX . '.update', $question->id),
+                'row'                    => $question,
+                'destroyRoute'           => route($this->ROUTE_PREFIX . '.destroy', $question->id),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
-                'trans' => $this->TRANS,
+                'trans'                  => $this->TRANS,
             ];
             return view('backend.questions.edit', $compact);
         }
     }
 
-    public function store(QuestionRequest $request)
-    {
-        $data = [
-            'title' => $request->title,
-            'brand_id' => $request->brand_id,
-            'score' => $request->score,
-            'time' => $request->time,
-        ];
-        $query = Question::create($data);
+    public function store(QuestionRequest $request){ 
+
+        $validated = $request->validated();
+
+        $query = Question::create($validated);
         $answerArr = [];
         foreach ($request->answers as $k => $answer) {
             $answerArr[$k]['title'] = $answer;
@@ -125,12 +135,12 @@ class QuestionController extends Controller
         }
         $answer = Answer::insert($answerArr);
         $arr = [
-            'QT' => $query->title,
-            'Qid' => $query->id,
-            'action' => route('admin.saveQCAnswer'),
-            'answers' => $query->answers()->get(),
-            'msg' => __($this->TRANS . '.' . 'storeMessageSuccess'),
-            'status' => true,
+            'QT'        => $query->title,
+            'Qid'       => $query->id,
+            'action'    => route('admin.saveQCAnswer'),
+            'answers'   => $query->answers()->get(),
+            'msg'       => __($this->TRANS . '.' . 'storeMessageSuccess'),
+            'status'    => true,
         ];
 
         return response()->json($arr);
@@ -146,9 +156,9 @@ class QuestionController extends Controller
             ];
         } else {
             $arr = [
-                'msg' => 'You need to choose Correct Question Answer!',
+                'msg'        => 'You need to choose Correct Question Answer!',
                 'editQRoute' => route('admin.questions.edit', $request->question_id),
-                'status' => false,
+                'status'     => false,
             ];
         }
         return response()->json($arr);
@@ -159,9 +169,9 @@ class QuestionController extends Controller
         $validated = $request->validated();
 
         $validated['brand_id'] = $request->brand_id;
-        $validated['title'] = $request->title;
-        $validated['score'] = $request->score;
-        $validated['time'] = $request->time;
+        $validated['title']    = $request->title;
+        $validated['score']    = $request->score;
+        $validated['time']     = $request->time;
 
         $cases = [];
         $ids = [];

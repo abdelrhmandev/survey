@@ -65,8 +65,9 @@
                 <input class="form-check-input AA" type="checkbox" data-kt-check="true" data-kt-check-target="#{{ __($trans.".plural") }} .AA" value="1" />
               </div>
             </th>            
-            <th>{{ __('site.title') }}</th>
+            <th>{{ __('site.title') }}</th>  
             <th>{{ __('group.plural') }}</th>
+  
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-120px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -97,7 +98,7 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];
 KTUtil.onDOMContentLoaded(function () {
-  loadDatatable('{{ __($trans.".plural") }}','{{ $listingRoute }}',dynamicColumns,'','2');
+  loadDatatable('{{ __($trans.".plural") }}','{{ $listingRoute }}',dynamicColumns,'','1');
 });
 </script>
 @stop

@@ -3,7 +3,7 @@ namespace App\Http\Requests\backend;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-class QuestionRequest extends FormRequest
+class GroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,20 +15,14 @@ class QuestionRequest extends FormRequest
         return true;
     }
 
+
     public function rules()
     {
         ///MULTI Languages Inputs Validation///////////
-        $id = $this->request->get('id') ? ',' . $this->request->get('id') : '';
-        
-        $rules['brand_id'] = 'required|unique:brands,title'.$id;
-        $rules['title']    = 'required';
-        $rules['score']    = 'required';
-        $rules['time']     = 'required';
-        $rules['answers']  = 'required';
-        
-        if($id){
-            $rules['correct_answer_check'] = 'required';
-        }
+        $id                       = $this->request->get('id') ? ',' . $this->request->get('id') : '';
+        $rules['title']           = 'required|max:255|unique:groups,title'.$id;
+        $rules['brand_id']        = 'required|exists:brands,id';
+        $rules['question_id']     = 'required|array|min:1|exists:questions,id';
         return $rules; 
 
     }

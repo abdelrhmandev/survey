@@ -17,51 +17,40 @@
     <div id="kt_content_container" class="container-xxl">
         <form id="Add{{ $trans }}" data-route-url="{{ $storeRoute }}" class="form d-flex flex-column flex-lg-row"
             data-form-submit-error-message="{{ __('site.form_submit_error') }}"
-            data-form-agree-label="{{ __('site.agree') }}" enctype="multipart/form-data">
-
+            data-form-agree-label="{{ __('site.agree') }}">
             <div class="d-flex flex-column gap-3 gap-lg-7 w-100 mb-2 me-lg-5">
-                <!--begin::General options-->
-
                 <div class="card card-flush py-0">
                     <div class="card-body pt-5">
                         <div class="d-flex flex-column gap-5">
-
                             <div class="fv-row fl">
                                 <label class="required form-label" for="brand">{{ __('brand.select') }}</label>
                                 <select class="form-select form-select-solid" data-control="select2"
                                     data-hide-search="false" data-placeholder="{{ __('brand.select') }}" name="brand_id">
                                     <option value="">{{ __('brand.select') }}</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}" {{ $brand->id == $BrandId ? 'selected' : '' }}>
-                                            {{ $brand->title }}</option>
+                                        <option value="{{ $brand->id }}">{{ $brand->title }} </option>
                                     @endforeach
                                 </select>
-                            </div>
-
+                            </div>                                                    
                             <div class="fv-row fl">
                                 <label class="required form-label" for="title">{{ __('question.title') }}</label>
-                                <input placeholder="Example : Which country is hosting the 1998 World Cup" type="text"
+                                <input placeholder="Example : Where on your body is your skin the thinnest?" type="text"
                                     id="title" name="title" class="form-control mb-2" required
                                     data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'title' . '&nbsp;']) }}" />
                             </div>
-
                             <div class="fs-3 fw-bold mb-n2">Question Answers</div>
                             @for ($i = 1; $i <= 4; $i++)
                                 <div class="fv-row fl">
                                     <label class="required form-label"
                                         for="answer{{ $i }}">{{ __('answer.title') }} {{ $i }}</label>
-                                        <input placeholder="Example : @if($i == '1') Germany @elseif($i == '2') France @elseif($i == '3') Spain @elseif($i == '4') England @endif" type="text" id="answer{{ $i }}"
+                                        <input placeholder="Example : @if($i == '1') Eyelid @elseif($i == '2') Dermis @elseif($i == '3') Blood @elseif($i == '4') Fibroblasts @endif" type="text" id="answer{{ $i }}"
                                             name="answers[{{ $i }}]" class="form-control mb-5" required
                                             data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'answer']) }}"
                                          />
                                 </div>
                             @endfor
-
-
                             <div class="fs-3 fw-bold mb-n2">Time Duration</div>
                             <div class="d-flex flex-column flex-md-row gap-5">
-
-
                                 <div class="fv-row fl flex-row-fluid d-none">
                                     <label class="required form-label" for="score">Score</label>
                                     <input placeholder="Example 20" maxlength="3" type="text" id="score"
@@ -69,52 +58,24 @@
                                         type="textbox" data-fv-numeric___message="score must be a number"
                                         data-fv-not-empty___message="{{ __('validation.required', ['attribute' => 'score' . '&nbsp;']) }}" />
                                 </div>
-
                                 <div class="flex-row-fluid">
-                                   
-
                                     <div class="mb-10">
-                                        <!--begin::Heading-->
-                                        
-                                        <!--end::Heading-->
-                                        <!--begin::Row-->
                                         <div class="fv-row">
-                                            <!--begin::Radio group-->
                                             <div class="btn-group w-100" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                                <!--begin::Radio-->
                                                 <label class="btn btn-outline btn-active-success btn-color-muted" data-kt-button="true">
-                                                <!--begin::Input-->
                                                 <input class="btn-check" type="radio" name="time" value="15" />
-                                                <!--end::Input-->
                                                 15 seconds</label>
-                                                <!--end::Radio-->
-                                                <!--begin::Radio-->
                                                 <label class="btn btn-outline btn-active-success btn-color-muted active" data-kt-button="true">
-                                                <!--begin::Input-->
                                                 <input class="btn-check" type="radio" name="time" checked="checked" value="30" />
-                                                <!--end::Input-->
                                                 30 seconds </label>
-                                                <!--end::Radio-->
-                                                <!--begin::Radio-->
                                                 <label class="btn btn-outline btn-active-success btn-color-muted" data-kt-button="true">
-                                                <!--begin::Input-->
                                                 <input class="btn-check" type="radio" name="time" value="45" />
-                                                <!--end::Input-->
                                                 45 seconds</label>
-                                                <!--end::Radio-->
-                                                <!--begin::Radio-->
-                                             
-                                                <!--end::Radio-->
                                             </div>
-                                            <!--end::Radio group-->
                                         </div>
-                                        <!--end::Row-->
                                     </div>
- 
-
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -124,18 +85,18 @@
     </div>
 @stop
 @section('scripts')
-    <script src="{{ asset('assets/backend/js/custom/Tachyons.min.js') }}"></script>
-    <script src="{{ asset('assets/backend/js/custom/es6-shim.min.js') }}"></script>
-    <script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
-    <script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
-    <script src="{{ asset('assets/backend/js/custom/handleQuestionSubmit.js') }}"></script>
+<script src="{{ asset('assets/backend/js/custom/Tachyons.min.js') }}"></script>
+<script src="{{ asset('assets/backend/js/custom/es6-shim.min.js') }}"></script>
+<script src="{{ asset('assets/backend/plugins/custom/datatables/datatables.bundle.js') }}"></script>
+<script src="{{ asset('assets/backend/js/widgets.bundle.js') }}"></script>
+<script src="{{ asset('assets/backend/js/custom/handleQuestionSubmit.js') }}"></script>
     <script>
-        ///////////////////////////////////
 
+ 
+KTUtil.onDOMContentLoaded(function() {
+    handleQFunc('Add{{ $trans }}');
+});
+</script>
 
-
-        KTUtil.onDOMContentLoaded(function() {
-            handleQFunc('Add{{ $trans }}');
-        });
-    </script>
+ 
 @stop

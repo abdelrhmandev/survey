@@ -16,11 +16,17 @@ class GroupSeeder extends Seeder
 
         $items = [
             ['title' => 'Group A', 'brand_id'=>'1','created_at' => Carbon::now()],
-            ['title' => 'Group B', 'brand_id'=>'2','created_at' => Carbon::now()],
-            ['title' => 'Group C', 'brand_id'=>'3','created_at' => Carbon::now()],
-            ['title' => 'Group D', 'brand_id'=>'4','created_at' => Carbon::now()],
-            ['title' => 'Group F', 'brand_id'=>'5','created_at' => Carbon::now()],
-            ['title' => 'Group G', 'brand_id'=>'6','created_at' => Carbon::now()], 
+            ['title' => 'Group B', 'brand_id'=>'1','created_at' => Carbon::now()],
+            ['title' => 'Group C', 'brand_id'=>'1','created_at' => Carbon::now()],
+            ['title' => 'Group D', 'brand_id'=>'2','created_at' => Carbon::now()],
+            ['title' => 'Group F', 'brand_id'=>'2','created_at' => Carbon::now()],
+            ['title' => 'Group G', 'brand_id'=>'3','created_at' => Carbon::now()], 
+            ['title' => 'Group H', 'brand_id'=>'4','created_at' => Carbon::now()], 
+            ['title' => 'Group I', 'brand_id'=>'5','created_at' => Carbon::now()], 
+            ['title' => 'Group J', 'brand_id'=>'6','created_at' => Carbon::now()], 
+            ['title' => 'Group K', 'brand_id'=>'6','created_at' => Carbon::now()], 
+            ['title' => 'Group M', 'brand_id'=>'7','created_at' => Carbon::now()], 
+
         ];
         DB::table('groups')->insert($items);
     }

@@ -52,6 +52,10 @@ class Game extends Model
 	public function type(){
         return $this->belongsTo(Type::class); 
     }
+	
+	public function group(){
+        return $this->belongsTo(Group::class); 
+    }
  
 	public function teams(){
         return $this->hasMany(GameTeam::class); 
