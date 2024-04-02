@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 use App\Http\Requests\backend\TypeRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\backend;
 use Carbon\Carbon;
 use App\Traits\Functions;
 use DataTables;

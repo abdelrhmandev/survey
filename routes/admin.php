@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => config('custom.route_prefix'),
-        'namespace' => 'Backend',
+        'namespace' => 'backend',
         'middleware' => 'auth:admin',
         'as' => 'admin.',
     ],
@@ -100,7 +100,7 @@ Route::group(
 Route::group(
     [
         'prefix' => config('custom.route_prefix'),
-        'namespace' => 'Backend',
+        'namespace' => 'backend',
         'middleware' => 'guest:admin',
         'as' => 'admin.',
     ],
