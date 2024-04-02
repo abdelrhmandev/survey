@@ -7,8 +7,8 @@ class CreateGroupQuestionTable extends Migration
     public function up(){
         Schema::create('group_question', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
-            $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
+            $table->foreignId('group_id');
+            $table->foreignId('question_id');
             $table->tinyInteger('order')->nullable();
         });
     }

@@ -12,6 +12,7 @@ use App\Traits\Functions;
 use App\Traits\UploadAble;
 use Illuminate\Support\Str;
 use App\Models\GameQuestion;
+use App\Models\GroupQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -92,11 +93,8 @@ class GameController extends Controller
                 })
 
                 ->editColumn('group', function ($row) {
-                    return '<a href=' . route('admin.group.qestions', $row->group_id) . " class=\"btn btn-sm btn-light-primary\"><i class=\"ki-outline ki-arrows-circle fs-3\"></i>". $row->group->title.'&nbsp;&nbsp;'.'('.$row->group->questions->count().')';
+                    return $row->group->title;
                 })
- 
-
-
                 ->editColumn('actions', function ($row) {
 
                     return $this->dataTableEditRecordAction2($row, $this->ROUTE_PREFIX);
@@ -134,7 +132,7 @@ class GameController extends Controller
         $validated = $request->validated();
         $EventDateRange = explode(' - ', $request->event_date_range);
         $GameArr = [
-            'title'             => $validated['title'],
+            'title'             => strtolower(\Str::random(4)).$validated['title'],
             'slug'              => Str::slug($validated['title']),
             'image'             => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
             'description'       => $validated['description'],
@@ -150,7 +148,7 @@ class GameController extends Controller
             'event_end_date'    => $EventDateRange[1],
             'event_location'    => $validated['event_location'],
             'user_id'           =>Auth::guard('admin')->user()->id,
-            'pin'               => \Str::random(10),
+            'pin'               => strtolower(\Str::random(4)),
         ];
         //Draw Game Team Records
         $query = Game::create($GameArr);
@@ -165,8 +163,19 @@ class GameController extends Controller
                 }
                 GameTeam::insert($gameTeamInfo);
             }
-            $query->questions()->syncWithPivotValues($request->input('question_id'), ['brand_id' => $request->brand_id, 'order' => null]);
 
+            $GroupQuestions = GroupQuestion::where('group_id',$request->group_id)->get();
+            $arr = [];
+            foreach($GroupQuestions as $key=>$value){
+                $arr[$key] = [
+                    'game_id'       =>$query->id,
+                    'group_id'      =>$value->group_id,
+                    'question_id'   =>$value->question_id,
+                    'order'         =>$value->order,
+                    'brand_id'      =>$request->brand_id
+                ];
+            }
+            GameQuestion::insert($arr);
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageError'), 'status' => false];
@@ -229,6 +238,22 @@ public function update(GameRequest $request, Game $game)
             'event_end_date'    => $EventDateRange[1],
             'event_location'    => $validated['event_location'],
         ];
+
+        GameQuestion::where(['game_id'=>$game->id,'brand_id'=>$game->brand_id,'group_id'=>$game->group_id])->delete();
+
+        $GroupQuestions = GroupQuestion::where('group_id',$request->group_id)->get();
+        $arr = [];
+        foreach($GroupQuestions as $key=>$value){
+            $arr[$key] = [
+                'game_id'       =>$game->id,
+                'group_id'      =>$request->group_id,
+                'question_id'   =>$value->question_id,
+                'order'         =>$value->order,
+                'brand_id'      =>$request->brand_id
+            ];
+        }
+        GameQuestion::insert($arr);
+
         if (Game::findOrFail($game->id)->update($GameArr)) {
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {

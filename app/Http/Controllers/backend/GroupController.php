@@ -47,11 +47,16 @@ class GroupController extends Controller
                 ->AddColumn('questions', function ($row) {
                     return "<span class=\"text-dark fw-bolder\">".$row->questions_count."</span>";
                 })
+
+                ->AddColumn('reorder', function ($row) {
+                    return $row->questions_count > 0 ? '<a href=' . route('admin.group.qestions', $row->id) . " class=\"btn btn-sm btn-light-primary\"><i class=\"ki-outline ki-arrows-circle fs-3\"></i>Reorder&nbsp;&nbsp":'No Questions';
+                })
+
                 ->editColumn('actions', function ($row) {
                     return $this->dataTableEditRecordAction($row, $this->ROUTE_PREFIX);
                 })
 
-                ->rawColumns(['title', 'brand','questions', 'actions', 'created_at', 'created_at.display'])
+                ->rawColumns(['title', 'brand','questions','reorder', 'actions', 'created_at', 'created_at.display'])
                 ->make(true);
         }
         if (view()->exists('backend.groups.index')) {

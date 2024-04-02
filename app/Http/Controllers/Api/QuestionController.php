@@ -44,9 +44,14 @@ class QuestionController extends Controller
 
 
         $isSubmitted = PlayerSubmittedAnswer::where(['player_id'=>$player_id,'game_id'=>$game_id,'question_id'=>$GameQuestion->question_id])->exists() ? true:false;
+        
+        
+        $UserSubmittedAnswerID = PlayerSubmittedAnswer::where(['player_id'=>$player_id,'game_id'=>$game_id,'question_id'=>$GameQuestion->question_id])->first()->answer_id ?? null;
+        
+        
 
         if ($GameQuestion) {       
-            return $this->returnQData('data', new QuestionResource($GameQuestion,$isSubmitted), 200, 'Game Question');
+            return $this->returnQData('data', new QuestionResource($GameQuestion,$isSubmitted,$UserSubmittedAnswerID), 200, 'Game Question');
         } else {
             return $this->returnNoQData(new QuestionResource($GameQuestion));
         }

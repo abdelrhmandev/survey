@@ -8,9 +8,10 @@ class GameQuestion extends Model
 	protected $table = 'game_question';
 
     protected $fillable = [
-		'brand_id',
 		'game_id', 
 		'question_id',
+		'group_id',
+		'brand_id',
 		'order',
 		'status',
 		'start_time',
@@ -19,7 +20,9 @@ class GameQuestion extends Model
 	
 	public $timestamps = false;
 	
- 
+	public function question(){
+        return $this->belongsTo(Question::class, 'question_id');
+    }
    
  
 	

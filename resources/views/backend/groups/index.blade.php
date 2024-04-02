@@ -68,6 +68,7 @@
             <th>{{ __('site.title') }}</th>  
             <th>{{ __('brand.singular') }}</th>
             <th>{{ __('question.plural') }}</th>
+            <th>Reorder Questions</th>
             <th class="text-primary">{{ __('site.created_at') }}</th>
             <th class="text-end w-120px noExport">{{ __('site.actions') }}</th>  
           </tr>
@@ -95,6 +96,10 @@ var dynamicColumns = [ //as an array start from 0
 { data: 'title', name: 'title',orderable: false}, 
 { data: 'brand', name: 'brand',orderable: false},
 { data: 'questions', name: 'questions',orderable: false},
+
+{ data: 'reorder', name: 'reorder',orderable: false},
+
+
 { data: 'created_at',name :'created_at', type: 'num', render: { _: 'display', sort: 'timestamp', order: 'desc'}}, // 6
 { data: 'actions' , name : 'actions' ,exportable:false,orderable: false,searchable: false},    
 ];

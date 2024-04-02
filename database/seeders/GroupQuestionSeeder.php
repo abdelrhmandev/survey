@@ -15,8 +15,8 @@ class GroupQuestionSeeder extends Seeder
         DB::table('group_question')->delete();
 
         $items = [
-            ['group_id' => '1', 'question_id'=>'2','order'=>NULL],
-            ['group_id' => '1', 'question_id'=>'4','order'=>NULL],
+            ['group_id' => '1', 'question_id'=>'2','order'=>1],
+            ['group_id' => '1', 'question_id'=>'4','order'=>2],
 
 
             ['group_id' => '2', 'question_id'=>'1','order'=>NULL],
@@ -24,7 +24,7 @@ class GroupQuestionSeeder extends Seeder
 
             
             ['group_id' => '10', 'question_id'=>'10','order'=>NULL],
-            ['group_id' => '1', 'question_id'=>'1','order'=>NULL],
+            ['group_id' => '1', 'question_id'=>'1','order'=>3],
             ['group_id' => '9', 'question_id'=>'10','order'=>NULL],
            
 

@@ -20,6 +20,7 @@ class Game extends Model
 		'event_end_date',
 		'event_location',		
 		'type_id',
+		'brand_id',
 		'pin',
 		'status',
 		'user_id',		
@@ -41,9 +42,10 @@ class Game extends Model
 	}
 
 
+
 	public function questions(){
-	 	return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','order','status','start_time','end_time');  
-    }
+		return $this->belongsToMany(Question::class, 'game_question','game_id','question_id')->withPivot('brand_id','group_id','order','status','start_time','end_time');  
+   }
  
 	public function brand(){
         return $this->belongsTo(Brand::class); 
