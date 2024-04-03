@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Api', 'middleware' => 'api'], function () {
         Route::post('/StartPlay', 'ManageController@CheckgameAuthor');
         Route::post('/NextQuestion', 'ManageController@NextQuestion');
         Route::post('/Winnerslist', 'ManageController@Winnerslist');
+        Route::post('/ShowAnswer', 'ManageController@ShowAnswer');
     });
 });
 

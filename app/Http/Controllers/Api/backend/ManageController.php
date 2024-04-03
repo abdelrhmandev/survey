@@ -7,6 +7,7 @@ use App\Models\GameTeam;
 use App\Models\GameQuestion;
 use App\Traits\ApiFunctions;
 use Illuminate\Http\Request;
+use App\Events\AdminShowAnswer;
 use App\Events\AdminNextQuestion;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -44,7 +45,7 @@ class ManageController extends Controller
             $AdminUserInfo = Auth::guard('admin');
             $user_id = $AdminUserInfo->user()->id;
             $game_slug = $request->game_slug;
-            $query = Game::select(['id', 'user_id','status', 'slug', 'type_id', 'pin', 'image', 'color', 'event_end_date'])
+            $query = Game::select(['id', 'user_id', 'status', 'slug', 'type_id', 'pin', 'image', 'color', 'event_end_date'])
                 ->with([
                     'type' => function ($query) {
                         $query->select('id', 'slug');
@@ -58,31 +59,30 @@ class ManageController extends Controller
 
                 if ($game->event_end_date < date('Y-m-d')) {
                     return $this->returnError('400', 'Game Event has been Expired [' . \Carbon\Carbon::parse($game->event_end_date)->diffForHumans() . ']');
-                } else if ($game->status !== 'closed') {
+                } elseif ($game->status !== 'closed') {
                     // Open Game
                     $game_id = $game->id;
                     $OpenGame = Game::where(['id' => $game_id])->update(['status' => 'opened']);
                     $customClaims = [
-                        'sub'     => 'Admininfo',
-                        'name'    => $AdminUserInfo->user()->name,
-                        'email'   => $AdminUserInfo->user()->email,
+                        'sub' => 'Admininfo',
+                        'name' => $AdminUserInfo->user()->name,
+                        'email' => $AdminUserInfo->user()->email,
                         'game_id' => $game->id,
                         'user_id' => $user_id,
-                        'exp'    => strtotime('+ 1 days'), // One Day From creation
+                        'exp' => strtotime('+ 1 days'), // One Day From creation
                     ];
                     $payload = JWTFactory::customClaims($customClaims)->make();
                     $token = JWTAuth::encode($payload, 'HS256');
                     $data = [
-                        'game_url'       => 'https://game.invent.solutions/playergame/' . $game->slug,
+                        'game_url' => 'https://game.invent.solutions/playergame/' . $game->slug,
                         'game_type_slug' => $game->type->slug,
-                        'event_logo'     => $game->image ? url(asset($game->image)) : '',
-                        'pin_code'       => $game->pin,
-                        'event_color'    => $game->color,
-                        '_token'         => $token->get(),
-                        'token_type'     => 'bearer',
+                        'event_logo' => $game->image ? url(asset($game->image)) : '',
+                        'pin_code' => $game->pin,
+                        'event_color' => $game->color,
+                        '_token' => $token->get(),
+                        'token_type' => 'bearer',
                     ];
                     return $this->returnData('data', $data, 200, 'Game Info' . $game->title);
-                    
                 } else {
                     return $this->returnError('401', 'Game Maybe Closed or not applicable to play');
                 }
@@ -97,7 +97,7 @@ class ManageController extends Controller
         $token = request()->bearerToken();
         $game_id = $this->decodeToken($token, 'game_id');
 
-        $query = Game::select(['id','slug', 'user_id', 'type_id'])
+        $query = Game::select(['id', 'slug', 'user_id', 'type_id'])
             ->with([
                 'type' => function ($query) {
                     $query->select('id', 'slug');
@@ -114,10 +114,10 @@ class ManageController extends Controller
                 ->count();
 
             $remaining_questions_master = GameQuestion::where('game_id', $query->id)
-                    ->where('status', 'pending')
-                    ->count();
-                    
-            if ($checkIfOpenedQuestion > 0 ){
+                ->where('status', 'pending')
+                ->count();
+
+            if ($checkIfOpenedQuestion > 0) {
                 $OpenedQuestion = GameQuestion::with(['question'])
                     ->where('game_id', $query->id)
                     ->where('status', 'opened')
@@ -125,9 +125,8 @@ class ManageController extends Controller
                     ->first();
                 if (isset($OpenedQuestion->question_id)) {
                     $clsoeCurrentQuestion = GameQuestion::where(['question_id' => $OpenedQuestion->question_id, 'game_id' => $query->id])->update(['status' => 'closed']);
-                    
-                    }
-                
+                }
+
                 if ($remaining_questions_master > 0) {
                     // handle Next Question
                     $getNextQuestion = GameQuestion::where('status', 'pending')
@@ -165,29 +164,27 @@ class ManageController extends Controller
 
                     if (
                         GameQuestion::where(['question_id' => $QID, 'game_id' => $query->id])->update([
-                            'status'     => 'opened',
+                            'status' => 'opened',
                             'start_time' => date('H:i:s'),
-                            'end_time'   => $end_time,
+                            'end_time' => $end_time,
                         ])
                     ) {
                         $data = NextQuestionResource::collection($answers->get());
 
                         // Start Pusher Modified By Marwan
                         $EventArr = [
-                            'game_slug'=>$query->slug,
+                            'game_slug' => $query->slug,
                             'refresh' => true,
-                            'isFinished' => false
+                            'isFinished' => false,
                         ];
                         event(new AdminNextQuestion($EventArr));
 
-                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                        return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'question_time' => $Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                     }
-                    
-            }else{
-                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available', 'remaining_questions' => $remaining_questions_master]);
-            }
-                
-            } else if($remaining_questions_master > 0) {
+                } else {
+                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available', 'remaining_questions' => $remaining_questions_master]);
+                }
+            } elseif ($remaining_questions_master > 0) {
                 $PendingQ = GameQuestion::where('game_id', $query->id)
                     ->where('status', 'pending')
                     ->orderBy('order', 'asc')
@@ -217,16 +214,16 @@ class ManageController extends Controller
                     $data = NextQuestionResource::collection($answers->get());
                     // Start Pusher Modified By Marwan
                     $EventArr = [
-                        'game_slug'=>$query->slug,
+                        'game_slug' => $query->slug,
                         'refresh' => true,
-                        'isFinished' => false
+                        'isFinished' => false,
                     ];
                     event(new AdminNextQuestion($EventArr));
-                    
-                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+
+                    return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'question_time' => $Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
                 }
-            }else{
-                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available','remaining_questions' => $remaining_questions_master]);
+            } else {
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => 'No Question Available', 'remaining_questions' => $remaining_questions_master]);
             }
 
             /////////////////////////////////FALSE CASE /////////////////////////////////////////
@@ -246,14 +243,14 @@ class ManageController extends Controller
                     ->where('status', 'pending')
                     ->count();
                 $data = NextQuestionResource::collection($answers->get());
-                    // // Start Pusher
-                    // $EventArr = [
-                    //     'game_slug'=>$query->slug,
-                    //     'message' => 'message 3'
-                    // ];
-                    // event(new AdminNextQuestion($EventArr));
-                
-                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title,'question_time'=>$Q_time,'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
+                // // Start Pusher
+                // $EventArr = [
+                //     'game_slug'=>$query->slug,
+                //     'message' => 'message 3'
+                // ];
+                // event(new AdminNextQuestion($EventArr));
+
+                return $this->returnAnswersData(200, 'Answers listing', ['question_title' => $Q_title, 'question_time' => $Q_time, 'correct_answer_id' => $correct_answer_id, 'remaining_questions' => $remaining_questions, 'counter' => $answers->count(), 'answers' => $data]);
             } else {
                 return $this->returnError('there is no question here', 404);
             }
@@ -294,21 +291,29 @@ class ManageController extends Controller
         }
 
         Game::where(['id' => $game_id])->update(['status' => 'closed']);
-        
+
         // Added By Marwan
         if (isset($game_id)) {
-                    $clsoeCurrentQuestion = GameQuestion::where(['game_id' => $game_id])->update(['status' => 'closed']);
-                    
-                    // Start Pusher 
-                    $EventArr = [
-                        'game_slug'=>$query->slug,
-                        'refresh' => true,
-                        'isFinished' => true
-                    ];
-                    event(new AdminNextQuestion($EventArr));
-                    
+            $clsoeCurrentQuestion = GameQuestion::where(['game_id' => $game_id])->update(['status' => 'closed']);
+
+            // Start Pusher
+            $EventArr = [
+                'game_slug' => $query->slug,
+                'refresh' => true,
+                'isFinished' => true,
+            ];
+            event(new AdminNextQuestion($EventArr));
         }
-        
+
         return $this->returnData('data', $data, 200, $k);
+    }
+    public function ShowAnswer(Request $request)
+    {
+      
+        $EventArr = [
+            'game_slug' => $request->game_slug,
+            'showcorrectanswer' => true,
+        ];
+        event(new AdminShowAnswer($EventArr));
     }
 }

@@ -25,3 +25,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('{game_slug}', function ($game_slug, $message) {
     return $message;
 });
+
+
+Broadcast::channel('gsk-admin-showanswer-{game_slug}', function ($game_slug, $message) {
+    return $message;
+});
