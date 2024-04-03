@@ -314,6 +314,10 @@ class ManageController extends Controller
             'game_slug' => $request->game_slug,
             'showcorrectanswer' => true,
         ];
+
         event(new AdminShowAnswer($EventArr));
+        return $this->returnData('data', 'success', 200, 'your event has been triggered <successfully></successfully> ');
+
+        
     }
 }

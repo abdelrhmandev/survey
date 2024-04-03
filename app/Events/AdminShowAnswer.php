@@ -21,7 +21,7 @@ class AdminShowAnswer implements ShouldBroadcast
     public function __construct($data)
     {
         $this->game_slug            = $data['game_slug'];
-        $this->showcorrectanswer   = $data['showcorrectanswer'];
+        $this->showcorrectanswer    = $data['showcorrectanswer'];
       
     }
 
