@@ -12,13 +12,13 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable , HasRoles;
-    
+
 
     protected $table = 'users';
 
 
      protected $guard_name = 'admin';
- 
+
     protected $fillable = [
         'name',
         'username',
@@ -38,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    
+
     public function country(){
         return $this->belongsTo(Country::class);
     }
@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function teams(){
-        return $this->belongsToMany(Team::class, 'user_team','user_id','team_id'); 
+        return $this->belongsToMany(Team::class, 'user_team','user_id','team_id');
     }
 
     // public function getRoleNames(){
@@ -60,7 +60,7 @@ class User extends Authenticatable implements JWTSubject
     //     $this->attributes['password'] = Hash::make($value);
     // }
 
-    
+
         public function sendPasswordResetNotification($token){
             $this->notify(new ResetPasswordNotification($token));
         }
@@ -68,7 +68,7 @@ class User extends Authenticatable implements JWTSubject
         {
             return $this->getKey();
         }
-    
+
         /**
          * Return a key value array, containing any custom claims to be added to the JWT.
          *
@@ -78,5 +78,5 @@ class User extends Authenticatable implements JWTSubject
         {
             return [];
         }
-        
+
 }

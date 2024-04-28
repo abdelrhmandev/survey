@@ -27,7 +27,7 @@
                         </span>
                         <span class="menu-title">{{ __('site.all') }} {{ __('game.plural') }}</span>
                     </a>
-                </div> 
+                </div>
                 <div class="menu-item">
                     <a class="menu-link" href="{{ route('admin.games.create') }}">
                         <span class="menu-bullet">
@@ -36,6 +36,7 @@
                         <span class="menu-title">{{ __('game.add') }}</span>
                     </a>
                 </div>
+                @role('Administrator')
                 <div class="menu-item">
                     <a class="menu-link" href="{{ route('admin.types.index') }}">
                         <span class="menu-bullet">
@@ -43,13 +44,14 @@
                         </span>
                         <span class="menu-title">{{ __('type.plural') }}</span>
                     </a>
-                </div> 
+                </div>
+                @endrole
 
-           
+
 
 
             </div>
         </div>
- 
+
     </div>
 </div>

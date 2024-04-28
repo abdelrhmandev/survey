@@ -33,10 +33,6 @@ class GameController extends Controller
     public function index(Request $request)
     {
 
-
-
-
-
         $model = Game::select('id','pin','image','title','event_title','event_start_date','event_end_date','slug','type_id','group_id','brand_id','created_at')->with(['type','group.questions', 'brand','user']);
 
         $currentRoleId = (auth('admin')->user()->roles->first()->id);

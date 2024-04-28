@@ -27,7 +27,7 @@ class UserController extends Controller
         $this->Tbl          = 'users';
         $this->UPLOADFOLDER = 'avatars';
     }
- 
+
 
     public function store(UserRequest $request)
     {
@@ -46,18 +46,18 @@ class UserController extends Controller
         $user = User::create($arry);
 
         if ($user && $user->assignRole($request->input('roles'))) {
-          
+
             if(!(empty($request->input('teams')))){
-                $tagTeamsArr = json_decode($request->input('teams'), true); 
+                $tagTeamsArr = json_decode($request->input('teams'), true);
                 $tagTeamList = array_column($tagTeamsArr, 'value');
-                foreach($tagTeamList as $v){         
+                foreach($tagTeamList as $v){
                     $team = Team::firstOrCreate(['title' => $v]);
                 }
                 $teams = Team::whereIn('title', $tagTeamList)->pluck('id');
-                $user->team()->sync($teams);
+                $user->teams()->sync($teams);
                 ///
             }
-    
+
 
             $arr = ['msg' => __($this->TRANS . '.' . 'storeMessageSuccess'), 'status' => true];
         } else {
@@ -123,7 +123,7 @@ class UserController extends Controller
                         <br>
                         <span class=\"menu-icon me-0\">
                         <i class=\"ki-outline ki-phone fs-1x\"></i>
-                    </span>                        
+                    </span>
                         ".$row->mobile ?? ''."
                     </div>
                 </div>";
@@ -131,7 +131,7 @@ class UserController extends Controller
                 ->AddColumn('roles', function (User $row) {
                     $roleDiv = '';
                     if ($row->roles_count > 0) {
-                        foreach ($row->roles as $role) {                       
+                        foreach ($row->roles as $role) {
                                 $roleDiv .= "<div class=\"badge py-3 px-4 fs-7 badge-light-primary\"><span class=\"text-primary\">" . $role->name . '</span></div> ';
                         }
                     } else {
@@ -143,7 +143,7 @@ class UserController extends Controller
                 ->AddColumn('teams', function ($row) {
                     $teamDiv = '';
                     if ($row->teams_count > 0) {
-                    foreach ($row->teams as $team) {                       
+                    foreach ($row->teams as $team) {
                     $teamDiv .= "<div class=\"badge py-3 px-4 fs-7 badge-light-info mt-1\"><span class=\"text-info\">" . $team->title . '</span></div> ';
                     }
                     } else {
@@ -151,7 +151,7 @@ class UserController extends Controller
                     }
                     return $teamDiv;
                     })
-                    
+
                 ->editColumn('country_id', function (User $row) {
                     return $row->country->name;
                 })
@@ -203,8 +203,8 @@ class UserController extends Controller
                 'teams'                  => Team::select('id', 'title')->get(),
                 'countries'              => Country::select('id', 'name')->get(),
                 'redirect_after_destroy' => route($this->ROUTE_PREFIX . '.index'),
-                'editPasswordRoute'      => route($this->ROUTE_PREFIX.'.editpassword',$user->id), 
-                'updatePasswordRoute'    => route($this->ROUTE_PREFIX.'.updatepassword',$user->id), 
+                'editPasswordRoute'      => route($this->ROUTE_PREFIX.'.editpassword',$user->id),
+                'updatePasswordRoute'    => route($this->ROUTE_PREFIX.'.updatepassword',$user->id),
             ];
             return view('backend.users.edit', $compact);
         }
@@ -216,7 +216,7 @@ class UserController extends Controller
         if(!empty($request->file('avatar'))) {
             $avatar && File::exists(public_path($avatar)) ? $this->unlinkFile($avatar): '';
             $avatar =  $this->uploadFile($request->file('avatar'),$this->UPLOADFOLDER);
-         }  
+         }
         $arry = [
             'name'       => $request->input('name'),
             'email'      => $request->input('email'),
@@ -225,16 +225,16 @@ class UserController extends Controller
             'username'   => $request->input('username'),
             'status'     => isset($request->status) ? '1' : '0',
             'is_admin'   =>'1',
-            'country_id' => $request->input('country_id'),       
-        ];      
+            'country_id' => $request->input('country_id'),
+        ];
 
 
         $update = $user->update($arry);
-        
+
         if ($update && $user->assignRole($request->input('roles'))) {
- 
+
             $user->teams()->sync((array) $request->input('teams'));
-            
+
             $arr = ['msg' => __($this->TRANS . '.updateMessageSuccess'), 'status' => true];
         } else {
             $arr = ['msg' => __($this->TRANS . '.' . 'updateMessageError'), 'status' => false];
@@ -253,13 +253,13 @@ class UserController extends Controller
 
 
     public function editpassword($userId){
- 
+
         if (view()->exists('backend.users.editpassword')) {
             $compact = [
             'trans'                => $this->TRANS,
             'row'                 =>  User::find($userId),
-            'updatePasswordRoute'  => route($this->ROUTE_PREFIX.'.updatepassword'), 
-        ];  
+            'updatePasswordRoute'  => route($this->ROUTE_PREFIX.'.updatepassword'),
+        ];
             return view('backend.users.editpassword',$compact);
         }
     }
@@ -269,7 +269,7 @@ class UserController extends Controller
             'current_password' => 'required|string',
             'new_password' => 'required|confirmed|min:8|string'
         ]);
-        $auth = \Auth::guard('admin')->user(); 
+        $auth = \Auth::guard('admin')->user();
         if (!Hash::check($request->get('current_password'), $auth->password)) {
             $arr = array('msg' => __('passwords.invalid_current'), 'status' => false);
         }
