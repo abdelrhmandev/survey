@@ -32,9 +32,22 @@ class GameController extends Controller
 
     public function index(Request $request)
     {
+
+
+
+
+
         $model = Game::select('id','pin','image','title','event_title','event_start_date','event_end_date','slug','type_id','group_id','brand_id','created_at')->with(['type','group.questions', 'brand','user']);
 
-            
+        $currentRoleId = (auth('admin')->user()->roles->first()->id);
+        if (in_array($currentRoleId,[2,3])) {
+
+            $userId = auth('admin')->user()->id;
+            $model = Game::select('id','pin','image','title','event_title','event_start_date','event_end_date','slug','type_id','group_id','brand_id','created_at')->where('user_id',$userId)->with(['type','group.questions', 'brand','user']);
+        }
+
+
+
         if ($request->ajax()) {
             return Datatables::of($model)
                 ->addIndexColumn()
@@ -47,7 +60,7 @@ class GameController extends Controller
                         $row->title .
                         '</a><div class=\"border border-gray-300 border-dashed rounded min-w-60px w-60 py-2 px-4 me-6 mb-3\">' .
                         'Pin : <span style="color:#b04949;">' . $row->pin . '</span>';
-                        
+
                 })
 
                 ->editColumn('image', function ($row) {
@@ -56,13 +69,13 @@ class GameController extends Controller
 
                 ->editColumn('event_title', function ($row) {
                     return $row->event_title.
-                    
+
                     "<div class=\"me-6\">
                         <span class=\"font-weight-bolder text-success mb-0\">" .Carbon::parse($row->event_start_date)->format('d M Y') ."</span>
                          - <span class=\"font-weight-bolder text-info mb-0\">" .Carbon::parse($row->event_end_date)->format('d M Y') ."</span>
                     </div>"
                     .($row->event_end_date < date('Y-m-d') ? "<div class=\"text-danger\">Expired</div>" : '');
-                    ;                    
+                    ;
                 })
 
                 ->editColumn('created_at', function ($row) {
@@ -203,7 +216,7 @@ class GameController extends Controller
 public function update(GameRequest $request, Game $game)
     {
 
-      
+
         $validated = $request->validated();
         $EventDateRange = explode(' - ', $request->event_date_range);
 
