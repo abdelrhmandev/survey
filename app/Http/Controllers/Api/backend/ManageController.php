@@ -74,7 +74,7 @@ class ManageController extends Controller
                     $payload = JWTFactory::customClaims($customClaims)->make();
                     $token = JWTAuth::encode($payload, 'HS256');
                     $data = [
-                        'game_url' => 'https://game.invent.solutions/playergame/' . $game->slug,
+                        'game_url' => 'https://player.gskknowledgeleague.com/' . $game->slug,
                         'game_type_slug' => $game->type->slug,
                         'event_logo' => $game->image ? url(asset($game->image)) : '',
                         'pin_code' => $game->pin,
@@ -309,7 +309,7 @@ class ManageController extends Controller
     }
     public function ShowAnswer(Request $request)
     {
-      
+
         $EventArr = [
             'game_slug' => $request->game_slug,
             'showcorrectanswer' => true,
@@ -318,6 +318,6 @@ class ManageController extends Controller
         event(new AdminShowAnswer($EventArr));
         return $this->returnData('data', 'success', 200, 'your event has been triggered <successfully></successfully> ');
 
-        
+
     }
 }

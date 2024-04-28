@@ -1,5 +1,5 @@
 <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-flip="top-end">
-  {{ __('site.actions')}}  
+  {{ __('site.actions')}}
   <span class="svg-icon svg-icon-5 m-0">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
           <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -10,20 +10,20 @@
   </span>
 </a>
 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4" data-kt-menu="true">
-  
- 
-  <div class="menu-item px-3">
-      <a href="{{ $editRoute }}" class="menu-link px-3" data-kt-table-filter="edit_row">
-        <i class="fa fa-pencil-alt m-1 w-1 h-1 mr-1 rtl:ml-1"></i>             
-        {{ __('site.edit')}}  
-      </a>
-  </div>
- 
+
 
   <div class="menu-item px-3">
-      <a id="delete_item" data-destroy-route="{{ $destroyRoute}}" class="menu-link px-3"  data-kt-table-filter="delete_row"      
+      <a href="{{ $editRoute }}" class="menu-link px-3" data-kt-table-filter="edit_row">
+        <i class="fa fa-pencil-alt m-1 w-1 h-1 mr-1 rtl:ml-1"></i>
+        {{ __('site.edit')}}
+      </a>
+  </div>
+
+
+  <div class="menu-item px-3">
+      <a id="delete_item" data-destroy-route="{{ $destroyRoute}}" class="menu-link px-3"  data-kt-table-filter="delete_row"
       data-id="{{ $id }}"
-      data-back-list-text="{{ __('site.back_to_list') }}"        
+      data-back-list-text="{{ __('site.back_to_list') }}"
       data-confirm-message = "{{ __('site.confirmDeleteMessage',['item'=>__($trans.'.singular')]) }}"
       data-confirm-button-text = "{{ __('site.confirmButtonText') }}"
       data-cancel-button-text = "{{ __('site.cancelButtonText') }}"
@@ -32,14 +32,14 @@
       data-not-deleted-message = "{{ __('site.notdeletedMessage',['item'=>__($trans.'.singular')]) }}"
       >
       <i class="fa fa-trash-alt m-1 w-1 h-1 mr-1 rtl:ml-1"></i>
-        {{ __('site.delete')}}    
+        {{ __('site.delete')}}
       </a>
   </div>
 
   <div class="menu-item px-3">
-    <a id="delete_item" class="menu-link px-3" href="https://game.invent.solutions/admingame/{{ $slug }}" target="_new">
+    <a id="delete_item" class="menu-link px-3" href="https://control.gskknowledgeleague.com/{{ $slug }}" target="_new">
     <i class="ki-outline ki-joystick m-1 w-1 h-1 mr-1 rtl:ml-1"></i>
-      Start Play  
+      Start Play
     </a>
 </div>
 </div>
