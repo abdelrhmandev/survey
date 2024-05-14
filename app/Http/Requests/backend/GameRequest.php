@@ -26,7 +26,7 @@ class GameRequest extends FormRequest
 
         $rules['title']              = 'required|max:255|unique:games,title' . $id;
         $rules['description']        = 'nullable';
-        $rules['image']              = 'required_without:id|max:1000|mimes:jpeg,bmp,png,gif|max:1000'; // max size 1 MB                
+        $rules['image']              = 'nullable|max:1000|mimes:jpeg,bmp,png,gif|max:1000'; // max size 1 MB
         $rules['type_id']            = 'required|exists:types,id';
         $rules['brand_id']           = 'required|exists:brands,id';
         $rules['group_id']           = 'required|exists:groups,id';

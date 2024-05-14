@@ -50,7 +50,7 @@
                                         </div>
 
                                         <div class="d-flex flex-column">
-                                            <label class="form-label"
+                                            <label class="required form-label"
                                                 for="event_location">{{ __('event.location') }}</label>
                                             <textarea class="form-control form-control-solid" rows="4" id="event_location" name="event_location"></textarea>
                                         </div>
@@ -253,7 +253,7 @@
         KTUtil.onDOMContentLoaded(function() {
             handleFormSubmitFunc('Add{{ $trans }}');
         });
- 
+
         $('select[name="brand_id"]').on('change', function() {
             var brandid = $(this).val();
 
