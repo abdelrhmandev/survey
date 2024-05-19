@@ -141,7 +141,7 @@ class GameController extends Controller
         $validated = $request->validated();
         $EventDateRange = explode(' - ', $request->event_date_range);
         $GameArr = [
-            'title'             => strtolower(\Str::random(4)).$validated['title'],
+            'title'             => $validated['title'],
             'slug'              => Str::slug($validated['title']),
             'image'             => !empty($validated['image']) ? $this->uploadFile($validated['image'], $this->UPLOADFOLDER) : null,
             'description'       => $validated['description'],
