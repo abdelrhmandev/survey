@@ -206,7 +206,7 @@
                                         <div class="fv-row fl">
                                             <input type="hidden" name="brand_id" value="{{ $row->brand_id}}">
                                             <label class="form-label" for="brand">{{ __('brand.singular') }}</label>
-                                            <div class="text-success">{{ $row->brand->title }}                                                
+                                            <div class="text-success">{{ $row->brand->title }}
                                             </div>
                                         </div>
 
@@ -216,9 +216,9 @@
                                             <div class="row mb-8">
                                                 <div class="col-xl-12">
                                                     <div class="row g-12" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button]">
-                                
+
                                                         @forelse ($groups as $group)
-                                                            <div class="col-md-4 col-lg-12 col-xxl-4"> 
+                                                            <div class="col-md-4 col-lg-12 col-xxl-4">
                                                                 <label
                                                                     class="btn btn-outline btn-outline-dashed btn-{{ $group->id == $row->group_id ? 'active' : '' }}-light-primary {{ $group->id == $row->group_id ? 'active' : '' }} d-flex text-start p-6"
                                                                     data-kt-button="true">
@@ -234,27 +234,27 @@
                                                                 </label>
                                                             </div>
                                                         @empty
-                                                        <div class="col-md-4 col-lg-12 col-xxl-4">       
+                                                        <div class="col-md-4 col-lg-12 col-xxl-4">
                                                         no groups
                                                         </div>
                                                         @endforelse
-                                
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
-                                         
+
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
- 
+
                     </div>
                 </div>
-                <x-backend.btns.button :destroyRoute="$destroyRoute" :redirectRoute="$redirect_after_destroy" :row="$row" :trans="$trans" />
+                <x-backend.btns.button :destroyRoute="$destroyRoute" :redirectRoute="$redirect_after_destroy" :row="$row" :trans="$trans" :cancelroute="$redirect_after_destroy" />
             </div>
             <div class="d-flex flex-column flex-row-fluid gap-0 w-lg-400px gap-lg-5">
                 <x-backend.cms.image :image="$row->image" />
@@ -275,7 +275,7 @@
         for (var i = 0; i < checks.length; i++)
             checks[i].onclick = selectiveCheck;
 
- 
+
         var event_start_date = '{{ $row->event_start_date }}';
         var event_end_date = '{{ $row->event_end_date }}';
         $('#event_date_range').daterangepicker({
